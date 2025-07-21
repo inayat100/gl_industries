@@ -1,5 +1,3 @@
-from django.template.defaulttags import firstof
-
 from odoo import models, fields, api
 import requests
 import json
