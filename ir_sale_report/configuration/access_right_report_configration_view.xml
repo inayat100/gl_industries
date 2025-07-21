@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- FORM VIEW: api.report.configration -->
+    <record id="view_api_report_config_form" model="ir.ui.view">
+        <field name="name">api.report.configration.form</field>
+        <field name="model">api.report.configration</field>
+        <field name="arch" type="xml">
+            <form string="API Report Configuration">
+                <header>
+                     <button name="action_create_line" type="object" string="Create Line"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <field name="product_cat_ids" widget="many2many_tags"/>
+                        <field name="report_type"/>
+                        <field name="report_id" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Fields Configuration">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="field_id" domain="[('model_id', '=', parent.report_id)]"/>
+                                    <field name="is_readonly"/>
+                                    <field name="is_invisible"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW: api.report.configration -->
+    <record id="view_api_report_config_tree" model="ir.ui.view">
+        <field name="name">api.report.configration.tree</field>
+        <field name="model">api.report.configration</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_api_report_config" model="ir.actions.act_window">
+        <field name="name">Report Access Right Config</field>
+        <field name="res_model">api.report.configration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_api_report_root" name="Report Access Right" sequence="10"/>
+    <menuitem id="menu_api_report_config" name="Configurations" parent="menu_api_report_root" sequence="20"/>
+    <menuitem id="menu_api_report_config_action" name="Field Config" parent="menu_api_report_config" action="action_api_report_config" sequence="30"/>
+
+</odoo>

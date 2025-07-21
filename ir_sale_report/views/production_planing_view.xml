@@ -1,0 +1,67 @@
+<odoo>
+    <record id="view_production_planing_tree" model="ir.ui.view">
+        <field name="name">production.planing.tree</field>
+        <field name="model">production.planing</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="date"/>
+                <field name="fabric_vendor_id"/>
+                <field name="style_no"/>
+                <field name="party_id"/>
+                <field name="mc"/>
+                <field name="fabric_item"/>
+                <field name="fabric_colour"/>
+                <field name="qty"/>
+                <field name="cutting_start_date"/>
+                <field name="cutting_end_date"/>
+                <field name="status"/>
+                <field name="remark"/>
+                <field name="total_machines"/>
+                <field name="next_week_qty"/>
+                <field name="purchase_order_no"/>
+                <field name="sample"/>
+                <field name="labtest"/>
+                <field name="pps"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_production_planing_form" model="ir.ui.view">
+        <field name="name">production.planing.form</field>
+        <field name="model">production.planing</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date"/>
+                    <field name="fabric_vendor_id"/>
+                    <field name="fabric_item"/>
+                    <field name="fabric_colour"/>
+                    <field name="qty"/>
+                    <field name="style_no"/>
+                    <field name="party_id"/>
+                    <field name="mc"/>
+                    <field name="cutting_start_date"/>
+                    <field name="cutting_end_date"/>
+                    <field name="status"/>
+                    <field name="remark"/>
+                    <field name="fabricator_name"/>
+                    <field name="total_machines"/>
+                    <field name="purchase_order_no"/>
+                    <field name="sample"/>
+                    <field name="labtest"/>
+                    <field name="pps"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_production_planing" model="ir.actions.act_window">
+        <field name="name">Production Planing</field>
+        <field name="res_model">production.planing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_production_planing_root" name="Production Planing" parent="ir_sale_report.menu_reporting_root"/>
+    <menuitem id="menu_production_planing" name="Production Planing" parent="ir_sale_report.menu_production_planing_root" action="action_production_planing"/>
+</odoo>

@@ -1,0 +1,216 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_sample_planing_tree" model="ir.ui.view">
+        <field name="name">sample.planing.tree</field>
+        <field name="model">sample.planing</field>
+        <field name="arch" type="xml">
+            <list string="Sample Planning" editable="bottom">
+                <field name="product_id"/>
+                <field name="buyer_id"/>
+                <field name="product_cat_id"/>
+                <field name="mrp"/>
+                <field name="spec"/>
+                <field name="fabric"/>
+                <field name="fabric_supplier_id"/>
+                <field name="washing_id"/>
+                <field name="washing"/>
+                <field name="merchant_id"/>
+                <field name="merchant_comment"/>
+                <field name="merchant_1_comment"/>
+                <field name="image_1"/>
+                <field name="image_2"/>
+                <field name="spc_pfd"/>
+                <field name="tec_pack"/>
+                <field name="ref"/>
+                <field name="sample_qty"/>
+                <field name="status"/>
+                <field name="status_date"/>
+                <field name="delivery_date"/>
+                <field name="col_1"/>
+                <field name="col_2"/>
+                <field name="col_3"/>
+                <field name="col_4"/>
+                <field name="col_5"/>
+                <field name="col_6"/>
+                <field name="fabric_book_date"/>
+                <field name="fabric_received_date"/>
+                <field name="fabric_received_status"/>
+
+                <field name="trims_book_date"/>
+                <field name="trims_received_date"/>
+                <field name="trims_received_status"/>
+
+                <field name="trims_1_book_date"/>
+                <field name="trims_1_received_date"/>
+                <field name="trims_1_received_status"/>
+
+                <field name="trims_2_book_date"/>
+                <field name="trims_2_received_date"/>
+                <field name="trims_2_received_status"/>
+
+                <field name="trims_3_book_date"/>
+                <field name="trims_3_received_date"/>
+                <field name="trims_3_received_status"/>
+
+                <field name="trims_4_book_date"/>
+                <field name="trims_4_received_date"/>
+                <field name="trims_4_received_status"/>
+
+                <field name="cutting_book_date"/>
+                <field name="cutting_received_date"/>
+                <field name="cutting_received_status"/>
+
+                <field name="stitching_book_date"/>
+                <field name="stitching_received_date"/>
+                <field name="stitching_received_status"/>
+
+                <field name="print_book_date"/>
+                <field name="print_received_date"/>
+                <field name="print_received_status"/>
+
+                <field name="emb_book_date"/>
+                <field name="emb_received_date"/>
+                <field name="emb_received_status"/>
+
+                <field name="washing_book_date"/>
+                <field name="washing_received_date"/>
+                <field name="washing_received_status"/>
+
+                <field name="finishing_book_date"/>
+                <field name="finishing_received_date"/>
+                <field name="finishing_received_status"/>
+
+                <field name="packing_book_date"/>
+                <field name="packing_received_date"/>
+                <field name="packing_received_status"/>
+
+                <field name="delivery_book_date"/>
+                <field name="delivery_received_date"/>
+                <field name="delivery_received_status"/>
+
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_sample_planing_form" model="ir.ui.view">
+        <field name="name">sample.planing.form</field>
+        <field name="model">sample.planing</field>
+        <field name="arch" type="xml">
+            <form string="Sample Planning">
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="buyer_id"/>
+                        <field name="product_cat_id"/>
+                        <field name="mrp"/>
+                        <field name="spec"/>
+                        <field name="fabric"/>
+                        <field name="fabric_supplier_id"/>
+                        <field name="washing_id"/>
+                        <field name="washing"/>
+                        <field name="merchant_id"/>
+                        <field name="merchant_comment"/>
+                        <field name="merchant_1_comment"/>
+                        <field name="image_1"/>
+                        <field name="image_2"/>
+                        <field name="spc_pfd"/>
+                        <field name="tec_pack"/>
+                        <field name="ref"/>
+                        <field name="sample_qty"/>
+                        <field name="status"/>
+                        <field name="status_date"/>
+                        <field name="delivery_date"/>
+                        <field name="col_1"/>
+                        <field name="col_2"/>
+                        <field name="col_3"/>
+                        <field name="col_4"/>
+                        <field name="col_5"/>
+                        <field name="col_6"/>
+                    </group>
+
+                    <group string="Fabric">
+                        <field name="fabric_book_date"/>
+                        <field name="fabric_received_date"/>
+                        <field name="fabric_received_status"/>
+                    </group>
+
+                    <group string="Trims">
+                        <field name="trims_book_date"/>
+                        <field name="trims_received_date"/>
+                        <field name="trims_received_status"/>
+
+                        <field name="trims_1_book_date"/>
+                        <field name="trims_1_received_date"/>
+                        <field name="trims_1_received_status"/>
+
+                        <field name="trims_2_book_date"/>
+                        <field name="trims_2_received_date"/>
+                        <field name="trims_2_received_status"/>
+
+                        <field name="trims_3_book_date"/>
+                        <field name="trims_3_received_date"/>
+                        <field name="trims_3_received_status"/>
+
+                        <field name="trims_4_book_date"/>
+                        <field name="trims_4_received_date"/>
+                        <field name="trims_4_received_status"/>
+                    </group>
+
+                    <group string="Process">
+                        <field name="cutting_book_date"/>
+                        <field name="cutting_received_date"/>
+                        <field name="cutting_received_status"/>
+
+                        <field name="stitching_book_date"/>
+                        <field name="stitching_received_date"/>
+                        <field name="stitching_received_status"/>
+
+                        <field name="print_book_date"/>
+                        <field name="print_received_date"/>
+                        <field name="print_received_status"/>
+
+                        <field name="emb_book_date"/>
+                        <field name="emb_received_date"/>
+                        <field name="emb_received_status"/>
+
+                        <field name="washing_book_date"/>
+                        <field name="washing_received_date"/>
+                        <field name="washing_received_status"/>
+
+                        <field name="finishing_book_date"/>
+                        <field name="finishing_received_date"/>
+                        <field name="finishing_received_status"/>
+
+                        <field name="packing_book_date"/>
+                        <field name="packing_received_date"/>
+                        <field name="packing_received_status"/>
+
+                        <field name="delivery_book_date"/>
+                        <field name="delivery_received_date"/>
+                        <field name="delivery_received_status"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sample_planing" model="ir.actions.act_window">
+        <field name="name">Sample Planning</field>
+        <field name="res_model">sample.planing</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Sample Planning
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_sample_planing_main_root" name="Sample Planning" parent="ir_sale_report.menu_reporting_root" sequence="10"
+              />
+
+    <menuitem id="menu_sample_planing_main" name="Sample Planning" parent="ir_sale_report.menu_sample_planing_main_root" sequence="10"
+              action="action_sample_planing"/>
+</odoo>

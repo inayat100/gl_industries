@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Details">
+                    <group>
+                        <group>
+                            <field name="fit_measurement"/>
+                            <field name="purchase_rate"/>
+                            <field name="inventory_ledger_name"/>
+                            <field name="batch_wise_inventory"/>
+                            <field name="lab_comp"/>
+                            <field name="pps_width"/>
+                        </group>
+                        <group>
+                            <field name="stamp_width"/>
+                            <field name="po_number_count"/>
+                            <field name="content_pentone"/>
+                            <field name="mrp"/>
+                            <field name="vendor_name"/>
+                            <field name="mrp"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="product_design_type_id"/>
+                            <field name="season_id"/>
+                            <field name="color_id"/>
+                            <field name="print_embroidery_id"/>
+                        </group>
+                        <group>
+                            <field name="size_id"/>
+                            <field name="ratio_id"/>
+                            <field name="design_id"/>
+                            <field name="brand_id"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Additional Details">
+                    <group>
+                        <group>
+                            <field name="fabric_short_no"/>
+                            <field name="fabric_qty"/>
+                            <field name="product_qty"/>
+                            <field name="pocket_no"/>
+                            <field name="buttons"/>
+                            <field name="lastic"/>
+                            <field name="patch"/>
+                            <field name="fabric_weight"/>
+                        </group>
+                        <group>
+                            <field name="fabric_contruction"/>
+                            <field name="col_1"/>
+                            <field name="col_2"/>
+                            <field name="col_3"/>
+                            <field name="col_4"/>
+                            <field name="col_5"/>
+                            <field name="col_6"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Images">
+                    <group>
+                        <field name="product_img_1" widget="image" class="oe_avatar"
+                               options="{'convert_to_webp': True, 'preview_image': 'image_128'}"/>
+                        <field name="product_img_2" widget="image" class="oe_avatar"
+                               options="{'convert_to_webp': True, 'preview_image': 'image_128'}"/>
+                        <field name="product_img_3" widget="image" class="oe_avatar"
+                               options="{'convert_to_webp': True, 'preview_image': 'image_128'}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

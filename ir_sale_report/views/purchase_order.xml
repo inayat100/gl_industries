@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="purchase_order_api_custom" model="ir.ui.view">
+        <field name="name">purchase.order.custom.api</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+               <field name="voucher_number" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_api_custom_form" model="ir.ui.view">
+        <field name="name">purchase.order.custom.api.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+               <field name="voucher_number" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>
