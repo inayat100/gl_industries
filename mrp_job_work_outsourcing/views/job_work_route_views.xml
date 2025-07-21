@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="job_work_route_view_form" model="ir.ui.view">
+        <field name="name">job.work.route.form</field>
+        <field name="model">job.work.route</field>
+        <field name="arch" type="xml">
+            <form string="Job Work Route">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. T-Shirt Standard Route"/></h1>
+                    </div>
+                    <notebook>
+                        <page string="Processes" name="processes">
+                            <field name="line_ids">
+                                <list string="Process Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="process_id"/>
+                                    <field name="days_to_complete"/>
+                                    <field name="rate" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="job_work_route_view_tree" model="ir.ui.view">
+        <field name="name">job.work.route.tree</field>
+        <field name="model">job.work.route</field>
+        <field name="arch" type="xml">
+            <list string="Job Work Routes">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_job_work_route" model="ir.actions.act_window">
+        <field name="name">Job Work Routes</field>
+        <field name="res_model">job.work.route</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new job work route.
+            </p><p>
+                A route defines the sequence of processes to be followed for a manufacturing order.
+            </p>
+        </field>
+    </record>
+</odoo>

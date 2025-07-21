@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for mrp.jobwork.line -->
+    <record id="mrp_jobwork_line_view_form" model="ir.ui.view">
+        <field name="name">mrp.jobwork.line.form</field>
+        <field name="model">mrp.jobwork.line</field>
+        <field name="arch" type="xml">
+            <form string="Job Work Process">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="ready,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="process_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                        </h1>
+                        <h3>
+                            <label for="mo_id" string="For MO: "/>
+                            <field name="mo_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence" readonly="1"/>
+                            <field name="location"/>
+                            <field name="rate"/>
+                        </group>
+                        <group>
+                            <field name="available_to_issue_qty" readonly="1"/>
+                            <field name="total_qty_issued" readonly="1"/>
+                            <field name="received_qty" readonly="1"/>
+                            <field name="pending_qty" readonly="1"/>
+                            <field name="total_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Issued to Vendors">
+                            <field name="issued_to_vendor_ids">
+                                <list editable="bottom">
+                                    <field name="vendor_id" options="{'no_create': True,'no_open': True}"/>
+                                    <field name="issued_qty"/>
+                                    <field name="issue_date"/>
+                                    <field name="expected_date"/>
+                                    <field name="received_qty" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Received from Vendors">
+                            <field name="received_from_vendor_ids">
+                                <list editable="bottom">
+                                    <field name="vendor_id" options="{'no_create': True,'no_open': True}"/>
+                                    <field name="received_qty"/>
+                                    <field name="receive_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

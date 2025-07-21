@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree/List View for Job Work Analysis -->
+    <record id="job_work_issue_line_view_tree_analysis" model="ir.ui.view">
+        <field name="name">job.work.issue.line.tree.analysis</field>
+        <field name="model">job.work.issue.line</field>
+        <field name="arch" type="xml">
+            <list string="Job Work Analysis" editable="bottom">
+                <field name="mo_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="process_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="vendor_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="issue_date" readonly="1"/>
+                <field name="last_receipt_date" readonly="1"/>
+                <field name="issued_qty" sum="Total Issued" readonly="1"/>
+                <field name="received_qty" sum="Total Received" readonly="1"/>
+                <field name="pending_qty" sum="Total Pending" readonly="1"/>
+                <field name="rate" readonly="1"/>
+                <field name="amount" sum="Total Amount" readonly="1" force_save="1"/>
+                <field name="remarks" readonly="0"/>
+                <field name="status" widget="badge" decoration-info="status == 'in_progress'" decoration-success="status == 'done'" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View for Filtering -->
+    <record id="job_work_issue_line_view_search_analysis" model="ir.ui.view">
+        <field name="name">job.work.issue.line.search.analysis</field>
+        <field name="model">job.work.issue.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Job Work">
+                <field name="mo_id"/>
+                <field name="vendor_id"/>
+                <field name="process_id"/>
+                <separator/>
+                <filter string="In Progress" name="in_progress" domain="[('status', '=', 'in_progress')]"/>
+                <filter string="Completed" name="completed" domain="[('status', '=', 'done')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Vendor" name="group_by_vendor" context="{'group_by': 'vendor_id'}"/>
+                    <filter string="Process" name="group_by_process" context="{'group_by': 'process_id'}"/>
+                    <filter string="Manufacturing Order" name="group_by_mo" context="{'group_by': 'mo_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action to open the Analysis View -->
+    <record id="action_job_work_analysis" model="ir.actions.act_window">
+        <field name="name">Job Work Analysis</field>
+        <field name="res_model">job.work.issue.line</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="job_work_issue_line_view_search_analysis"/>
+        <field name="context">{'search_default_in_progress': 1,'create': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No job work has been issued yet.
+            </p><p>
+                This screen helps you track all materials issued to vendors for job work and their current receipt status.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+        id="menu_job_work_analysis"
+        name="Job Work Analysis"
+        parent="mrp.menu_mrp_reporting"
+        action="action_job_work_analysis"
+        sequence="5"/>
+</odoo>

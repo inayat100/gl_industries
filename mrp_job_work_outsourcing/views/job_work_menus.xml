@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_action_job_work_process"
+        action="action_job_work_process"
+        parent="mrp.menu_mrp_configuration"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_action_job_work_route"
+        action="action_job_work_route"
+        parent="mrp.menu_mrp_configuration"
+        sequence="20"/>
+</odoo>

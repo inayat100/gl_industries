@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_job_work_process,job.work.process.access,model_job_work_process,mrp.group_mrp_user,1,1,1,1
+access_job_work_route,job.work.route.access,model_job_work_route,mrp.group_mrp_user,1,1,1,1
+access_job_work_route_line,job.work.route.line.access,model_job_work_route_line,mrp.group_mrp_user,1,1,1,1
+access_mrp_jobwork_line,mrp.jobwork.line.access,model_mrp_jobwork_line,mrp.group_mrp_user,1,1,1,1
+access_job_work_issue_line,job.work.issue.line.access,model_job_work_issue_line,mrp.group_mrp_user,1,1,1,1
+access_job_work_receipt_line,job.work.receipt.line.access,model_job_work_receipt_line,mrp.group_mrp_user,1,1,1,1
+access_job_work_issue_wizard,job.work.issue.wizard.access,model_job_work_issue_wizard,mrp.group_mrp_user,1,1,1,1
+access_job_work_receipt_wizard,job.work.receipt.wizard.access,model_job_work_receipt_wizard,mrp.group_mrp_user,1,1,1,1

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Issue Wizard Form View -->
+    <record id="job_work_issue_wizard_view_form" model="ir.ui.view">
+        <field name="name">job.work.issue.wizard.form</field>
+        <field name="model">job.work.issue.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Issue Material">
+                <group>
+                    <field name="job_work_line_id" invisible="1"/>
+                    <field name="available_qty"/>
+                    <field name="vendor_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="issued_qty"/>
+                    <field name="rate"/>
+                    <field name="amount" force_save="1"/>
+                    <field name="expected_date"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Receipt Wizard Form View -->
+    <record id="job_work_receipt_wizard_view_form" model="ir.ui.view">
+        <field name="name">job.work.receipt.wizard.form</field>
+        <field name="model">job.work.receipt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Receive Material">
+                <group>
+                    <field name="job_work_line_id" invisible="1"/>
+                    <field name="vendor_domain" invisible="1"/>
+                    <field name="vendor_id" domain="vendor_domain" options="{'no_create': True,'no_open': True}"/>
+                    <field name="pending_from_vendor_qty" force_save="1"/>
+                    <field name="received_qty"/>
+                    <field name="receive_date"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
