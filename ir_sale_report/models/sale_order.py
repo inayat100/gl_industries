@@ -88,6 +88,7 @@ class SaleOrder(models.Model):
                     line = {
                         'voucher_id': data.get('voucher_id'),
                         'product_id': product_id.id,
+                        'name': product_id.name or 'Not Found Product',
                         'product_uom_qty': product_uom_qty,
                         'price_unit': price_unit,
                         'product_uom':uom_id.id
