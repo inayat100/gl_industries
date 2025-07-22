@@ -4,6 +4,7 @@ import json
 from odoo.exceptions import UserError
 import base64
 import sys
+from datetime import datetime
 
 
 class ProductTemplate(models.Model):
@@ -74,6 +75,7 @@ class ProductTemplate(models.Model):
 
     def _cron_create_product(self):
         configration = self.env['product.template.configration'].search([('active', '=', True)], limit=1)
+        today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if configration:
             # url = "http://163.53.86.110:9700/ABReportService.svc/GetReportData"
             url = configration.server_url
@@ -92,7 +94,7 @@ class ProductTemplate(models.Model):
                         "value": configration.period_from
                     },
                     "period_to": {
-                        "value": configration.period_to
+                        "value": configration.period_to or today
                     },
                     "location": {
                         "value": configration.location

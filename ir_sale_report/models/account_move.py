@@ -19,6 +19,7 @@ class AccountMove(models.Model):
 
     def _cron_create_invoice(self):
         configration = self.env['account.move.configration'].search([('type', '=', 'invoice'), ('active', '=', True)], limit=1)
+        today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if configration:
             url = configration.server_url
             headers = {
@@ -36,7 +37,7 @@ class AccountMove(models.Model):
                         "value": configration.period_from
                     },
                     "period_to": {
-                        "value": configration.period_to
+                        "value": configration.period_to or today
                     },
                     "location": {
                         "value": configration.location
@@ -124,6 +125,7 @@ class AccountMove(models.Model):
 
     def _cron_create_bill(self):
         configration = self.env['account.move.configration'].search([('type', '=', 'bill'), ('active', '=', True)], limit=1)
+        today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if configration:
             url = configration.server_url
             headers = {
@@ -141,7 +143,7 @@ class AccountMove(models.Model):
                         "value": configration.period_from
                     },
                     "period_to": {
-                        "value": configration.period_to
+                        "value": configration.period_to or today
                     },
                     "location": {
                         "value": configration.location

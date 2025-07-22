@@ -15,6 +15,7 @@ class PurchaseOrder(models.Model):
 
     def _cron_create_purchase_order(self):
         configration = self.env['purchase.order.configration'].search([('active', '=', True)], limit=1)
+        today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if configration:
             url = configration.server_url
             headers = {
@@ -32,7 +33,7 @@ class PurchaseOrder(models.Model):
                         "value": configration.period_from
                     },
                     "period_to": {
-                        "value": configration.period_to
+                        "value": configration.period_to or today
                     },
                     "location": {
                         "value": configration.location

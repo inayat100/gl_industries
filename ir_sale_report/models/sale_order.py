@@ -14,6 +14,7 @@ class SaleOrder(models.Model):
 
     def _cron_create_sale_order(self):
         configration = self.env['sale.order.configration'].search([('active', '=', True)], limit=1)
+        today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if configration:
             url = configration.server_url
             headers = {
@@ -31,13 +32,14 @@ class SaleOrder(models.Model):
                         "value": configration.period_from
                     },
                     "period_to": {
-                        "value": configration.period_to
+                        "value": configration.period_to or today
                     },
                     "location": {
                         "value": configration.location
                     }
                 }
             }
+            print("@@@@@@@@@@@@@", payload)
             response = requests.post(url, json=payload, headers=headers)
             json_response = response.json()
             parsed_data = json.loads(json_response['JsonDataTable'])
