@@ -157,15 +157,15 @@ class PurchaseOrderLine(models.Model):
     @api.depends('product_id')
     def _compute_display_name(self):
         for line in self:
-            line.display_name = f"[{line.order_id.voucher_number}] {line.product_id.name}"
+            line.display_name = f"[{line.order_id.voucher_number}] {line.product_id.name} {line.order_id.partner_ref}"
 
     @api.model
     def _search_display_name(self, operator, value):
         name = value or ''
         if operator in ('=', '!='):
-            domain = ['|', ('order_id.voucher_number', '=', name.split(' ')[0]), ('name', operator, name)]
+            domain = ['|', '|',  ('order_id.voucher_number', '=', name.split(' ')[0]), ('name', operator, name), ('order_id.partner_ref', operator, name)]
         else:
-            domain = ['|', ('order_id.voucher_number', '=like', name.split(' ')[0] + '%'), ('name', operator, name)]
+            domain = ['|', '|',  ('order_id.voucher_number', '=like', name.split(' ')[0] + '%'), ('name', operator, name), ('order_id.partner_ref', operator, name)]
         if operator in expression.NEGATIVE_TERM_OPERATORS:
             domain = ['&', '!'] + domain[1:]
         return domain
