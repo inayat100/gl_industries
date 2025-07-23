@@ -59,7 +59,8 @@ class PurchaseOrder(models.Model):
                             'voucher_id': data.get('voucher_id'),
                             'voucher_number': data.get('Voucher_Number'),
                             'notes': data.get('Narration'),
-                            'partner_ref': data.get('Reference_Number')
+                            'partner_ref': data.get('Reference_Number'),
+                            'origin': data.get('document_udf1')
                         }
                         if configration.company_id:
                             val['company_id'] = configration.company_id.id
