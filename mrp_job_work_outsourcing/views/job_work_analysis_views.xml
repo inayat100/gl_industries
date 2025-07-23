@@ -15,6 +15,7 @@
                 <field name="vendor_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="issue_date" readonly="1"/>
                 <field name="expected_date" readonly="1"/>
+                <field name="days_to_complete" readonly="1"/>
                 <field name="last_receipt_date" readonly="1"/>
                 <field name="issued_qty" sum="Total Issued" readonly="1"/>
                 <field name="received_qty" sum="Total Received" readonly="1"/>
