@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    "name": """IR Sale Report """,
+    "name": """IR API Sale Report Reporting""",
     "version": "18.0",
     "icon": "",
-    "category": "",
+    "category": "Sales",
     "author": "Inayat Rasool",
+    "description": """
+   """,
     "depends": [
         "base", "sale", "mail", "purchase", "account", "mrp", "product"
     ],
-    "description": """
-    """,
     "data": [
         'security/ir.model.access.csv',
         'data/cron.xml',
@@ -31,8 +31,7 @@
         'views/production_view.xml',
         'views/production_move_report_view.xml',
     ],
-    "demo": [
-    ],
-    "installable": True,
-    "license": "LGPL-3",
+    'installable': True,
+    'application': True,
+    'auto_install': False,
 }
