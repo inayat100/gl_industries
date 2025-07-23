@@ -66,6 +66,7 @@ class ProductionPlaning(models.Model):
     col_12 = fields.Char(string='Col-12')
     col_13 = fields.Char(string='Col-13')
     col_14 = fields.Char(string='Col-14')
+    active = fields.Boolean(string="Active", default=True)
 
     @api.model
     def _get_view_cache_key(self, view_id=None, view_type="form", **options):

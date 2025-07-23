@@ -87,6 +87,7 @@ class SamplePlaning(models.Model):
     delivery_book_date = fields.Date(string="Delivery Book")
     delivery_received_date = fields.Date(string="Delivery Received")
     delivery_received_status = fields.Char(string="Status")
+    active = fields.Boolean(string="Active", default=True)
 
     @api.onchange('product_id')
     def _onchange_product_id_method(self):

@@ -4,3 +4,4 @@
 from . import job_work_master
 from . import job_work
 from . import custom_manufacturing
+from . import api_report_configration

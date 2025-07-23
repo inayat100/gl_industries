@@ -36,6 +36,7 @@ class ProductionMoveReport(models.Model):
     mrp = fields.Float(string="MRP")
     brand_id = fields.Many2one("brand.master", string="Branch")
 
+
     def _query(self):
         qry = """
         select sm.id as "id", sm.id as "stock_move_id", mp.id as "mo_id", so.id as "sale_id", pol.id as "purchase_line_id", mp.product_id as "product_id", sm.product_id as "bom_product_id", sol.product_uom_qty as "so_qty", pol.product_qty as "po_qty",
@@ -76,3 +77,34 @@ class ProductionMoveReport(models.Model):
     @property
     def _table_query(self):
         return self._query()
+
+    @api.model
+    def _get_view_cache_key(self, view_id=None, view_type="form", **options):
+        key = super()._get_view_cache_key(view_id=view_id, view_type=view_type, options=options)
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'component_report'), ('user_id', '=', self.env.user.id)], limit=1)
+        test_list = []
+        for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+            if field.is_invisible:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+        test_list = tuple(test_list)
+        key = key + (
+            test_list,
+        )
+        return key
+
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if view_type == "list":
+            report_id = self.env['api.report.configration'].search(
+                [('report_type', '=', 'component_report'), ('user_id', '=', self.env.user.id)], limit=1)
+            for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+                for field_node in arch.xpath(f"//field[@name='{field.field_id.name}']"):
+                    if field.is_invisible:
+                        field_node.set("column_invisible", "1")
+        return arch, view
+
+

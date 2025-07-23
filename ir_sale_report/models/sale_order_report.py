@@ -94,6 +94,7 @@ class SaleOrderReport(models.Model):
     domain_partner_ids = fields.Many2many("res.partner", compute="_compute_domain_partner_ids")
     domain_product_cat_ids = fields.Many2many("product.category", compute="_compute_domain_partner_ids")
     company_id = fields.Many2one("res.company", string="Company")
+    active = fields.Boolean(string="Active", default=True)
 
     @api.onchange('buyer_id')
     def _onchange_field_data(self):

@@ -5,7 +5,9 @@ report_type_list = [
     ('sample_planning', 'Sample Planning'),
     ('production_planning', 'Production Planning'),
     ('sale_fabric', 'Sales Fabric'),
-    ('product_product', 'Product Master')
+    ('product_product', 'Product Master'),
+    ('component_report', 'Component Report'),
+    ('job_order_report', 'Job Order Report')
 ]
 
 class ApiReportConfigration(models.Model):
@@ -38,6 +40,9 @@ class ApiReportConfigration(models.Model):
             self.report_id = report_id.id
         elif self.report_type == 'product_product':
             report_id = self.env.ref("product.model_product_template")
+            self.report_id = report_id.id
+        elif self.report_type == 'component_report':
+            report_id = self.env.ref("ir_sale_report.model_production_move_report")
             self.report_id = report_id.id
 
 

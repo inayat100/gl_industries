@@ -158,7 +158,6 @@ class JobWorkIssueLine(models.Model):
     last_receipt_date = fields.Date(string="Last Received Date", compute='_compute_received_qty', store=True)
     remarks = fields.Text('Remarks')
 
-
     # Related fields for easier access and reporting
     mo_id = fields.Many2one(related='job_work_line_id.mo_id', store=True, readonly=True)
     product_id = fields.Many2one(related='job_work_line_id.mo_id.product_id', store=True, readonly=True)
@@ -203,6 +202,36 @@ class JobWorkIssueLine(models.Model):
     def _compute_amount(self):
         for issue in self:
             issue.amount = issue.issued_qty * issue.rate
+
+    @api.model
+    def _get_view_cache_key(self, view_id=None, view_type="form", **options):
+        key = super()._get_view_cache_key(view_id=view_id, view_type=view_type, options=options)
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'job_order_report'), ('user_id', '=', self.env.user.id)], limit=1)
+        test_list = []
+        for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+            if field.is_invisible:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+        test_list = tuple(test_list)
+        key = key + (
+            test_list,
+        )
+        return key
+
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if view_type == "list":
+            report_id = self.env['api.report.configration'].search(
+                [('report_type', '=', 'job_order_report'), ('user_id', '=', self.env.user.id)], limit=1)
+            for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+                for field_node in arch.xpath(f"//field[@name='{field.field_id.name}']"):
+                    if field.is_invisible:
+                        field_node.set("column_invisible", "1")
+        return arch, view
+
 
 
 

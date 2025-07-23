@@ -48,6 +48,7 @@ class SalesOrderFabric(models.Model):
     col_10 = fields.Char(string="COL 10")
     col_11 = fields.Char(string="COL 11")
     col_12 = fields.Char(string="COL 12")
+    active = fields.Boolean(string="Active", default=True)
 
 
     @api.onchange('product_id')
