@@ -5,6 +5,7 @@ class ProductionPlaning(models.Model):
     _name = 'production.planing'
     _description = 'Production Planing'
 
+    is_favorite = fields.Boolean(string="Favorite")
     date = fields.Date(string='Date')
     fabric_vendor_id = fields.Many2one('res.partner', string='Fabric Vendor')
     product_id = fields.Many2one("product.product", string='Sort No')
@@ -81,6 +82,14 @@ class ProductionPlaning(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
+            if report_id.disable_create:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+            if report_id.disable_delete:
+                test_list.append(True)
+            else:
+                test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,
@@ -99,4 +108,10 @@ class ProductionPlaning(models.Model):
                         field_node.set("readonly", "1")
                     if field.is_invisible:
                         field_node.set("column_invisible", "1")
+            if report_id.disable_create:
+                for node in arch.xpath("//form"):
+                    node.set("create", "0")
+            if report_id.disable_delete:
+                for node in arch.xpath("//form"):
+                    node.set("delete", "0")
         return arch, view

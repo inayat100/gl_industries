@@ -4,6 +4,7 @@ from odoo import fields, models, api
 class SamplePlaning(models.Model):
     _name = "sample.planing"
 
+    is_favorite = fields.Boolean(string="Favorite")
     product_id = fields.Many2one("product.product", string="Product")
     buyer_id = fields.Many2one("res.partner", string="Party")
     product_cat_id = fields.Many2one("product.category", string="MC")
@@ -91,6 +92,9 @@ class SamplePlaning(models.Model):
     def _onchange_product_id_method(self):
         self.mrp = self.product_id.mrp
         self.product_cat_id = self.product_id.categ_id.id
+        self.image_1 = self.product_id.image_1920
+        self.image_2 = self.product_id.product_img_1
+        self.spc_pfd = self.product_id
 
     @api.model
     def _get_view_cache_key(self, view_id=None, view_type="form", **options):
@@ -104,6 +108,14 @@ class SamplePlaning(models.Model):
             else:
                 test_list.append(False)
             if field.is_invisible:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+            if report_id.disable_create:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+            if report_id.disable_delete:
                 test_list.append(True)
             else:
                 test_list.append(False)
@@ -125,6 +137,12 @@ class SamplePlaning(models.Model):
                         field_node.set("readonly", "1")
                     if field.is_invisible:
                         field_node.set("column_invisible", "1")
+            if report_id.disable_create:
+                for node in arch.xpath("//form"):
+                    node.set("create", "0")
+            if report_id.disable_delete:
+                for node in arch.xpath("//form"):
+                    node.set("delete", "0")
         return arch, view
 
 

@@ -28,13 +28,14 @@
                     <field name="server_url"/>
                     <field name="user_name"/>
                     <field name="api_key"/>
-                    <field name="company_id"/>
+                    <field name="company_key"/>
                     <field name="enterprise_id"/>
                     <field name="user_id"/>
                     <field name="report_type"/>
                     <field name="period_from"/>
                     <field name="period_to"/>
                     <field name="location"/>
+                    <field name="company_id"/>
                     <field name="active"/>
                 </group>
             </form>

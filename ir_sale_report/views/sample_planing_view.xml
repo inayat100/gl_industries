@@ -5,10 +5,11 @@
         <field name="model">sample.planing</field>
         <field name="arch" type="xml">
             <list string="Sample Planning" editable="bottom">
+                <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="product_id"/>
                 <field name="buyer_id"/>
                 <field name="product_cat_id"/>
-                <field name="mrp"/>
+                <field name="mrp" sum="MRP"/>
                 <field name="spec"/>
                 <field name="fabric"/>
                 <field name="fabric_supplier_id"/>
@@ -22,7 +23,7 @@
                 <field name="spc_pfd"/>
                 <field name="tec_pack"/>
                 <field name="ref"/>
-                <field name="sample_qty"/>
+                <field name="sample_qty" sum="SAMPLE QTY"/>
                 <field name="status"/>
                 <field name="status_date"/>
                 <field name="delivery_date"/>
@@ -199,7 +200,7 @@
     <record id="action_sample_planing" model="ir.actions.act_window">
         <field name="name">Sample Planning</field>
         <field name="res_model">sample.planing</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first Sample Planning

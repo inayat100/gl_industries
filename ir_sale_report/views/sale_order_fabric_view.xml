@@ -6,6 +6,7 @@
         <field name="model">sales.order.fabric</field>
         <field name="arch" type="xml">
             <list string="Sales Order Fabric"  sample="1" class="o_sale_order" editable="top">
+                <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="sl_no"/>
                 <field name="date"/>
                 <field name="product_id"/>
@@ -14,9 +15,9 @@
                 <field name="fabric_colour"/>
                 <field name="fabric_mill"/>
                 <field name="fabric_supplier"/>
-                <field name="qty"/>
+                <field name="qty" sum="Qty"/>
                 <field name="weave"/>
-                <field name="fabric_category"/>
+                <field name="fabric_category_id"/>
                 <field name="content"/>
                 <field name="count"/>
                 <field name="construction"/>
@@ -50,20 +51,20 @@
 
     <!-- Action -->
     <record id="action_sales_report_line" model="ir.actions.act_window">
-        <field name="name">Sales Order Fabric</field>
+        <field name="name">Fabric YARDAGE</field>
         <field name="res_model">sales.order.fabric</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create your first sales order fabric</p>
         </field>
     </record>
 
     <!-- Menu Item -->
-    <menuitem id="menu_sales_report_line_root" name="Sales Fabric Report"
+    <menuitem id="menu_sales_report_line_root" name="Fabric Yardage Report"
               parent="ir_sale_report.menu_reporting_root"
     />
 
-    <menuitem id="menu_sales_report_line" name="Sales Fabric Report"
+    <menuitem id="menu_sales_report_line" name="Fabric Yardage Report"
               parent="ir_sale_report.menu_sales_report_line_root"
               action="action_sales_report_line"
               sequence="50"

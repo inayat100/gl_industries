@@ -6,13 +6,12 @@
     "category": "",
     "author": "Inayat Rasool",
     "depends": [
-        "base", "sale", "mail", "purchase", "account", "mrp"
+        "base", "sale", "mail", "purchase", "account", "mrp", "product"
     ],
     "description": """
     """,
     "data": [
         'security/ir.model.access.csv',
-        'security/security.xml',
         'data/cron.xml',
         'configuration/account_move_configration.xml',
         'configuration/access_right_report_configration_view.xml',

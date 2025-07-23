@@ -35,6 +35,16 @@ class BrandMaster(models.Model):
 
     name = fields.Char(string="Name")
 
+class FitMeasurement(models.Model):
+    _name = "fit.measurement"
+
+    name = fields.Char(string="Name")
+
+class WashingItem(models.Model):
+    _name = "washing.item"
+
+    name = fields.Char(string="Name")
+
 class ProductDesignType(models.Model):
     _name = "product.design.type"
 

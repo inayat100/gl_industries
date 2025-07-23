@@ -9,33 +9,39 @@
             <list editable="bottom" sample="1" class="o_sale_order">
                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
+                <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                <field name="sl_no"/>
                 <field name="style_no"/>
                 <field name="product_id"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
-                <field name="product_img1"/>
-                <field name="product_img2"/>
+                <field name="pd_img1" widget="image"/>
+                <field name="pd_img2" widget="image"/>
                 <field name="domain_partner_ids" column_invisible="1"/>
                 <field name="buyer_id" domain="[('id', 'in', domain_partner_ids)]"/>
-                <field name="manager_id"/>
+                <field name="buyer_email"/>
+                <field name="doc_url"/>
                 <field name="vno"/>
                 <field name="vdate"/>
                 <field name="design_no"/>
                 <field name="party"/>
                 <field name="domain_product_cat_ids" column_invisible="1" widget="many2many_tags"/>
                 <field name="product_cat_id" domain="[('id', 'in', domain_product_cat_ids)]" />
+                <field name="garment_average"/>
+                <field name="febric_product_id"/>
                 <field name="fit"/>
                 <field name="style"/>
                 <field name="po_description"/>
                 <field name="brand_name"/>
-                <field name="mrp"/>
-                <field name="po_mrp"/>
+                <field name="partner_manager_id"/>
+                <field name="mrp" sum="MRP"/>
+                <field name="po_mrp" sum="PO MRP"/>
                 <field name="color"/>
                 <field name="po_color"/>
-                <field name="order_qty"/>
-                <field name="stock_qty"/>
-                <field name="production_qty"/>
-                <field name="po_qty"/>
+                <field name="order_qty" sum="Order Qty"/>
+                <field name="stock_qty" sum="Stock Qty"/>
+                <field name="production_qty" sum="P Qty"/>
+                <field name="po_qty" sum="PO QTY"/>
+                <field name="po_qty_approval"/>
                 <field name="article_no"/>
                 <field name="po_article"/>
                 <field name="po_no"/>
@@ -47,14 +53,15 @@
                 <field name="lab_expire_date"/>
                 <field name="pps_lot_lab_status"/>
                 <field name="lab_company"/>
+                <field name="tafta_content"/>
                 <field name="lab_article_no"/>
                 <field name="lab_content_n_weight"/>
                 <field name="po_content_n_weight"/>
                 <field name="content_weight_status"/>
-                <field name="mrp_rate"/>
-                <field name="rate"/>
-                <field name="sale_rate"/>
-                <field name="po_rate"/>
+                <field name="mrp_rate" sum="MRP Rate"/>
+                <field name="rate" sum="Rate"/>
+                <field name="sale_rate" sum="Sale Rate"/>
+                <field name="po_rate" sum="PO Rate"/>
                 <field name="season"/>
                 <field name="po_season"/>
                 <field name="vendor_code"/>
@@ -62,6 +69,8 @@
                 <field name="status"/>
                 <field name="remark"/>
                 <field name="delivery_date"/>
+                <field name="qc_report_no"/>
+                <field name="qc_report_date"/>
                 <field name="size"/>
                 <field name="ratio"/>
                 <field name="washer"/>
@@ -94,15 +103,17 @@
                     <group>
                         <!-- LEFT COLUMN -->
                         <group>
+                            <field name="pd_img1" widget="image" options="{'preview_image': 'avatar_128'}" class="ms-1" alt="Avatar"/>
                             <field name="sl_no"/>
                             <field name="style_no"/>
                             <field name="product_id"/>
-                            <field name="product_img1"/>
                             <field name="buyer_id"/>
                             <field name="vno"/>
                             <field name="design_no"/>
                             <field name="style"/>
                             <field name="brand_name"/>
+                            <field name="doc_url"/>
+                            <field name="partner_manager_id"/>
                             <field name="po_mrp"/>
                             <field name="po_color"/>
                             <field name="production_qty"/>
@@ -132,8 +143,7 @@
 
                         <!-- RIGHT COLUMN -->
                         <group>
-                            <field name="product_img2"/>
-                            <field name="manager_id"/>
+                            <field name="pd_img2" widget="image" options="{'preview_image': 'avatar_128'}" class="ms-1" alt="Avatar"/>
                             <field name="vdate"/>
                             <field name="party"/>
                             <field name="fit"/>
@@ -173,35 +183,6 @@
         </field>
     </record>
 
-    <record id="view_sale_order_report_pivot" model="ir.ui.view">
-        <field name="name">sale.order.report.pivot</field>
-        <field name="model">sale.order.report</field>
-        <field name="arch" type="xml">
-            <pivot>
-                <!-- Measures (Numerical Data to Summarize) -->
-                <field name="order_qty" type="measure"/>
-                <field name="production_qty" type="measure"/>
-                <field name="po_qty" type="measure"/>
-                <field name="mrp" type="measure"/>
-                <field name="po_mrp" type="measure"/>
-                <field name="mrp_rate" type="measure"/>
-                <field name="rate" type="measure"/>
-                <field name="sale_rate" type="measure"/>
-                <field name="po_rate" type="measure"/>
-                <field name="ratio" type="measure"/>
-
-                <!-- Dimensions (Group By Fields) -->
-                <field name="buyer_id" type="row"/>
-                <field name="product_id" type="row"/>
-                <field name="style_no" type="row"/>
-                <field name="manager_id" type="col"/>
-                <field name="status" type="col"/>
-                <field name="vdate" type="col"/>
-                <field name="season" type="col"/>
-            </pivot>
-        </field>
-    </record>
-
     <record id="view_sale_order_report_graph" model="ir.ui.view">
         <field name="name">sale.order.report.graph</field>
         <field name="model">sale.order.report</field>
@@ -231,7 +212,6 @@
                 <field name="style_no"/>
                 <field name="product_id"/>
                 <field name="buyer_id"/>
-                <field name="manager_id"/>
                 <field name="po_no"/>
                 <field name="article_no"/>
                 <field name="vno"/>
@@ -253,7 +233,6 @@
                     <filter name="group_buyer" string="Buyer" context="{'group_by':'buyer_id'}"/>
                     <filter name="group_product" string="Product" context="{'group_by':'product_id'}"/>
                     <filter name="group_style" string="Style No" context="{'group_by':'style_no'}"/>
-                    <filter name="group_manager" string="Manager" context="{'group_by':'manager_id'}"/>
                     <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
                     <filter name="group_season" string="Season" context="{'group_by':'season'}"/>
                 </group>

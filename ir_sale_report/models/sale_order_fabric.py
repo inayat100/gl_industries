@@ -4,6 +4,7 @@ class SalesOrderFabric(models.Model):
     _name = 'sales.order.fabric'
     _description = 'Sales Order Fabric'
 
+    is_favorite = fields.Boolean(string="Favorite")
     header = fields.Char(string="HEADER")
     sl_no = fields.Char(string="SL NO")
     date = fields.Date(string="DATE")
@@ -16,7 +17,7 @@ class SalesOrderFabric(models.Model):
     qty = fields.Float(string="QTY")
     hanger_fabric = fields.Char( string="HANGER / FABRIC")
     weave = fields.Char(string="WEAVE")
-    fabric_category = fields.Char(string="FABRIC CATEGORY")
+    fabric_category_id = fields.Many2one("product.category", string="FABRIC CATEGORY")
     content = fields.Char(string="CONTENT")
     count = fields.Char(string="COUNT")
     construction = fields.Char(string="CONSTRUCTION")
@@ -52,7 +53,10 @@ class SalesOrderFabric(models.Model):
     @api.onchange('product_id')
     def _onchange_product(self):
         for line in self:
+            line.count = line.product_id.po_number_count
+            line.fabric_category_id = line.product_id.categ_id.id
             line.sorts_no = line.product_id.fabric_short_no
+            line.fabric_colour = line.product_id.color_id.name
             line.image = line.product_id.product_img_1
             line.qty = line.product_id.fabric_qty
             line.weight = line.product_id.fabric_weight
@@ -81,6 +85,14 @@ class SalesOrderFabric(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
+            if report_id.disable_create:
+                test_list.append(True)
+            else:
+                test_list.append(False)
+            if report_id.disable_delete:
+                test_list.append(True)
+            else:
+                test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,
@@ -98,4 +110,10 @@ class SalesOrderFabric(models.Model):
                         field_node.set("readonly", "1")
                     if field.is_invisible:
                         field_node.set("column_invisible", "1")
+            if report_id.disable_create:
+                for node in arch.xpath("//form"):
+                    node.set("create", "0")
+            if report_id.disable_delete:
+                for node in arch.xpath("//form"):
+                    node.set("delete", "0")
         return arch, view

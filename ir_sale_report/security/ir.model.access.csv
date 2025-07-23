@@ -18,6 +18,10 @@ access_api_report_configration_line,access_api_report_configration_line,model_ap
 access_sample_planing,access_sample_planing,model_sample_planing,,1,1,1,1
 access_production_planing,access_production_planing,model_production_planing,,1,1,1,1
 access_sales_order_fabric,access_sales_order_fabric,model_sales_order_fabric,,1,1,1,1
+access_fit_measurement,access_fit_measurement,model_fit_measurement,,1,1,1,1
+access_washing_item,access_washing_item,model_washing_item,,1,1,1,1
 access_production_move_report,access_production_move_report,model_production_move_report,,1,1,1,0
+
+
 
 

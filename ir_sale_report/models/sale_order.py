@@ -13,96 +13,99 @@ class SaleOrder(models.Model):
 
 
     def _cron_create_sale_order(self):
-        configration = self.env['sale.order.configration'].search([('active', '=', True)], limit=1)
+        configration_ids = self.env['sale.order.configration'].search([('active', '=', True)])
         today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if configration:
-            url = configration.server_url
-            headers = {
-                'username': configration.user_name,
-                'apikey': configration.api_key,
-                'company_id': configration.company_id,
-                'enterprise_id': configration.enterprise_id,
-                'user_id': configration.user_id,
-                'Content-Type': 'application/json'
-            }
-            payload = {
-                "report_type": configration.report_type,
-                "filter_data": {
-                    "period_from": {
-                        "value": configration.period_from
-                    },
-                    "period_to": {
-                        "value": configration.period_to or today
-                    },
-                    "location": {
-                        "value": configration.location
+        for configration in configration_ids:
+            if configration:
+                url = configration.server_url
+                headers = {
+                    'username': configration.user_name,
+                    'apikey': configration.api_key,
+                    'company_id': configration.company_key,
+                    'enterprise_id': configration.enterprise_id,
+                    'user_id': configration.user_id,
+                    'Content-Type': 'application/json'
+                }
+                payload = {
+                    "report_type": configration.report_type,
+                    "filter_data": {
+                        "period_from": {
+                            "value": configration.period_from
+                        },
+                        "period_to": {
+                            "value": configration.period_to or today
+                        },
+                        "location": {
+                            "value": configration.location
+                        }
                     }
                 }
-            }
-            print("@@@@@@@@@@@@@", payload)
-            response = requests.post(url, json=payload, headers=headers)
-            json_response = response.json()
-            parsed_data = json.loads(json_response['JsonDataTable'])
-            test_json = [parsed_data[0]]
-            product_id = self.env['product.product']
-            uom_id = self.env['uom.uom']
-            tax_ids = self.env['account.tax']
-            print("parsed_data====", len(parsed_data))
-            for data in parsed_data:
-                try:
-                    val = {
-                        'api_order': True,
-                        'voucher_id': data.get('voucher_id'),
-                        'voucher_number': data.get('Voucher_Number'),
-                        'note': data.get('Narration')
-                    }
-                    if data.get('Party'):
-                        partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
-                        val['partner_id'] = partner_id.id
-                        if partner_id:
-                            d_partner_id = self._get_create_delivery_partner(partner_id, data.get('Contact_Person'), data.get('GST_No'))
-                            if d_partner_id:
-                                val['partner_shipping_id'] = d_partner_id.id
-                    if data.get('Voucher_Date'):
-                        order_date = self.parse_iso_date(data.get('Voucher_Date'))
-                        if order_date:
-                            val['date_order'] = order_date
-                    order_id = self.env['sale.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
-                    if order_id:
-                        order_id.write(val)
-                    else:
-                        order_id = self.env['sale.order'].create([val])
-                    # line data form here
-                    if data.get('Item'):
-                        product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
-                        if product_id:
-                            product_id = product_id
-                    if data.get('Unit'):
-                        uom_id = uom_id.search([('name', '=', data.get('Unit'))], limit=1)
-                        if uom_id:
-                            uom_id = uom_id
-                    if data.get('Tax_Code'):
-                        tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
-                        if tax_ids:
-                            pass
-                    product_uom_qty = data.get('Qty')
-                    price_unit = data.get('Rate')
-                    line = {
-                        'voucher_id': data.get('voucher_id'),
-                        'product_id': product_id.id,
-                        'name': product_id.name or 'Not Found Product',
-                        'product_uom_qty': product_uom_qty,
-                        'price_unit': price_unit,
-                        'product_uom':uom_id.id
-                    }
-                    exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
-                    if exist_line:
-                        exist_line.write(line)
-                    else:
-                        line['order_id'] = order_id.id
-                        self.env['sale.order.line'].create(line)
-                except Exception as e:
-                    print("Erroes", e)
+                print("@@@@@@@@@@@@@", payload)
+                response = requests.post(url, json=payload, headers=headers)
+                json_response = response.json()
+                parsed_data = json.loads(json_response['JsonDataTable'])
+                test_json = [parsed_data[0]]
+                product_id = self.env['product.product']
+                uom_id = self.env['uom.uom']
+                tax_ids = self.env['account.tax']
+                print("parsed_data====", len(parsed_data))
+                for data in parsed_data:
+                    try:
+                        val = {
+                            'api_order': True,
+                            'voucher_id': data.get('voucher_id'),
+                            'voucher_number': data.get('Voucher_Number'),
+                            'note': data.get('Narration')
+                        }
+                        if configration.company_id:
+                            val['company_id'] = configration.company_id.id
+                        if data.get('Party'):
+                            partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
+                            val['partner_id'] = partner_id.id
+                            if partner_id:
+                                d_partner_id = self._get_create_delivery_partner(partner_id, data.get('Contact_Person'), data.get('GST_No'))
+                                if d_partner_id:
+                                    val['partner_shipping_id'] = d_partner_id.id
+                        if data.get('Voucher_Date'):
+                            order_date = self.parse_iso_date(data.get('Voucher_Date'))
+                            if order_date:
+                                val['date_order'] = order_date
+                        order_id = self.env['sale.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                        if order_id:
+                            order_id.write(val)
+                        else:
+                            order_id = self.env['sale.order'].create([val])
+                        # line data form here
+                        if data.get('Item'):
+                            product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
+                            if product_id:
+                                product_id = product_id
+                        if data.get('Unit'):
+                            uom_id = uom_id.search([('name', '=', data.get('Unit'))], limit=1)
+                            if uom_id:
+                                uom_id = uom_id
+                        if data.get('Tax_Code'):
+                            tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
+                            if tax_ids:
+                                pass
+                        product_uom_qty = data.get('Qty')
+                        price_unit = data.get('Rate')
+                        line = {
+                            'voucher_id': data.get('voucher_id'),
+                            'product_id': product_id.id,
+                            'name': product_id.name or 'Not Found Product',
+                            'product_uom_qty': product_uom_qty,
+                            'price_unit': price_unit,
+                            'product_uom':uom_id.id
+                        }
+                        exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
+                        if exist_line:
+                            exist_line.write(line)
+                        else:
+                            line['order_id'] = order_id.id
+                            self.env['sale.order.line'].create(line)
+                    except Exception as e:
+                        print("Erroes", e)
 
     def parse_iso_date(self, date_str):
         try:
@@ -160,7 +163,8 @@ class SaleOrderConfigration(models.Model):
     server_url = fields.Char(string="Server Url")
     user_name = fields.Char(string="Username")
     api_key = fields.Char(string="Api Key")
-    company_id = fields.Char(string="Company Id")
+    company_id = fields.Many2one("res.company", string="Company")
+    company_key = fields.Char(string="Company Id")
     enterprise_id = fields.Char(string="Enterprise Id")
     user_id = fields.Char(string="User Id")
     report_type = fields.Integer("Report Type")
