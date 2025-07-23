@@ -148,6 +148,7 @@ class JobWorkIssueLine(models.Model):
     received_qty = fields.Float('Received Quantity', compute='_compute_received_qty', store=True)
     issue_date = fields.Date('Issue Date', default=fields.Date.context_today, required=True)
     expected_date = fields.Date('Expected Date')
+    days_to_complete = fields.Integer(related="job_work_line_id.days_to_complete", store=True)
     rate = fields.Float('Rate', required=True)
     amount = fields.Float('Amount', compute='_compute_amount', store=True)
     pending_qty = fields.Float('Pending Quantity', compute='_compute_received_qty', store=True)
