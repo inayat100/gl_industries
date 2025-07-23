@@ -11,6 +11,10 @@ class PurchaseOrder(models.Model):
     voucher_id = fields.Char(string="Voucher Id")
     voucher_number = fields.Char(string="Voucher No")
     api_order = fields.Boolean(string="API Order")
+    remark_1 = fields.Char(string="Remark1")
+    remark_2 = fields.Char(string="Remark2")
+    remark_3 = fields.Char(string="Remark3")
+    remark_4 = fields.Char(string="Remark4")
 
 
     def _cron_create_purchase_order(self):

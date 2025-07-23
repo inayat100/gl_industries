@@ -161,6 +161,10 @@ class JobWorkIssueLine(models.Model):
 
     # Related fields for easier access and reporting
     mo_id = fields.Many2one(related='job_work_line_id.mo_id', store=True, readonly=True)
+    product_id = fields.Many2one(related='job_work_line_id.mo_id.product_id', store=True, readonly=True)
+    categ_id = fields.Many2one(related='job_work_line_id.mo_id.product_id.categ_id', store=True, readonly=True)
+    mrp = fields.Float(related='job_work_line_id.mo_id.product_id.mrp', store=True, readonly=True)
+    brand_id = fields.Many2one(related='job_work_line_id.mo_id.product_id.brand_id', store=True, readonly=True)
     process_id = fields.Many2one(related='job_work_line_id.process_id', store=True, readonly=True)
 
     @api.depends('job_work_line_id.received_from_vendor_ids.received_qty', 'issued_qty')

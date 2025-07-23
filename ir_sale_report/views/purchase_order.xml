@@ -19,6 +19,13 @@
             <field name="currency_id" position="after">
                <field name="voucher_number" readonly="1"/>
             </field>
+
+            <field name="fiscal_position_id" position="after">
+                <field name="remark_1"/>
+                <field name="remark_2"/>
+                <field name="remark_3"/>
+                <field name="remark_4"/>
+            </field>
         </field>
     </record>
 

@@ -143,6 +143,8 @@ class ProductTemplate(models.Model):
                         val['type'] = 'service'
                     else:
                         val['type'] = 'consu'
+                        val['is_storable'] = True
+                        val['tracking'] = 'none'
                     if data.get('group_name'):
                         category_id = self.env['product.category'].search([('name', '=', data.get('group_name'))], limit=1)
                         if category_id:

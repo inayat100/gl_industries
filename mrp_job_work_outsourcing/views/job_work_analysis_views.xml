@@ -7,6 +7,10 @@
         <field name="arch" type="xml">
             <list string="Job Work Analysis" editable="bottom">
                 <field name="mo_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="product_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="categ_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="brand_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <field name="mrp"/>
                 <field name="process_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="vendor_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="issue_date" readonly="1"/>
@@ -47,7 +51,7 @@
     <record id="action_job_work_analysis" model="ir.actions.act_window">
         <field name="name">Job Work Analysis</field>
         <field name="res_model">job.work.issue.line</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,pivot</field>
         <field name="search_view_id" ref="job_work_issue_line_view_search_analysis"/>
         <field name="context">{'search_default_in_progress': 1,'create': 0}</field>
         <field name="help" type="html">

@@ -15,7 +15,7 @@ Key Features:
     """,
     'author': 'Rahul Kumar',
     'category': 'Manufacturing/Manufacturing',
-    'depends': ['mrp'],
+    'depends': ['mrp', 'ir_sale_report'],
     'data': [
         'security/ir.model.access.csv',
         'views/job_work_process_views.xml',
