@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 
 class ProductionMoveReport(models.Model):
@@ -18,9 +19,17 @@ class ProductionMoveReport(models.Model):
     so_qty = fields.Float(string="SO QTY", readonly=1)
     po_qty = fields.Float(string="PO QTY", readonly=1)
     in_qty = fields.Float(string="In Qty", readonly=1)
+    mo_qty = fields.Float(string="MO Qty", readonly=1)
+    order_pending_qty = fields.Float(string="Order Pending Qty", readonly=1)
+    in_pending_qty = fields.Float(string="In Pending Qty", readonly=1)
+    product_uom_qty = fields.Float("To Consume")
+
     po_date = fields.Datetime(string="PO Date")
     so_date = fields.Datetime(string="SO Date")
-    picking_date = fields.Datetime(string="Picking Date")
+
+    picking_id = fields.Many2one("stock.picking", string="Receipt")
+    picking_ref = fields.Char(string="Receipt Ref")
+    picking_date = fields.Datetime(string="Receipt Date")
 
     p_remark_1 = fields.Char(string="P Remark1")
     p_remark_2 = fields.Char(string="P Remark2")
@@ -31,10 +40,50 @@ class ProductionMoveReport(models.Model):
     c_remark_2 = fields.Char(string="C Remark2")
     c_remark_3 = fields.Char(string="C Remark3")
     c_remark_4 = fields.Char(string="C Remark4")
+    po_ref = fields.Char(string="PO Ref")
+    po_origin = fields.Char(string="Po Origin")
 
     product_cat_id = fields.Many2one("product.category", string="MC")
     mrp = fields.Float(string="MRP")
-    brand_id = fields.Many2one("brand.master", string="Branch")
+    brand_id = fields.Many2one("brand.master", string="Brand")
+
+    def action_open_po_form_view(self):
+        if not self.purchase_line_id.order_id:
+            raise UserError("There is no Purchase Order")
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Purchase Order',
+            'res_model': 'purchase.order',
+            'view_mode': 'form',
+            'res_id': self.purchase_line_id.order_id.id,  # or self.order_id.id
+            'target': 'current',
+        }
+
+    def action_open_so_form_view(self):
+        if not self.sale_id:
+            raise UserError("There is no Sale Order")
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Sale Order',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.sale_id.id,  # or self.order_id.id
+            'target': 'current',
+        }
+
+    def action_open_mo_form_view(self):
+        if not self.mo_id:
+            raise UserError("There is no Manufacturing Order")
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Manufacturing Order',
+            'res_model': 'mrp.production',
+            'view_mode': 'form',
+            'res_id': self.mo_id.id,  # or self.order_id.id
+            'target': 'current',
+        }
 
 
     def _query(self):
@@ -43,7 +92,9 @@ class ProductionMoveReport(models.Model):
         so.partner_id as "so_partner_id", po.partner_id as "po_partner_id", psm.quantity as "in_qty", po.date_order as "po_date", so.date_order as "so_date", sp.scheduled_date as "picking_date",
         po.remark_1 as "p_remark_1", po.remark_2 as "p_remark_2", po.remark_3 as "p_remark_3", po.remark_4 as "p_remark_4",
         sm.remark_1 as "c_remark_1", sm.remark_2 as "c_remark_2", sm.remark_3 as "c_remark_3", sm.remark_4 as "c_remark_4",
-		pt.categ_id as "product_cat_id", pt.brand_id as "brand_id", pt.mrp as "mrp"
+		pt.categ_id as "product_cat_id", pt.brand_id as "brand_id", pt.mrp as "mrp", po.partner_ref as "po_ref", mp.product_qty as "mo_qty",
+		sm.product_uom_qty as "product_uom_qty", po.origin as "po_origin", sp.id as "picking_id", sp.origin as "picking_ref",
+		(sm.product_uom_qty - pol.product_qty) as "order_pending_qty", (sm.product_uom_qty - psm.quantity) as "in_pending_qty"
         from stock_move sm
         LEFT JOIN mrp_production mp
         ON sm.raw_material_production_id = mp.id

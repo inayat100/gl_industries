@@ -6,23 +6,35 @@
         <field name="model">production.move.report</field>
         <field name="arch" type="xml">
             <list string="Component Analysis Report">
+                <button name="action_open_mo_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
                 <field name="mo_id"/>
-                <!--                <field name="stock_move_id"/>-->
-                <field name="sale_id"/>
-                <field name="so_date"/>
-                <field name="purchase_line_id"/>
-                <field name="po_date"/>
-                <field name="bom_product_id"/>
+                <field name="mo_qty"/>
                 <field name="product_id"/>
                 <field name="product_cat_id"/>
                 <field name="brand_id"/>
                 <field name="mrp"/>
+                <button name="action_open_so_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
+                <field name="sale_id"/>
                 <field name="so_partner_id"/>
-                <field name="po_partner_id"/>
-                <field name="picking_date"/>
+                <field name="so_date"/>
                 <field name="so_qty"/>
+                <field name="bom_product_id"/>
+                <button name="action_open_po_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
+                <field name="purchase_line_id"/>
+                <field name="po_partner_id"/>
+                <field name="po_ref"/>
+                <field name="po_origin"/>
+                <field name="po_date"/>
                 <field name="po_qty"/>
+                <field name="picking_id"/>
+                <field name="picking_ref"/>
+                <field name="picking_date"/>
                 <field name="in_qty"/>
+                <field name="order_pending_qty"/>
+                <field name="in_pending_qty"/>
                 <field name="p_remark_1" optional="hide"/>
                 <field name="p_remark_2" optional="hide"/>
                 <field name="p_remark_3" optional="hide"/>

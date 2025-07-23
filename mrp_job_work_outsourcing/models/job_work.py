@@ -157,6 +157,10 @@ class JobWorkIssueLine(models.Model):
     ], string='Status', compute='_compute_received_qty', store=True)
     last_receipt_date = fields.Date(string="Last Received Date", compute='_compute_received_qty', store=True)
     remarks = fields.Text('Remarks')
+    remark_1 = fields.Text('Remark 1')
+    remark_2 = fields.Text('Remark 2')
+    remark_3 = fields.Text('Remark 3')
+    remark_date = fields.Date("Remark Date")
 
     # Related fields for easier access and reporting
     mo_id = fields.Many2one(related='job_work_line_id.mo_id', store=True, readonly=True)
