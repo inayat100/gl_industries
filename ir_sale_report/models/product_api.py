@@ -291,7 +291,7 @@ class SaleOrderReportConfigration(models.Model):
     server_url = fields.Char(string="Server Url")
     user_name = fields.Char(string="Username")
     api_key = fields.Char(string="Api Key")
-    company_id = fields.Many2one(string="Company Id")
+    company_id = fields.Many2one("res.company", string="Company")
     company_key = fields.Char(string="Company Id")
     enterprise_id = fields.Char(string="Enterprise Id")
     user_id = fields.Char(string="User Id")
