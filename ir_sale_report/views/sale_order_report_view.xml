@@ -14,10 +14,10 @@
                 <field name="style_no"/>
                 <field name="product_id"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
-                <field name="pd_img1" widget="image"/>
+                <field name="pd_img1" widget="image" decoration-danger="pd_img1 == False"/>
                 <field name="pd_img2" widget="image"/>
                 <field name="domain_partner_ids" column_invisible="1"/>
-                <field name="buyer_id" domain="[('id', 'in', domain_partner_ids)]"/>
+                <field name="buyer_id" decoration-danger="buyer_id == False" domain="[('id', 'in', domain_partner_ids)]"/>
                 <field name="buyer_email"/>
                 <field name="doc_url"/>
                 <field name="vno"/>
@@ -34,7 +34,7 @@
                 <field name="brand_name"/>
                 <field name="partner_manager_id"/>
                 <field name="mrp" sum="MRP"/>
-                <field name="po_mrp" sum="PO MRP"/>
+                <field name="po_mrp" sum="PO MRP" decoration-danger="po_mrp != mrp"/>
                 <field name="color"/>
                 <field name="po_color"/>
                 <field name="order_qty" sum="Order Qty"/>
@@ -47,10 +47,11 @@
                 <field name="po_no"/>
                 <field name="article_po_status"/>
                 <field name="pps_nd_date"/>
-                <field name="pps_expire_date"/>
+                <field name="date_red" column_invisible="1"/>
+                <field name="pps_expire_date" decoration-danger="date_red == True"/>
                 <field name="stamp_lot_sample"/>
                 <field name="lab_test_no"/>
-                <field name="lab_expire_date"/>
+                <field name="lab_expire_date" decoration-danger="date_red == True"/>
                 <field name="pps_lot_lab_status"/>
                 <field name="lab_company"/>
                 <field name="tafta_content"/>
@@ -68,9 +69,11 @@
                 <field name="contractor_name"/>
                 <field name="status"/>
                 <field name="remark"/>
-                <field name="delivery_date"/>
+                <field name="delivery_date_date_red" column_invisible="1"/>
+                <field name="delivery_date" decoration-danger="delivery_date_date_red == True"/>
                 <field name="qc_report_no"/>
-                <field name="qc_report_date"/>
+                <field name="qc_report_date_date_red" column_invisible="1"/>
+                <field name="qc_report_date" decoration-danger="qc_report_date_date_red == True"/>
                 <field name="size"/>
                 <field name="ratio"/>
                 <field name="washer"/>

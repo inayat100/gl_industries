@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 
 class SaleOrderReport(models.Model):
@@ -15,8 +15,8 @@ class SaleOrderReport(models.Model):
     sl_no = fields.Char(string="S.NO", tracking=True)
     style_no = fields.Char(string="STYLE NO", tracking=True)
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
-    pd_img1 = fields.Binary(string="Product Image", tracking=True)
-    pd_img2 = fields.Binary(string="Back Image", tracking=True)
+    pd_img1 = fields.Binary(string="Product Image")
+    pd_img2 = fields.Binary(string="Back Image")
     buyer_id = fields.Many2one("res.partner", string="Buyer", tracking=True)
     buyer_email = fields.Char(string="Buyer Email")
     doc_url = fields.Char(string="Doc Url")
@@ -95,10 +95,49 @@ class SaleOrderReport(models.Model):
     domain_product_cat_ids = fields.Many2many("product.category", compute="_compute_domain_partner_ids")
     company_id = fields.Many2one("res.company", string="Company")
     active = fields.Boolean(string="Active", default=True)
+    date_red = fields.Boolean(string="Date Red", compute="_compute_date_red")
+    delivery_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
+    qc_report_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
+
+    def _compute_date_red(self):
+        for res in self:
+            if res.pps_expire_date:
+                if res.pps_expire_date <= date.today() - timedelta(days=15):
+                    res.date_red = True
+                else:
+                    res.date_red = False
+            else:
+                res.date_red = False
+
+            if res.delivery_date:
+                if res.delivery_date <= date.today() - timedelta(days=1):
+                    res.delivery_date_date_red = True
+                else:
+                    res.delivery_date_date_red = False
+            else:
+                res.delivery_date_date_red = False
+
+            if res.qc_report_date:
+                if res.qc_report_date <= date.today() - timedelta(days=25):
+                    res.qc_report_date_date_red = True
+                else:
+                    res.qc_report_date_date_red = False
+            else:
+                res.qc_report_date_date_red = False
+
 
     @api.onchange('buyer_id')
     def _onchange_field_data(self):
         self.buyer_email = self.buyer_id.email
+        # print("self.product_id.image_1920", self.product_id.image_1920)
+        # self.pd_img1 = self.product_id.image_1920
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        if self.product_id:
+            self.pd_img1 = self.product_id.image_1920
+        else:
+            self.pd_img1 = False
 
     def _compute_domain_partner_ids(self):
         report_id = self.env['api.report.configration'].search([('user_id', '=', self.env.user.id)], limit=1)
