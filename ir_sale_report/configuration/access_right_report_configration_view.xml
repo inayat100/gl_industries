@@ -23,6 +23,9 @@
                             <field name="disable_create"/>
                         </group>
                         <group>
+                            <field name="disable_edit"/>
+                        </group>
+                        <group>
                             <field name="disable_delete"/>
                         </group>
                     </group>
@@ -61,7 +64,7 @@
     </record>
 
     <!-- MENU -->
-    <menuitem id="menu_api_report_root" name="Report Access Right" sequence="10"/>
+    <menuitem id="menu_api_report_root" name="Report Access Right" groups="ir_sale_report.group_report_access_right" sequence="10"/>
     <menuitem id="menu_api_report_config" name="Configurations" parent="menu_api_report_root" sequence="20"/>
     <menuitem id="menu_api_report_config_action" name="Field Config" parent="menu_api_report_config" action="action_api_report_config" sequence="30"/>
 

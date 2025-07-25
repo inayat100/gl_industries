@@ -179,6 +179,10 @@ class SaleOrderReport(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
+            if report_id.disable_edit:
+                test_list.append(True)
+            else:
+                test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,
@@ -202,6 +206,9 @@ class SaleOrderReport(models.Model):
             if report_id.disable_delete:
                 for node in arch.xpath("//form"):
                     node.set("delete", "0")
+            if report_id.disable_edit:
+                for node in arch.xpath("//form"):
+                    node.set("edit", "0")
         return arch, view
 
     def _cron_fetch_report(self):

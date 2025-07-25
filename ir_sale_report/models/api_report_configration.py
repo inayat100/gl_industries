@@ -22,6 +22,7 @@ class ApiReportConfigration(models.Model):
     report_type = fields.Selection(report_type_list, string="Report Type", required=True)
     line_ids = fields.One2many("api.report.configration.line", "report_id", string="Lines")
     disable_create = fields.Boolean(string="Disable Create")
+    disable_edit = fields.Boolean(string="Disable Edit")
     disable_delete = fields.Boolean(string="Disable Delete")
 
     @api.onchange('report_type')

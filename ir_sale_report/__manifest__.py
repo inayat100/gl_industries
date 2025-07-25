@@ -12,6 +12,7 @@
     ],
     "data": [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'data/cron.xml',
         'configuration/account_move_configration.xml',
         'configuration/access_right_report_configration_view.xml',
