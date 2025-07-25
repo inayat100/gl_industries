@@ -214,7 +214,7 @@ class ProductTemplate(models.Model):
                         if fit_measurement_id:
                             val['fit_measurement_id'] = fit_measurement_id.id
                         else:
-                            fit_measurement_id = self.env['brand.master'].create([{'name': data.get('category_name')}])
+                            fit_measurement_id = self.env['fit.measurement'].create([{'name': data.get('category_name')}])
                             val['fit_measurement_id'] = fit_measurement_id.id
                     if data.get('type'):
                         product_design_type_id = self.env['product.design.type'].search([('name', '=', data.get('type'))], limit=1)
@@ -223,17 +223,25 @@ class ProductTemplate(models.Model):
                         else:
                             product_design_type_id = self.env['product.design.type'].create([{'name': data.get('type')}])
                             val['product_design_type_id'] = product_design_type_id.id
+                    if data.get('type') and data.get('type') == 'FinishProduct':
+                        mto_id = self.env.ref("stock.route_warehouse0_mto")
+                        mrp_id = self.env.ref("mrp.route_warehouse0_manufacture")
+                        val['route_ids'] = [mrp_id.id, mto_id.id]
+                    else:
+                        buy_id = self.env.ref("purchase_stock.route_warehouse0_buy")
+                        val['route_ids'] = [buy_id.id]
                     try:
                         exist_product_id = self.env['product.template'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                        if exist_product_id.id == 128:
+                            print("@@@@@@@@@@@@@@@@@@@@@@", val)
                         if exist_product_id:
                             exist_product_id.write(val)
                         else:
-                            product_ids = self.env['product.template'].create(val)
+                            product_ids = self.env['product.template'].create([val])
                     except Exception as e:
                         error_product.append(data.get('name'))
-                        print("data===", data)
+                        print("data===", val)
                         print("===", e)
-                        break
                 # print("Errors product", len(error_product))
                 # print("Error Product List", error_product)
 
