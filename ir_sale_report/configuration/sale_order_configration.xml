@@ -52,10 +52,11 @@
         </field>
     </record>
 
-    <menuitem id="menu_sale_order_config_root" name="Configration" sequence="10" parent="sale.menu_sale_config"/>
+    <menuitem id="menu_sale_order_config_root" groups="ir_sale_report.group_report_access_right" name="Configration" sequence="10" parent="sale.menu_sale_config"/>
     
     <menuitem id="menu_sale_order_config" name="Sale Order API Configurations"
               parent="menu_sale_order_config_root"
+              groups="ir_sale_report.group_report_access_right"
               action="action_sale_order_configration"
               sequence="20"/>
 

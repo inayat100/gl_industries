@@ -55,10 +55,11 @@
         </field>
     </record>
 
-    <menuitem id="menu_account_move_config_root" name="Configration" sequence="10" parent="account.menu_finance_configuration"/>
+    <menuitem id="menu_account_move_config_root" groups="ir_sale_report.group_report_access_right" name="Configration" sequence="10" parent="account.menu_finance_configuration"/>
 
     <menuitem id="menu_account_move_report_config" name="Invoice/Bill API Configurations"
               parent="menu_account_move_config_root"
+              groups="ir_sale_report.group_report_access_right"
               action="action_account_move_configration"
               sequence="20"/>
 
