@@ -13,7 +13,7 @@ class SaleOrderReport(models.Model):
     is_favorite = fields.Boolean(string="Favorite")
     voucher_id = fields.Char(string="Voucher Id")
     sl_no = fields.Char(string="S.NO", tracking=True)
-    style_no = fields.Char(string="STYLE NO", tracking=True)
+    style_no = fields.Char(string="PO PDF", tracking=True)
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
     pd_img1 = fields.Binary(string="Product Image")
     pd_img2 = fields.Binary(string="Back Image")
@@ -24,19 +24,19 @@ class SaleOrderReport(models.Model):
     vno = fields.Char(string="V NO", tracking=True)
     vdate = fields.Date(string="V Date", tracking=True)
     design_no = fields.Char(string="Design NO", tracking=True)
-    party = fields.Char(string="Party", tracking=True)
-    mc = fields.Char(string="MC", tracking=True)
+    party_id = fields.Many2one("res.partner", string="Party", tracking=True)
     product_cat_id = fields.Many2one("product.category", string="MC", tracking=True)
     garment_average = fields.Char(string="Garment Averages")
     febric_product_id = fields.Many2one("product.product", string="FEBRIC SORT NO")
     fit = fields.Char(string="FIT", tracking=True)
     style = fields.Char(string="Style", tracking=True)
     po_description = fields.Char(string="PO Description", tracking=True)
-    brand_name = fields.Char(string="Brand Name", tracking=True)
+    brand_id = fields.Many2one("brand.master", string="Brand Name", tracking=True)
     mrp = fields.Float(string="MRP", tracking=True)
     po_mrp = fields.Float(string="PO MRP", tracking=True)
     color = fields.Char(string="Color", tracking=True)
-    po_color = fields.Char(string="PO Color", tracking=True)
+    color_id = fields.Many2one("color.master", string="Color", tracking=True)
+    po_color_id = fields.Many2one("color.master", string="PO Color", tracking=True)
     order_qty = fields.Float(string="Order Qty", tracking=True)
     stock_qty = fields.Float(string="Stock Qty", tracking=True)
     production_qty = fields.Float(string="Production Qty", tracking=True)
@@ -66,7 +66,7 @@ class SaleOrderReport(models.Model):
     season = fields.Char(string="Season", tracking=True)
     po_season = fields.Char(string="PO Season", tracking=True)
     vendor_code = fields.Char(string="Vendor Code", tracking=True)
-    contractor_name = fields.Char(string="Contractor Name", tracking=True)
+    vendor_id = fields.Many2one("res.partner", string="Contractor Name",  tracking=True)
     status = fields.Char(string="Status", tracking=True)
     remark = fields.Char(string="Remark", tracking=True)
     delivery_date = fields.Date(string="Delivery Date", tracking=True)
@@ -96,21 +96,30 @@ class SaleOrderReport(models.Model):
     company_id = fields.Many2one("res.company", string="Company")
     active = fields.Boolean(string="Active", default=True)
     date_red = fields.Boolean(string="Date Red", compute="_compute_date_red")
+    lab_date_red = fields.Boolean(string="Lab Date Red", compute="_compute_date_red")
     delivery_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
     qc_report_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
 
     def _compute_date_red(self):
         for res in self:
             if res.pps_expire_date:
-                if res.pps_expire_date <= date.today() - timedelta(days=15):
+                if res.pps_expire_date <= date.today() + timedelta(days=15):
                     res.date_red = True
                 else:
                     res.date_red = False
             else:
                 res.date_red = False
 
+            if res.lab_expire_date:
+                if res.lab_expire_date <= date.today() + timedelta(days=15):
+                    res.lab_date_red = True
+                else:
+                    res.lab_date_red = False
+            else:
+                res.lab_date_red = False
+
             if res.delivery_date:
-                if res.delivery_date <= date.today() - timedelta(days=1):
+                if res.delivery_date <= date.today() + timedelta(days=1):
                     res.delivery_date_date_red = True
                 else:
                     res.delivery_date_date_red = False
@@ -142,8 +151,8 @@ class SaleOrderReport(models.Model):
     def _compute_domain_partner_ids(self):
         report_id = self.env['api.report.configration'].search([('user_id', '=', self.env.user.id)], limit=1)
         for res in self:
-            res.domain_partner_ids = report_id.partner_ids.ids
-            res.domain_product_cat_ids = report_id.product_cat_ids.ids
+            res.domain_partner_ids = []
+            res.domain_product_cat_ids = []
 
     def action_open_form_view(self):
         self.ensure_one()
@@ -171,18 +180,18 @@ class SaleOrderReport(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
-            if report_id.disable_create:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_delete:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_edit:
-                test_list.append(True)
-            else:
-                test_list.append(False)
+        if report_id.disable_create:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_delete:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_edit:
+            test_list.append(True)
+        else:
+            test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,
@@ -254,10 +263,8 @@ class SaleOrderReport(models.Model):
                         'vno': data.get('Vno'),
                         'vdate': data.get('vdate'),
                         'design_no': data.get('item_code'),
-                        'party': data.get('Party'),
                         'fit': data.get('item_category_name'),
                         'style': data.get('item_master_attribute4_name'),
-                        'brand_name': data.get('brand_name'),
                         'mrp': data.get('item_master_mrp'),
                         'color': data.get('item_master_attribute1_name'),
                         'order_qty': data.get('Qty'),
@@ -294,6 +301,32 @@ class SaleOrderReport(models.Model):
                             cat_id = self.env['product.category'].search([('name', '=', data.get('group_name'))])
                             if cat_id:
                                 val['product_cat_id'] = cat_id.id
+                    if data.get('Party'):
+                        partner_id = self.env['res.partner'].search([('name', '=', data.get('Party'))], limit=1)
+                        if partner_id:
+                            val['party_id'] = partner_id.id
+                        else:
+                            partner_id = self.env['res.partner'].create([{
+                                'name': data.get('Party')
+                            }])
+                    if data.get('brand_name'):
+                        brand_id = self.env['brand.master'].search([('name', '=', data.get('brand_name'))], limit=1)
+                        if brand_id:
+                            val['brand_id'] = brand_id.id
+                        else:
+                            brand_id = self.env['brand.master'].create([{
+                                'name': data.get('brand_name')
+                            }])
+                            val['brand_id'] = brand_id.id
+                    if data.get('item_master_attribute1_name'):
+                        color_id = self.env[''].search([('name', '=', data.get('item_master_attribute1_name'))], limit=1)
+                        if color_id:
+                            val['color_id'] = color_id.id
+                        else:
+                            color_id = self.env[''].create([{
+                                'name': data.get('item_master_attribute1_name')
+                            }])
+                            val['color_id'] = color_id.id
                     try:
                         exist_id = self.env['sale.order.report'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
                         print("exist_id==", exist_id)
@@ -321,7 +354,7 @@ class SaleOrderReportConfigration(models.Model):
     server_url = fields.Char(string="Server Url")
     user_name = fields.Char(string="Username")
     api_key = fields.Char(string="Api Key")
-    company_id = fields.Char(string="Company")
+    company_id = fields.Many2one("res.company", string="Company")
     company_key = fields.Char(string="Company Id")
     enterprise_id = fields.Char(string="Enterprise Id")
     user_id = fields.Char(string="User Id")

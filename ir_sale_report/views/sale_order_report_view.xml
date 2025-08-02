@@ -10,48 +10,49 @@
                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
-               <field name="sl_no"/>
-                <field name="style_no"/>
                 <field name="product_id"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
                 <field name="pd_img1" widget="image" decoration-danger="pd_img1 == False"/>
                 <field name="pd_img2" widget="image"/>
                 <field name="domain_partner_ids" column_invisible="1"/>
-                <field name="buyer_id" decoration-danger="buyer_id == False" domain="[('id', 'in', domain_partner_ids)]"/>
+                <field name="buyer_id" decoration-danger="buyer_id == False" />
+                <field name="partner_manager_id"/>
                 <field name="buyer_email"/>
                 <field name="doc_url"/>
                 <field name="vno"/>
                 <field name="vdate"/>
                 <field name="design_no"/>
-                <field name="party"/>
+                <field name="party_id"/>
                 <field name="domain_product_cat_ids" column_invisible="1" widget="many2many_tags"/>
-                <field name="product_cat_id" domain="[('id', 'in', domain_product_cat_ids)]" />
+                <field name="product_cat_id" />
                 <field name="garment_average"/>
                 <field name="febric_product_id"/>
                 <field name="fit"/>
                 <field name="style"/>
                 <field name="po_description"/>
-                <field name="brand_name"/>
-                <field name="partner_manager_id"/>
+                <field name="style_no"/>
+                <field name="brand_id"/>
+                 <field name="sl_no"/>
                 <field name="mrp" sum="MRP"/>
                 <field name="po_mrp" sum="PO MRP" decoration-danger="po_mrp != mrp"/>
-                <field name="color"/>
-                <field name="po_color"/>
+                <field name="color_id"/>
+                <field name="po_color_id" decoration-danger="po_color_id != color_id"/>
                 <field name="order_qty" sum="Order Qty"/>
                 <field name="stock_qty" sum="Stock Qty"/>
                 <field name="production_qty" sum="P Qty"/>
                 <field name="po_qty" sum="PO QTY"/>
                 <field name="po_qty_approval"/>
                 <field name="article_no"/>
-                <field name="po_article"/>
+                <field name="po_article" decoration-danger="po_article != article_no"/>
                 <field name="po_no"/>
                 <field name="article_po_status"/>
                 <field name="pps_nd_date"/>
                 <field name="date_red" column_invisible="1"/>
+                <field name="lab_date_red" column_invisible="1"/>
                 <field name="pps_expire_date" decoration-danger="date_red == True"/>
                 <field name="stamp_lot_sample"/>
                 <field name="lab_test_no"/>
-                <field name="lab_expire_date" decoration-danger="date_red == True"/>
+                <field name="lab_expire_date" decoration-danger="lab_date_red == True"/>
                 <field name="pps_lot_lab_status"/>
                 <field name="lab_company"/>
                 <field name="tafta_content"/>
@@ -64,9 +65,9 @@
                 <field name="sale_rate" sum="Sale Rate"/>
                 <field name="po_rate" sum="PO Rate"/>
                 <field name="season"/>
-                <field name="po_season"/>
+                <field name="po_season" decoration-danger="po_season != season"/>
                 <field name="vendor_code"/>
-                <field name="contractor_name"/>
+                <field name="vendor_id"/>
                 <field name="status"/>
                 <field name="remark"/>
                 <field name="delivery_date_date_red" column_invisible="1"/>
@@ -102,85 +103,102 @@
         <field name="model">sale.order.report</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
-                    <group>
-                        <!-- LEFT COLUMN -->
-                        <group>
-                            <field name="pd_img1" widget="image" options="{'preview_image': 'avatar_128'}" class="ms-1" alt="Avatar"/>
-                            <field name="sl_no"/>
-                            <field name="style_no"/>
-                            <field name="product_id"/>
-                            <field name="buyer_id"/>
-                            <field name="vno"/>
-                            <field name="design_no"/>
-                            <field name="style"/>
-                            <field name="brand_name"/>
-                            <field name="doc_url"/>
-                            <field name="partner_manager_id"/>
-                            <field name="po_mrp"/>
-                            <field name="po_color"/>
-                            <field name="production_qty"/>
-                            <field name="po_article"/>
-                            <field name="article_po_status"/>
-                            <field name="pps_expire_date"/>
-                            <field name="lab_test_no"/>
-                            <field name="pps_lot_lab_status"/>
-                            <field name="lab_article_no"/>
-                            <field name="po_content_n_weight"/>
-                            <field name="mrp_rate"/>
-                            <field name="sale_rate"/>
-                            <field name="po_rate"/>
-                            <field name="po_season"/>
-                            <field name="contractor_name"/>
-                            <field name="delivery_date"/>
-                            <field name="ratio"/>
-                            <field name="washing"/>
-                            <field name="trims_2"/>
-                            <field name="col_2"/>
-                            <field name="col_4"/>
-                            <field name="col_6"/>
-                            <field name="col_8"/>
-                            <field name="col_10"/>
-                            <field name="col_12"/>
-                        </group>
-
-                        <!-- RIGHT COLUMN -->
-                        <group>
-                            <field name="pd_img2" widget="image" options="{'preview_image': 'avatar_128'}" class="ms-1" alt="Avatar"/>
-                            <field name="vdate"/>
-                            <field name="party"/>
-                            <field name="fit"/>
-                            <field name="po_description"/>
-                            <field name="mrp"/>
-                            <field name="color"/>
-                            <field name="order_qty"/>
-                            <field name="po_qty"/>
-                            <field name="article_no"/>
-                            <field name="po_no"/>
-                            <field name="pps_nd_date"/>
-                            <field name="stamp_lot_sample"/>
-                            <field name="lab_expire_date"/>
-                            <field name="lab_company"/>
-                            <field name="lab_content_n_weight"/>
-                            <field name="content_weight_status"/>
-                            <field name="rate"/>
-                            <field name="season"/>
-                            <field name="vendor_code"/>
-                            <field name="status"/>
-                            <field name="remark"/>
-                            <field name="size"/>
-                            <field name="washer"/>
-                            <field name="trims_1"/>
-                            <field name="trims_3"/>
-                            <field name="col_1"/>
-                            <field name="col_3"/>
-                            <field name="col_5"/>
-                            <field name="col_7"/>
-                            <field name="col_9"/>
-                            <field name="col_11"/>
-                        </group>
+                 <sheet>
+                <group>
+                    <group> <!-- LEFT COLUMN -->
+                        <field name="is_favorite"/>
+                        <field name="voucher_id"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                        <field name="sl_no"/>
+                        <field name="style_no"/>
+                        <field name="product_id"/>
+                        <field name="pd_img1" widget="image"/>
+                        <field name="pd_img2" widget="image"/>
+                        <field name="buyer_id"/>
+                        <field name="buyer_email"/>
+                        <field name="doc_url"/>
+                        <field name="partner_manager_id"/>
+                        <field name="vno"/>
+                        <field name="vdate"/>
+                        <field name="design_no"/>
+                        <field name="party_id"/>
+                        <field name="product_cat_id"/>
+                        <field name="brand_id"/>
+                        <field name="color_id"/>
+                        <field name="po_color_id"/>
+                        <field name="order_qty"/>
+                        <field name="stock_qty"/>
+                        <field name="production_qty"/>
+                        <field name="po_qty"/>
+                        <field name="po_qty_approval"/>
+                        <field name="po_no"/>
+                        <field name="po_article"/>
+                        <field name="po_description"/>
+                        <field name="po_season"/>
+                        <field name="po_mrp"/>
+                        <field name="po_rate"/>
+                        <field name="po_content_n_weight"/>
+                        <field name="febric_product_id"/>
+                        <field name="fit"/>
+                        <field name="style"/>
+                        <field name="vendor_code"/>
+                        <field name="vendor_id"/>
+                        <field name="col_1"/>
+                        <field name="col_2"/>
+                        <field name="col_3"/>
+                        <field name="col_4"/>
+                        <field name="col_5"/>
+                        <field name="col_6"/>
+                        <field name="col_7"/>
+                        <field name="col_8"/>
                     </group>
-                </sheet>
+
+                    <group> <!-- RIGHT COLUMN -->
+                        <field name="mrp"/>
+                        <field name="rate"/>
+                        <field name="sale_rate"/>
+                        <field name="mrp_rate"/>
+                        <field name="season"/>
+                        <field name="article_no"/>
+                        <field name="system_po_no"/>
+                        <field name="article_po_status"/>
+                        <field name="pps_nd_date"/>
+                        <field name="pps_expire_date"/>
+                        <field name="stamp_lot_sample"/>
+                        <field name="lab_test_no"/>
+                        <field name="lab_expire_date"/>
+                        <field name="lab_company"/>
+                        <field name="lab_article_no"/>
+                        <field name="lab_content_n_weight"/>
+                        <field name="content_weight_status"/>
+                        <field name="pps_lot_lab_status"/>
+                        <field name="tafta_content"/>
+                        <field name="status"/>
+                        <field name="remark"/>
+                        <field name="delivery_date"/>
+                        <field name="qc_report_no"/>
+                        <field name="qc_report_date"/>
+                        <field name="size"/>
+                        <field name="ratio"/>
+                        <field name="washer"/>
+                        <field name="washing"/>
+                        <field name="trims_1"/>
+                        <field name="trims_2"/>
+                        <field name="trims_3"/>
+                        <field name="col_9"/>
+                        <field name="col_10"/>
+                        <field name="col_11"/>
+                        <field name="col_12"/>
+                        <field name="domain_partner_ids" widget="many2many_tags"/>
+                        <field name="domain_product_cat_ids" widget="many2many_tags"/>
+                        <field name="date_red"/>
+                        <field name="lab_date_red"/>
+                        <field name="delivery_date_date_red"/>
+                        <field name="qc_report_date_date_red"/>
+                    </group>
+                </group>
+            </sheet>
                 <chatter/>
             </form>
         </field>
@@ -225,11 +243,11 @@
                 <field name="delivery_date"/>
 
                 <!-- Filters -->
-                <filter name="filter_has_po" string="Has PO Number" domain="[('po_no','!=',False)]"/>
-                <filter name="filter_has_article" string="Has Article No" domain="[('article_no','!=',False)]"/>
+                <filter name="filter_has_po" string="Has PO Number" domain="[('po_no', '!=', False)]"/>
+                <filter name="filter_has_article" string="Has Article No" domain="[('article_no', '!=', False)]"/>
                 <filter name="filter_recent_orders" string="Recent Orders"
                         domain="[('vdate','>=',(context_today()-relativedelta(months=3)).strftime('%%Y-%%m-%%d'))]"/>
-                <filter name="filter_status_done" string="Status: Done" domain="[('status','=','done')]"/>
+                <filter name="filter_status_done" string="Status: Done" domain="[('status', '=', 'done')]"/>
 
                 <!-- Group by -->
                 <group expand="0" string="Group By">

@@ -125,7 +125,7 @@ class ProductTemplate(models.Model):
                         'description_purchase': data.get('purchase_description') or '',
                         'purchase_rate': data.get('purchase_rate') or 0.0,
                         'inventory_ledger_name': data.get('inventory_ledger_name') or '',
-                        'batch_wise_inventory': data.get('batch_wise_inventory') or '',
+                        'batch_wise_inventory': data.get('batch_wise_inventory') or False,
                         'lab_comp': data.get('udf1') or '',
                         'pps_width': data.get('udf2') or '',
                         'stamp_width': data.get('udf3') or '',
@@ -144,7 +144,8 @@ class ProductTemplate(models.Model):
                     else:
                         val['type'] = 'consu'
                         val['is_storable'] = True
-                        val['tracking'] = 'none'
+                        if data.get('batch_wise_inventory'):
+                            val['tracking'] = 'lot'
                     if data.get('group_name'):
                         category_id = self.env['product.category'].search([('name', '=', data.get('group_name'))], limit=1)
                         if category_id:
@@ -260,18 +261,18 @@ class ProductTemplate(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
-            if report_id.disable_create:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_delete:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_edit:
-                test_list.append(True)
-            else:
-                test_list.append(False)
+        if report_id.disable_create:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_delete:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_edit:
+            test_list.append(True)
+        else:
+            test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,

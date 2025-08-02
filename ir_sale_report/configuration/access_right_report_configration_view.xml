@@ -13,9 +13,12 @@
                     <group>
                         <field name="name"/>
                         <field name="user_id"/>
-                        <field name="partner_ids" widget="many2many_tags"/>
-                        <field name="product_cat_ids" widget="many2many_tags"/>
-                        <field name="report_type"/>
+                        <field name="report_type" required="1"/>
+                        <field name="customer_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="vendor_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="user_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="brand_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="product_cat_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
                         <field name="report_id" invisible="1"/>
                     </group>
                     <group>
@@ -33,7 +36,7 @@
                         <page string="Fields Configuration">
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="field_id" domain="[('model_id', '=', parent.report_id)]"/>
+                                    <field name="field_id" options='{"no_open": True, "no_create": True}' domain="[('model_id', '=', parent.report_id)]"/>
                                     <field name="is_readonly"/>
                                     <field name="is_invisible"/>
                                 </list>

@@ -19,6 +19,17 @@
             <field name="invoice_vendor_bill_id" position="after">
                <field name="voucher_number" readonly="1"/>
             </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Lock Log">
+                    <group>
+                        <field name="invoice_origin" readonly="1"/>
+                        <field name="is_locked_bill" readonly="1"/>
+                        <field name="is_locked_error" readonly="1"/>
+                        <field name="bill_lock_status" readonly="1"/>
+                        <field name="error_log" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 

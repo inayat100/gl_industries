@@ -3,91 +3,105 @@ from odoo import fields, models, api
 
 class SamplePlaning(models.Model):
     _name = "sample.planing"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     is_favorite = fields.Boolean(string="Favorite")
-    product_id = fields.Many2one("product.product", string="Product")
-    buyer_id = fields.Many2one("res.partner", string="Party")
-    product_cat_id = fields.Many2one("product.category", string="MC")
-    mrp = fields.Float(string="Mrp")
-    spec = fields.Char(string="SPEC")
-    fabric = fields.Char(string="Fabric")
-    fabric_supplier_id = fields.Many2one("res.partner", string="Fabric Supplier")
-    washing_id = fields.Many2one("res.partner", string="Washing")
-    washing = fields.Char( string="Washing")
-    merchant_id = fields.Many2one("res.partner", string="Merchant")
-    merchant_comment = fields.Char( string="Merchant Comment")
-    merchant_1_comment = fields.Char( string="Merchant-1 Comment")
+    product_id = fields.Many2one("product.product", string="Product", tracking=True)
+    party_id = fields.Many2one("res.partner", string="Party", tracking=True)
+    product_cat_id = fields.Many2one("product.category", string="MC", tracking=True)
+    mrp = fields.Float(string="Mrp", tracking=True)
+    spec = fields.Char(string="SPEC", tracking=True)
+    fabric = fields.Char(string="Fabric", tracking=True)
+    vendor_id = fields.Many2one("res.partner", string="Fabric Supplier", tracking=True)
+    washing_id = fields.Many2one("res.partner", string="Washing", tracking=True)
+    washing = fields.Char( string="Washing", tracking=True)
+    merchant_id = fields.Many2one("res.users", string="Merchant", tracking=True)
+    merchant_comment = fields.Char( string="Merchant Comment", tracking=True)
+    merchant_1_comment = fields.Char( string="Merchant-1 Comment", tracking=True)
     image_1 = fields.Binary(string="Image")
     image_2 = fields.Binary(string="Image")
-    spc_pfd = fields.Char(string="SPCPFD")
-    tec_pack = fields.Char(string="Tec pack")
-    ref = fields.Char(string="Referance")
-    sample_qty = fields.Float(string="Sample QTY")
-    status = fields.Char(string="Status")
-    status_date = fields.Date(string="Status Date")
-    delivery_date = fields.Date(string="Delivery Date")
-    col_1 = fields.Char(string="Col-1")
-    col_2 = fields.Char(string="Col-2")
-    col_3 = fields.Char(string="Col-3")
-    col_4 = fields.Char(string="Col-4")
-    col_5 = fields.Date(string="Col-5")
-    col_6 = fields.Date(string="Col-6")
-    fabric_book_date = fields.Date(string="Fabric Book")
-    fabric_received_date = fields.Date(string="Fabric Received")
-    fabric_received_status = fields.Char(string="Status")
+    spc_pfd = fields.Char(string="SPCPFD", tracking=True)
+    tec_pack = fields.Char(string="Tec pack", tracking=True)
+    ref = fields.Char(string="Referance", tracking=True)
+    sample_qty = fields.Float(string="Sample QTY", tracking=True)
+    status = fields.Char(string="Status", tracking=True)
+    status_date = fields.Date(string="Status Date", tracking=True)
+    delivery_date = fields.Date(string="Delivery Date", tracking=True)
+    col_1 = fields.Char(string="Col-1", tracking=True)
+    col_2 = fields.Char(string="Col-2", tracking=True)
+    col_3 = fields.Char(string="Col-3", tracking=True)
+    col_4 = fields.Char(string="Col-4", tracking=True)
+    col_5 = fields.Date(string="Col-5", tracking=True)
+    col_6 = fields.Date(string="Col-6", tracking=True)
+    fabric_book_date = fields.Date(string="Fabric Book", tracking=True)
+    fabric_received_date = fields.Date(string="Fabric Received", tracking=True)
+    fabric_received_status = fields.Char(string="Status", tracking=True)
 
-    trims_book_date = fields.Date(string="Trims Book")
-    trims_received_date = fields.Date(string="Trims Received")
-    trims_received_status = fields.Char(string="Status")
+    trims_book_date = fields.Date(string="Trims Book", tracking=True)
+    trims_received_date = fields.Date(string="Trims Received", tracking=True)
+    trims_received_status = fields.Char(string="Status", tracking=True)
 
-    trims_1_book_date = fields.Date(string="Trims-1 Book")
-    trims_1_received_date = fields.Date(string="Trims-1 Received")
-    trims_1_received_status = fields.Char(string="Status")
+    trims_1_book_date = fields.Date(string="Trims-1 Book", tracking=True)
+    trims_1_received_date = fields.Date(string="Trims-1 Received", tracking=True)
+    trims_1_received_status = fields.Char(string="Status", tracking=True)
 
-    trims_2_book_date = fields.Date(string="Trims-2 Book")
-    trims_2_received_date = fields.Date(string="Trims-2 Received")
-    trims_2_received_status = fields.Char(string="Status")
+    trims_2_book_date = fields.Date(string="Trims-2 Book", tracking=True)
+    trims_2_received_date = fields.Date(string="Trims-2 Received", tracking=True)
+    trims_2_received_status = fields.Char(string="Status", tracking=True)
 
-    trims_3_book_date = fields.Date(string="Trims-3 Book")
-    trims_3_received_date = fields.Date(string="Trims-3 Received")
-    trims_3_received_status = fields.Char(string="Status")
+    trims_3_book_date = fields.Date(string="Trims-3 Book", tracking=True)
+    trims_3_received_date = fields.Date(string="Trims-3 Received", tracking=True)
+    trims_3_received_status = fields.Char(string="Status", tracking=True)
 
-    trims_4_book_date = fields.Date(string="Trims-4 Book")
-    trims_4_received_date = fields.Date(string="Trims-4 Received")
-    trims_4_received_status = fields.Char(string="Status")
+    trims_4_book_date = fields.Date(string="Trims-4 Book", tracking=True)
+    trims_4_received_date = fields.Date(string="Trims-4 Received", tracking=True)
+    trims_4_received_status = fields.Char(string="Status", tracking=True)
 
-    cutting_book_date = fields.Date(string="Cutting Book")
-    cutting_received_date = fields.Date(string="Cutting Received")
-    cutting_received_status = fields.Char(string="Status")
+    cutting_book_date = fields.Date(string="Cutting Book", tracking=True)
+    cutting_received_date = fields.Date(string="Cutting Received", tracking=True)
+    cutting_received_status = fields.Char(string="Status", tracking=True)
 
-    stitching_book_date = fields.Date(string="Stitching Book")
-    stitching_received_date = fields.Date(string="Stitching Received")
-    stitching_received_status = fields.Char(string="Status")
+    stitching_book_date = fields.Date(string="Stitching Book", tracking=True)
+    stitching_received_date = fields.Date(string="Stitching Received", tracking=True)
+    stitching_received_status = fields.Char(string="Status", tracking=True)
 
-    print_book_date = fields.Date(string="Printing Book")
-    print_received_date = fields.Date(string="Printing Received")
-    print_received_status = fields.Char(string="Status")
+    print_book_date = fields.Date(string="Printing Book", tracking=True)
+    print_received_date = fields.Date(string="Printing Received", tracking=True)
+    print_received_status = fields.Char(string="Status", tracking=True)
 
-    emb_book_date = fields.Date(string="Emb Book")
-    emb_received_date = fields.Date(string="Emb Received")
-    emb_received_status = fields.Char(string="Status")
+    emb_book_date = fields.Date(string="Emb Book", tracking=True)
+    emb_received_date = fields.Date(string="Emb Received", tracking=True)
+    emb_received_status = fields.Char(string="Status", tracking=True)
 
-    washing_book_date = fields.Date(string="Washing Book")
-    washing_received_date = fields.Date(string="Washing Received")
-    washing_received_status = fields.Char(string="Status")
+    washing_book_date = fields.Date(string="Washing Book", tracking=True)
+    washing_received_date = fields.Date(string="Washing Received", tracking=True)
+    washing_received_status = fields.Char(string="Status", tracking=True)
 
-    finishing_book_date = fields.Date(string="Finishing Book")
-    finishing_received_date = fields.Date(string="Finishing Received")
-    finishing_received_status = fields.Char(string="Status")
+    finishing_book_date = fields.Date(string="Finishing Book", tracking=True)
+    finishing_received_date = fields.Date(string="Finishing Received", tracking=True)
+    finishing_received_status = fields.Char(string="Status", tracking=True)
 
-    packing_book_date = fields.Date(string="Packing Book")
-    packing_received_date = fields.Date(string="Packing Received")
-    packing_received_status = fields.Char(string="Status")
+    packing_book_date = fields.Date(string="Packing Book", tracking=True)
+    packing_received_date = fields.Date(string="Packing Received", tracking=True)
+    packing_received_status = fields.Char(string="Status", tracking=True)
 
-    delivery_book_date = fields.Date(string="Delivery Book")
-    delivery_received_date = fields.Date(string="Delivery Received")
-    delivery_received_status = fields.Char(string="Status")
-    active = fields.Boolean(string="Active", default=True)
+    delivery_book_date = fields.Date(string="Delivery Book", tracking=True)
+    delivery_received_date = fields.Date(string="Delivery Received", tracking=True)
+    delivery_received_status = fields.Char(string="Status", tracking=True)
+    active = fields.Boolean(string="Active", default=True, tracking=True)
+
+    def action_open_form_view(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Sample Planing Reports",
+            "res_model": "sample.planing",
+            "res_id": self.id,
+            "domain": [("id", "=", self.id)],
+            "view_mode": "form",
+            "context": {'create': False, 'edit': False},
+        }
+
 
     @api.onchange('product_id')
     def _onchange_product_id_method(self):
@@ -112,18 +126,18 @@ class SamplePlaning(models.Model):
                 test_list.append(True)
             else:
                 test_list.append(False)
-            if report_id.disable_create:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_delete:
-                test_list.append(True)
-            else:
-                test_list.append(False)
-            if report_id.disable_edit:
-                test_list.append(True)
-            else:
-                test_list.append(False)
+        if report_id.disable_create:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_delete:
+            test_list.append(True)
+        else:
+            test_list.append(False)
+        if report_id.disable_edit:
+            test_list.append(True)
+        else:
+            test_list.append(False)
         test_list = tuple(test_list)
         key = key + (
             test_list,

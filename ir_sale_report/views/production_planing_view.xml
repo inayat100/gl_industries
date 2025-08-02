@@ -4,19 +4,21 @@
         <field name="model">production.planing</field>
         <field name="arch" type="xml">
             <list editable="bottom">
+                <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="date"/>
-                <field name="fabric_vendor_id"/>
                 <field name="product_id"/>
+                <field name="fabric_vendor_id"/>
                 <field name="fabric_item"/>
-                <field name="fabric_colour"/>
+                <field name="fabric_colour_id"/>
                 <field name="qty" sum="QTY"/>
                 <field name="style_no"/>
                 <field name="party_id"/>
-                <field name="mc"/>
+                <field name="product_cat_id"/>
                 <field name="status"/>
                 <field name="file_received_date"/>
-                <field name="cutting_master"/>
+                <field name="cutting_master_id"/>
                 <field name="blanket"/>
                 <field name="blanket_status"/>
                 <field name="shrinkage_sample"/>
@@ -36,7 +38,7 @@
                 <field name="col_9"/>
                 <field name="col_10"/>
 
-                <field name="fabricator_name"/>
+                <field name="vendor_id"/>
                 <field name="location"/>
                 <field name="total_machines"/>
                 <field name="heavy_machines"/>
@@ -46,9 +48,14 @@
                 <field name="no_of_qc_person"/>
                 <field name="no_of_style"/>
                 <field name="total_qty" sum="Total Qty"/>
+                <field name="qc_status"/>
                 <field name="status_by_qc"/>
                 <field name="status_date"/>
                 <field name="next_week_remark"/>
+                <field name="note_1"/>
+                <field name="note_2"/>
+                <field name="note_3"/>
+                <field name="note_4"/>
                 <field name="required_qty_vendor"/>
                 <field name="next_week_plan"/>
                 <field name="next_week_qty" sum="Next Week Qty"/>
@@ -59,7 +66,16 @@
                 <field name="sample"/>
                 <field name="labtest"/>
                 <field name="pps"/>
-
+                <field name="note_5"/>
+                <field name="note_6"/>
+                <field name="note_7"/>
+                <field name="note_8"/>
+                <field name="note_9"/>
+                <field name="note_10"/>
+                <field name="note_11"/>
+                <field name="note_12"/>
+                <field name="note_13"/>
+                <field name="note_14"/>
                 <field name="col_11"/>
                 <field name="col_12"/>
                 <field name="col_13"/>
@@ -73,26 +89,94 @@
         <field name="model">production.planing</field>
         <field name="arch" type="xml">
             <form>
+                <sheet>
                 <group>
-                    <field name="date"/>
-                    <field name="fabric_vendor_id"/>
-                    <field name="fabric_item"/>
-                    <field name="fabric_colour"/>
-                    <field name="qty"/>
-                    <field name="style_no"/>
-                    <field name="party_id"/>
-                    <field name="mc"/>
-                    <field name="cutting_start_date"/>
-                    <field name="cutting_end_date"/>
-                    <field name="status"/>
-                    <field name="remark"/>
-                    <field name="fabricator_name"/>
-                    <field name="total_machines"/>
-                    <field name="purchase_order_no"/>
-                    <field name="sample"/>
-                    <field name="labtest"/>
-                    <field name="pps"/>
+                    <group col="2">
+                        <field name="is_favorite"/>
+                        <field name="date"/>
+                        <field name="fabric_vendor_id"/>
+                        <field name="product_id"/>
+                        <field name="fabric_item"/>
+                        <field name="fabric_colour_id"/>
+                        <field name="qty"/>
+                        <field name="style_no"/>
+                        <field name="party_id"/>
+                        <field name="product_cat_id"/>
+                        <field name="status"/>
+                        <field name="file_received_date"/>
+                        <field name="cutting_master_id"/>
+                        <field name="blanket"/>
+                        <field name="blanket_status"/>
+                        <field name="shrinkage_sample"/>
+                        <field name="pattern"/>
+                        <field name="remark"/>
+                        <field name="cutting_start_date"/>
+                        <field name="cutting_end_date"/>
+                        <field name="vendor_id"/>
+                        <field name="location"/>
+                        <field name="total_machines"/>
+                        <field name="heavy_machines"/>
+                        <field name="garment_design"/>
+                        <field name="plan_date"/>
+                        <field name="no_of_person"/>
+                        <field name="no_of_qc_person"/>
+                        <field name="no_of_style"/>
+                        <field name="total_qty"/>
+                        <field name="status_by_qc"/>
+                        <field name="status_date"/>
+                        <field name="qc_status"/>
+                        <field name="next_week_remark"/>
+                        <field name="required_qty_vendor"/>
+                        <field name="next_week_plan"/>
+                        <field name="next_week_qty"/>
+                        <field name="short_no"/>
+                        <field name="fabric_qty"/>
+                        <field name="purchase_order_no"/>
+                        <field name="sample"/>
+                        <field name="labtest"/>
+                        <field name="pps"/>
+                        <field name="active"/>
+                    </group>
                 </group>
+
+                <group string="Additional Info">
+                    <group col="2">
+                        <!-- Left side: Cols -->
+                        <field name="col_1"/>
+                        <field name="col_2"/>
+                        <field name="col_3"/>
+                        <field name="col_4"/>
+                        <field name="col_5"/>
+                        <field name="col_6"/>
+                        <field name="col_7"/>
+                        <field name="col_8"/>
+                        <field name="col_9"/>
+                        <field name="col_10"/>
+                        <field name="col_11"/>
+                        <field name="col_12"/>
+                        <field name="col_13"/>
+                        <field name="col_14"/>
+                    </group>
+                    <group col="2">
+                        <!-- Right side: Notes -->
+                        <field name="note_1"/>
+                        <field name="note_2"/>
+                        <field name="note_3"/>
+                        <field name="note_4"/>
+                        <field name="note_5"/>
+                        <field name="note_6"/>
+                        <field name="note_7"/>
+                        <field name="note_8"/>
+                        <field name="note_9"/>
+                        <field name="note_10"/>
+                        <field name="note_11"/>
+                        <field name="note_12"/>
+                        <field name="note_13"/>
+                        <field name="note_14"/>
+                    </group>
+                </group>
+            </sheet>
+                <chatter/>
             </form>
         </field>
     </record>

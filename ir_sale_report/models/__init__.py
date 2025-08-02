@@ -10,3 +10,5 @@ from . import production_planing
 from . import sale_order_fabric
 from . import production
 from . import production_move_report
+from . import users
+

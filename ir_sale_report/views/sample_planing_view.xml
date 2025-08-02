@@ -5,14 +5,16 @@
         <field name="model">sample.planing</field>
         <field name="arch" type="xml">
             <list string="Sample Planning" editable="bottom">
+                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="product_id"/>
-                <field name="buyer_id"/>
+                <field name="party_id"/>
                 <field name="product_cat_id"/>
                 <field name="mrp" sum="MRP"/>
                 <field name="spec"/>
                 <field name="fabric"/>
-                <field name="fabric_supplier_id"/>
+                <field name="vendor_id"/>
                 <field name="washing_id"/>
                 <field name="washing"/>
                 <field name="merchant_id"/>
@@ -101,27 +103,34 @@
             <form string="Sample Planning">
                 <sheet>
                     <group>
-                        <field name="product_id"/>
-                        <field name="buyer_id"/>
-                        <field name="product_cat_id"/>
-                        <field name="mrp"/>
-                        <field name="spec"/>
-                        <field name="fabric"/>
-                        <field name="fabric_supplier_id"/>
-                        <field name="washing_id"/>
-                        <field name="washing"/>
-                        <field name="merchant_id"/>
-                        <field name="merchant_comment"/>
-                        <field name="merchant_1_comment"/>
-                        <field name="image_1"/>
-                        <field name="image_2"/>
-                        <field name="spc_pfd"/>
-                        <field name="tec_pack"/>
-                        <field name="ref"/>
-                        <field name="sample_qty"/>
-                        <field name="status"/>
-                        <field name="status_date"/>
-                        <field name="delivery_date"/>
+                        <group>
+                            <field name="is_favorite"/>
+                            <field name="product_id"/>
+                            <field name="party_id"/>
+                            <field name="product_cat_id"/>
+                            <field name="mrp"/>
+                            <field name="spec"/>
+                            <field name="fabric"/>
+                            <field name="vendor_id"/>
+                            <field name="washing_id"/>
+                            <field name="washing"/>
+                            <field name="merchant_id"/>
+                        </group>
+                        <group>
+                            <field name="merchant_comment"/>
+                            <field name="merchant_1_comment"/>
+                            <field name="image_1" widget="image"/>
+                            <field name="image_2" widget="image"/>
+                            <field name="spc_pfd"/>
+                            <field name="tec_pack"/>
+                            <field name="ref"/>
+                            <field name="sample_qty"/>
+                            <field name="status"/>
+                            <field name="status_date"/>
+                            <field name="delivery_date"/>
+                        </group>
+                    </group>
+                    <group string="Color Details">
                         <field name="col_1"/>
                         <field name="col_2"/>
                         <field name="col_3"/>
@@ -129,13 +138,11 @@
                         <field name="col_5"/>
                         <field name="col_6"/>
                     </group>
-
                     <group string="Fabric">
                         <field name="fabric_book_date"/>
                         <field name="fabric_received_date"/>
                         <field name="fabric_received_status"/>
                     </group>
-
                     <group string="Trims">
                         <field name="trims_book_date"/>
                         <field name="trims_received_date"/>
@@ -157,8 +164,7 @@
                         <field name="trims_4_received_date"/>
                         <field name="trims_4_received_status"/>
                     </group>
-
-                    <group string="Process">
+                    <group string="Operations">
                         <field name="cutting_book_date"/>
                         <field name="cutting_received_date"/>
                         <field name="cutting_received_status"/>
@@ -174,7 +180,8 @@
                         <field name="emb_book_date"/>
                         <field name="emb_received_date"/>
                         <field name="emb_received_status"/>
-
+                    </group>
+                    <group string="Finishing">
                         <field name="washing_book_date"/>
                         <field name="washing_received_date"/>
                         <field name="washing_received_status"/>
@@ -186,12 +193,15 @@
                         <field name="packing_book_date"/>
                         <field name="packing_received_date"/>
                         <field name="packing_received_status"/>
-
+                    </group>
+                    <group string="Delivery">
                         <field name="delivery_book_date"/>
                         <field name="delivery_received_date"/>
                         <field name="delivery_received_status"/>
                     </group>
+                    <field name="active"/>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>

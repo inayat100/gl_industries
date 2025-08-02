@@ -6,26 +6,28 @@
         <field name="model">sales.order.fabric</field>
         <field name="arch" type="xml">
             <list string="Sales Order Fabric"  sample="1" class="o_sale_order" editable="top">
+                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="sl_no"/>
                 <field name="date"/>
                 <field name="product_id"/>
                 <field name="image" widget="image" options="{'preview_image': 'image'}"/>
                 <field name="sorts_no"/>
-                <field name="fabric_colour"/>
+                <field name="fabric_colour_id"/>
                 <field name="fabric_mill"/>
-                <field name="fabric_supplier"/>
+                <field name="vendor_id"/>
                 <field name="qty" sum="Qty"/>
-                <field name="weave"/>
+                <field name="fit_measurement_id"/>
                 <field name="fabric_category_id"/>
                 <field name="content"/>
                 <field name="count"/>
                 <field name="construction"/>
                 <field name="weight"/>
                 <field name="pantone_no"/>
-                <field name="merchant_1"/>
+                <field name="merchant_id"/>
                 <field name="merchant_2"/>
-                <field name="buyer_name"/>
+                <field name="party_id"/>
                 <field name="status"/>
                 <field name="status_date"/>
                 <field name="remarks_1"/>
@@ -48,6 +50,70 @@
             </list>
         </field>
     </record>
+
+    <record id="view_sales_order_fabric_form" model="ir.ui.view">
+    <field name="name">sales.order.fabric.form</field>
+    <field name="model">sales.order.fabric</field>
+    <field name="arch" type="xml">
+        <form string="Sales Order Fabric">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="is_favorite"/>
+                        <field name="header"/>
+                        <field name="sl_no"/>
+                        <field name="date"/>
+                        <field name="product_id"/>
+                        <field name="sorts_no"/>
+                        <field name="image" widget="image"/>
+                        <field name="fabric_colour_id"/>
+                        <field name="fabric_mill"/>
+                        <field name="vendor_id"/>
+                        <field name="qty"/>
+                        <field name="hanger_fabric"/>
+                        <field name="fit_measurement_id"/>
+                        <field name="fabric_category_id"/>
+                        <field name="content"/>
+                        <field name="count"/>
+                        <field name="construction"/>
+                        <field name="weight"/>
+                        <field name="pantone_no"/>
+                        <field name="location_rack_no"/>
+                    </group>
+                    <group>
+                        <field name="merchant_id"/>
+                        <field name="merchant_2"/>
+                        <field name="party_id"/>
+                        <field name="product_cat_id"/>
+                        <field name="garment_development"/>
+                        <field name="status"/>
+                        <field name="status_date"/>
+                        <field name="remarks_1"/>
+                        <field name="remarks_2"/>
+                        <field name="remark_date"/>
+                        <field name="style_no"/>
+                        <field name="development_image" widget="image"/>
+                        <field name="col_1"/>
+                        <field name="col_2"/>
+                        <field name="col_3"/>
+                        <field name="col_4"/>
+                        <field name="col_5"/>
+                        <field name="col_6"/>
+                        <field name="col_7"/>
+                        <field name="col_8"/>
+                        <field name="col_9"/>
+                        <field name="col_10"/>
+                        <field name="col_11"/>
+                        <field name="col_12"/>
+                        <field name="active"/>
+                    </group>
+                </group>
+            </sheet>
+            <chatter/>
+        </form>
+    </field>
+</record>
+
 
     <!-- Action -->
     <record id="action_sales_report_line" model="ir.actions.act_window">
