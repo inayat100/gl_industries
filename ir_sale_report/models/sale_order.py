@@ -40,7 +40,6 @@ class SaleOrder(models.Model):
                         }
                     }
                 }
-                print("@@@@@@@@@@@@@", payload)
                 response = requests.post(url, json=payload, headers=headers)
                 json_response = response.json()
                 parsed_data = json.loads(json_response['JsonDataTable'])
@@ -72,7 +71,8 @@ class SaleOrder(models.Model):
                                 val['date_order'] = order_date
                         order_id = self.env['sale.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
                         if order_id:
-                            order_id.write(val)
+                            if order_id.state in ['draft', 'sent']:
+                                order_id.write(val)
                         else:
                             order_id = self.env['sale.order'].create([val])
                         # line data form here
@@ -92,15 +92,17 @@ class SaleOrder(models.Model):
                         price_unit = data.get('Rate')
                         line = {
                             'voucher_id': data.get('voucher_id'),
+                            'detail_id': data.get('detail_id'),
                             'product_id': product_id.id,
                             'name': product_id.name or 'Not Found Product',
                             'product_uom_qty': product_uom_qty,
                             'price_unit': price_unit,
                             'product_uom':uom_id.id
                         }
-                        exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
+                        exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
                         if exist_line:
-                            exist_line.write(line)
+                            if line.order_id.state in ['draft', 'sent']:
+                                exist_line.write(line)
                         else:
                             line['order_id'] = order_id.id
                             self.env['sale.order.line'].create(line)
@@ -136,11 +138,12 @@ class SaleOrder(models.Model):
             }])
             return partner_id
 
-    def _get_order_exist_line(self, voucher_id, product_id, product_uom_qty, price_unit):
-        line_ids = self.env['sale.order.line'].search([('voucher_id', '=', voucher_id)])
-        for res in line_ids:
-            if res.product_id.id == product_id.id and res.product_uom_qty == product_uom_qty and res.price_unit == price_unit:
-                return res
+    def _get_order_exist_line(self, voucher_id, detail_id, company_id):
+        domain = [('voucher_id', '=', voucher_id), ('detail_id', '=', detail_id)]
+        if company_id:
+            domain.append(('order_id.company_id', '=', company_id.id))
+        line_id = self.env['sale.order.line'].search(domain, limit=1)
+        if line_id:
             return False
         return False
 
@@ -209,6 +212,7 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    detail_id = fields.Char(string="Detail Id")
     voucher_id = fields.Char(string="Voucher Id")
 
 

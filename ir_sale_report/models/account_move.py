@@ -92,7 +92,8 @@ class AccountMove(models.Model):
                             val['v_date'] = invoice_date
                         move_id = self.env['account.move'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
                         if move_id:
-                            move_id.write(val)
+                            if move_id.state in ['draft']:
+                                move_id.write(val)
                         else:
                             move_id = self.env['account.move'].create([val])
                         if data.get('Item'):
@@ -112,6 +113,7 @@ class AccountMove(models.Model):
                         account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
                         line = {
                             'voucher_id': data.get('voucher_id'),
+                            'detail_id': data.get('detail_id'),
                             'product_id': product_id.id,
                             'name': product_id.name,
                             'quantity': product_uom_qty,
@@ -120,9 +122,10 @@ class AccountMove(models.Model):
                             # 'account_id': account_id.id,
                             'product_uom_id': uom_id.id
                         }
-                        exist_line = self._get_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit, configration.company_id)
+                        exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
                         if exist_line:
-                            exist_line.write(line)
+                            if exist_line.move_id.state in ['draft']:
+                                exist_line.write(line)
                         else:
                             line['move_id'] = move_id.id
                             self.env['account.move.line'].create([line])
@@ -202,7 +205,8 @@ class AccountMove(models.Model):
                         if move_id:
                             if move_id.is_locked_bill:
                                 continue
-                            move_id.write(val)
+                            if move_id.state in ['draft']:
+                                move_id.write(val)
                         else:
                             move_id = self.env['account.move'].create([val])
                         if data.get('Item'):
@@ -222,6 +226,7 @@ class AccountMove(models.Model):
                         # account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
                         line = {
                             'voucher_id': data.get('voucher_id'),
+                            'detail_id': data.get('detail_id'),
                             'product_id': product_id.id,
                             'name': product_id.name,
                             'quantity': product_uom_qty,
@@ -230,9 +235,10 @@ class AccountMove(models.Model):
                             # 'account_id': account_id.id,
                             'product_uom_id': uom_id.id
                         }
-                        exist_line = self._get_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit, configration.company_id)
+                        exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
                         if exist_line:
-                            exist_line.write(line)
+                            if exist_line.move_id.state in ['draft']:
+                                exist_line.write(line)
                         else:
                             line['move_id'] = move_id.id
                             self.env['account.move.line'].create([line])
@@ -258,12 +264,13 @@ class AccountMove(models.Model):
         except Exception:
             return False
 
-    def _get_exist_line(self, voucher_id, product_id, product_uom_qty, price_unit, company):
-        line_ids = self.env['account.move.line'].search([('move_id.company_id', '=', company.id),('voucher_id', '=', voucher_id)])
-        for res in line_ids:
-            if res.product_id.id == product_id.id and res.quantity == product_uom_qty and res.price_unit == price_unit:
-                return res
-            return False
+    def _get_exist_line(self, voucher_id, detail_id, company):
+        domain = [('detail_id', '=', detail_id),('voucher_id', '=', voucher_id)]
+        if company:
+            domain.append(('move_id.company_id', '=', company.id))
+        line_id = self.env['account.move.line'].search(domain, limit=1)
+        if line_id:
+            return line_id
         return False
 
     def action_lock_bill_po_grn(self):
@@ -319,6 +326,7 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     voucher_id = fields.Char(string="Voucher Id")
+    detail_id = fields.Char(string="Detail Id")
     batch_no = fields.Char(string="Batch No")
 
 

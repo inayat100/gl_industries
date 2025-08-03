@@ -82,7 +82,8 @@ class PurchaseOrder(models.Model):
                                 val['date_order'] = order_date
                         order_id = self.env['purchase.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
                         if order_id:
-                            order_id.write(val)
+                            if order_id.state in ['draft', 'sent', 'to approve']:
+                                order_id.write(val)
                         else:
                             order_id = self.env['purchase.order'].create([val])
                         # line data form here
@@ -102,15 +103,17 @@ class PurchaseOrder(models.Model):
                         price_unit = data.get('Rate')
                         line = {
                             'voucher_id': data.get('voucher_id'),
+                            'detail_id': data.get('detail_id'),
                             'product_id': product_id.id,
                             'name': product_id.name or 'Not Found Product',
                             'product_qty': product_uom_qty,
                             'price_unit': price_unit,
                             'product_uom':uom_id.id
                         }
-                        exist_line = self._get_order_exist_line(data.get('voucher_id'),product_id, product_uom_qty, price_unit)
+                        exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
                         if exist_line:
-                            exist_line.write(line)
+                            if exist_line.order_id.state in ['draft', 'sent', 'to approve']:
+                                exist_line.write(line)
                         else:
                             line['order_id'] = order_id.id
                             self.env['purchase.order.line'].create(line)
@@ -146,12 +149,13 @@ class PurchaseOrder(models.Model):
             }])
             return partner_id
 
-    def _get_order_exist_line(self, voucher_id, product_id, product_uom_qty, price_unit):
-        line_ids = self.env['purchase.order.line'].search([('voucher_id', '=', voucher_id)])
-        for res in line_ids:
-            if res.product_id.id == product_id.id and res.product_qty == product_uom_qty and res.price_unit == price_unit:
-                return res
-            return False
+    def _get_order_exist_line(self, voucher_id, detail_id, company_id):
+        domain = [('detail_id', '=', detail_id), ('voucher_id', '=', voucher_id)]
+        if company_id:
+            domain.append(('order_id.company_id', '=', company_id.id))
+        line_id = self.env['purchase.order.line'].search(domain, limit=1)
+        if line_id:
+            return line_id
         return False
 
     def action_validate_picking(self):
@@ -226,6 +230,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     voucher_id = fields.Char(string="Voucher Id")
+    detail_id = fields.Char(string="Detail Id")
     lot_name = fields.Char(string="Lot Name")
 
     @api.depends_context('company')
