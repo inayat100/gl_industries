@@ -47,7 +47,7 @@ class SaleOrderReport(models.Model):
     system_po_no = fields.Char(string="System PO NO")
     po_no = fields.Char(string="PO NO", tracking=True)
     article_po_status = fields.Char(string="Article PO Status", tracking=True)
-    pps_nd_date = fields.Char(string="PPS AND Date", tracking=True)
+    pps_nd_date = fields.Char(string="PPS No", tracking=True)
     pps_expire_date = fields.Date(string="PPS Expire Date", tracking=True)
     stamp_lot_sample = fields.Char(string="STAMP/ LOT SAMPLE", tracking=True)
     lab_test_no = fields.Char(string="Lab Test NO", tracking=True)
@@ -289,7 +289,7 @@ class SaleOrderReport(models.Model):
                         if cat_id:
                             val['product_cat_id'] = cat_id.id
                     if data.get('item_master_udf2'):
-                        val['pps_nd_date'] = self.parse_date_safe(data.get('item_master_udf2'))
+                        val['pps_nd_date'] = data.get('item_master_udf2')
                     if data.get('item_id'):
                         product_id = self.env['product.product'].search([('voucher_id', '=', data.get('item_id'))], limit=1)
                         if product_id:
