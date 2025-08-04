@@ -8,6 +8,7 @@ class ResUsers(models.Model):
     sample_planning_report_id = fields.Many2one("api.report.configration", string="Sample Planning Report")
     fabric_yardage_report_id = fields.Many2one("api.report.configration", string="Fabric Yardage Report")
     production_planing_report_id = fields.Many2one("api.report.configration", string="Production Planing Report")
+    component_report_report_id = fields.Many2one("api.report.configration", string="Production Planing Report")
 
     def action_custom_user_view(self):
         self.env['res.groups']._update_user_groups_view()

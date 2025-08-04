@@ -117,6 +117,10 @@ class ApiReportConfigration(models.Model):
             res.user_id.production_planing_report_id = res.id
             group_xml_id = "ir_sale_report.group_production_planing_report_access_right"
             res.user_id.refresh_user_group(group_xml_id)
+        elif res.report_type == 'component_report':
+            res.user_id.component_report_report_id = res.id
+            group_xml_id = "ir_sale_report.group_component_report_access_right"
+            res.user_id.refresh_user_group(group_xml_id)
         return res
 
     def write(self, vals):
@@ -144,6 +148,10 @@ class ApiReportConfigration(models.Model):
         elif self.report_type == 'production_planning':
             self.user_id.production_planing_report_id = self.id
             group_xml_id = "ir_sale_report.group_production_planing_report_access_right"
+            self.user_id.refresh_user_group(group_xml_id)
+        elif self.report_type == 'component_report':
+            self.user_id.component_report_report_id = self.id
+            group_xml_id = "ir_sale_report.group_component_report_access_right"
             self.user_id.refresh_user_group(group_xml_id)
         return res
 
