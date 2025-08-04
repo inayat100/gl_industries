@@ -86,7 +86,7 @@
     </record>
 
     <menuitem id="menu_production_move_report" name="Component Analysis Report"
-              parent="mrp.menu_mrp_reporting"
+              parent="ir_sale_report.menu_reporting_root"
               action="action_production_move_report_list_view"
     />
 

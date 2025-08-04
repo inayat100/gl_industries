@@ -73,7 +73,7 @@
     <menuitem
         id="menu_job_work_analysis"
         name="Job Work Analysis"
-        parent="mrp.menu_mrp_reporting"
+        parent="ir_sale_report.menu_reporting_root"
         action="action_job_work_analysis"
         sequence="5"/>
 </odoo>
