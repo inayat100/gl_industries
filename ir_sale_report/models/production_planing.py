@@ -109,7 +109,7 @@ class ProductionPlaning(models.Model):
         report_id = self.env['api.report.configration'].search(
             [('report_type', '=', 'production_planning'), ('user_id', '=', self.env.user.id)], limit=1)
         test_list = []
-        for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+        for field in report_id.line_ids.sudo().filtered(lambda l: l.is_readonly or l.is_invisible):
             if field.is_readonly:
                 test_list.append(True)
             else:
@@ -142,8 +142,8 @@ class ProductionPlaning(models.Model):
         report_id = self.env['api.report.configration'].search(
             [('report_type', '=', 'production_planning'), ('user_id', '=', self.env.user.id)], limit=1)
         if view_type == "list":
-            for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
-                for field_node in arch.xpath(f"//field[@name='{field.field_id.name}']"):
+            for field in report_id.sudo().line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
+                for field_node in arch.xpath(f"//field[@name='{field.sudo().field_id.name}']"):
                     if field.is_readonly:
                         field_node.set("readonly", "1")
                     if field.is_invisible:

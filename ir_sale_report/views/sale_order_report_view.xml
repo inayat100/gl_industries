@@ -10,32 +10,32 @@
                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
-                <field name="product_id"/>
+                <field name="product_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
                 <field name="pd_img1" widget="image" decoration-danger="pd_img1 == False"/>
                 <field name="pd_img2" widget="image"/>
                 <field name="domain_partner_ids" column_invisible="1"/>
-                <field name="buyer_id" decoration-danger="buyer_id == False" />
-                <field name="partner_manager_id"/>
+                <field name="buyer_id" options='{"no_open": True, "no_create": True}' decoration-danger="buyer_id == False" />
+                <field name="partner_manager_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="buyer_email"/>
                 <field name="doc_url"/>
                 <field name="vno"/>
                 <field name="vdate"/>
                 <field name="design_no"/>
-                <field name="party_id"/>
+                <field name="party_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="domain_product_cat_ids" column_invisible="1" widget="many2many_tags"/>
-                <field name="product_cat_id" />
+                <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="garment_average"/>
-                <field name="febric_product_id"/>
+                <field name="febric_product_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="fit"/>
                 <field name="style"/>
                 <field name="po_description"/>
-                <field name="brand_id"/>
+                <field name="brand_id" options='{"no_open": True, "no_create": True}'/>
                  <field name="sl_no"/>
                 <field name="mrp" sum="MRP"/>
                 <field name="po_mrp" sum="PO MRP" decoration-danger="po_mrp != mrp"/>
-                <field name="color_id"/>
-                <field name="po_color_id" decoration-danger="po_color_id != color_id"/>
+                <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="po_color_id" options='{"no_open": True, "no_create": True}' decoration-danger="po_color_id != color_id"/>
                 <field name="order_qty" sum="Order Qty"/>
                 <field name="stock_qty" sum="Stock Qty"/>
                 <field name="production_qty" sum="P Qty"/>
@@ -67,7 +67,7 @@
                 <field name="season"/>
                 <field name="po_season" decoration-danger="po_season != season"/>
                 <field name="vendor_code"/>
-                <field name="vendor_id"/>
+                <field name="vendor_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="trims_1"/>
                 <field name="status"/>
                 <field name="remark"/>
