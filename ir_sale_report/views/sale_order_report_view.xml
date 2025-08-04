@@ -30,7 +30,6 @@
                 <field name="fit"/>
                 <field name="style"/>
                 <field name="po_description"/>
-                <field name="style_no"/>
                 <field name="brand_id"/>
                  <field name="sl_no"/>
                 <field name="mrp" sum="MRP"/>
@@ -45,6 +44,7 @@
                 <field name="article_no"/>
                 <field name="po_article" decoration-danger="po_article != article_no"/>
                 <field name="po_no"/>
+                <field name="style_no"/>
                 <field name="article_po_status"/>
                 <field name="pps_nd_date"/>
                 <field name="date_red" column_invisible="1"/>
@@ -68,6 +68,7 @@
                 <field name="po_season" decoration-danger="po_season != season"/>
                 <field name="vendor_code"/>
                 <field name="vendor_id"/>
+                <field name="trims_1"/>
                 <field name="status"/>
                 <field name="remark"/>
                 <field name="delivery_date_date_red" column_invisible="1"/>
@@ -79,7 +80,6 @@
                 <field name="ratio"/>
                 <field name="washer"/>
                 <field name="washing"/>
-                <field name="trims_1"/>
                 <field name="trims_2"/>
                 <field name="trims_3"/>
                 <field name="col_1"/>

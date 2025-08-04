@@ -12,7 +12,7 @@ class SaleOrderReport(models.Model):
 
     is_favorite = fields.Boolean(string="Favorite")
     voucher_id = fields.Char(string="Voucher Id")
-    sl_no = fields.Char(string="S.NO", tracking=True)
+    sl_no = fields.Char(string="Proto Sample", tracking=True)
     style_no = fields.Char(string="PO PDF", tracking=True)
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
     pd_img1 = fields.Binary(string="Product Image")
