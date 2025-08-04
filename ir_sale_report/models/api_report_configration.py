@@ -103,13 +103,20 @@ class ApiReportConfigration(models.Model):
         res = super().create(vals_list)
         if res.report_type == 'sale_order':
             res.user_id.sale_order_report_id = res.id
+            group_xml_id = "ir_sale_report.group_sale_order_report_access_right"
+            res.user_id.refresh_user_group(group_xml_id)
         elif res.report_type == 'sample_planning':
             res.user_id.sample_planning_report_id = res.id
+            group_xml_id = "ir_sale_report.group_sample_planing_report_access_right"
+            res.user_id.refresh_user_group(group_xml_id)
         elif res.report_type == 'sale_fabric':
             res.user_id.fabric_yardage_report_id = res.id
+            group_xml_id = "ir_sale_report.group_sales_order_fabric_yardage_report_access_right"
+            res.user_id.refresh_user_group(group_xml_id)
         elif res.report_type == 'production_planning':
             res.user_id.production_planing_report_id = res.id
-        self.env['res.users'].browse(self.ids).invalidate_cache()
+            group_xml_id = "ir_sale_report.group_production_planing_report_access_right"
+            res.user_id.refresh_user_group(group_xml_id)
         return res
 
     def write(self, vals):
