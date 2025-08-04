@@ -5,6 +5,14 @@
             <field name="name">Custom Report Access Right</field>
         </record>
 
+        <record id="group_component_report_access_right" model="res.groups">
+            <field name="name">Component Report Access Right</field>
+        </record>
+
+        <record id="group_job_work_analysis_report_access_right" model="res.groups">
+            <field name="name">Job Work Analysis Report Access Right</field>
+        </record>
+
          <record id="group_sale_order_report_access_right" model="res.groups">
             <field name="name">Sale Order Report Access Right</field>
         </record>

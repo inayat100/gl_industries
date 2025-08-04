@@ -74,6 +74,7 @@
         id="menu_job_work_analysis"
         name="Job Work Analysis"
         parent="ir_sale_report.menu_reporting_root"
+        groups="ir_sale_report.group_job_work_analysis_report_access_right,base.group_erp_manager"
         action="action_job_work_analysis"
         sequence="5"/>
 </odoo>

@@ -87,6 +87,7 @@
 
     <menuitem id="menu_production_move_report" name="Component Analysis Report"
               parent="ir_sale_report.menu_reporting_root"
+              groups="ir_sale_report.group_component_report_access_right,base.group_erp_manager"
               action="action_production_move_report_list_view"
     />
 
