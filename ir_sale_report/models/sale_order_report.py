@@ -78,7 +78,7 @@ class SaleOrderReport(models.Model):
     washing = fields.Char(string="Washing", tracking=True)
     trims_1 = fields.Date(string="GOODS SENDING DATE", tracking=True)
     trims_2 = fields.Date(string="TAFTA MANUFACTURING MONTH", tracking=True)
-    trims_3 = fields.Char(string="Trims-3", tracking=True)
+    trims_3 = fields.Char(string="Final Comment", tracking=True)
     col_1 = fields.Char(string="Col-1", tracking=True)
     col_2 = fields.Char(string="Col-2", tracking=True)
     col_3 = fields.Char(string="Col-3", tracking=True)
