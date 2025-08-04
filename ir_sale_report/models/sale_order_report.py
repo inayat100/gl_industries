@@ -53,7 +53,7 @@ class SaleOrderReport(models.Model):
     lab_test_no = fields.Char(string="Lab Test NO", tracking=True)
     lab_expire_date = fields.Date(string="Lab Expire Date", tracking=True)
     pps_lot_lab_status = fields.Char(string="PPS/LOT/LAB STATUS", tracking=True)
-    lab_company = fields.Char(string="Lab Company", tracking=True)
+    lab_company = fields.Char(string="Lab Content", tracking=True)
     tafta_content = fields.Char(string="TAFTA CONTENT")
     lab_article_no = fields.Char(string="Lab Article NO", tracking=True)
     lab_content_n_weight = fields.Char(string="Lab Content And Weight", tracking=True)
