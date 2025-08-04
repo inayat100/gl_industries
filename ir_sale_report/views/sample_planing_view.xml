@@ -220,8 +220,10 @@
 
     <!-- Menu -->
     <menuitem id="menu_sample_planing_main_root" name="Sample Planning" parent="ir_sale_report.menu_reporting_root" sequence="10"
+              groups="ir_sale_report.group_sample_planing_report_access_right,base.group_erp_manager"
               />
 
     <menuitem id="menu_sample_planing_main" name="Sample Planning" parent="ir_sale_report.menu_sample_planing_main_root" sequence="10"
+              groups="ir_sale_report.group_sample_planing_report_access_right,base.group_erp_manager"
               action="action_sample_planing"/>
 </odoo>

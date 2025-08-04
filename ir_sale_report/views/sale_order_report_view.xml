@@ -279,11 +279,13 @@
     <menuitem id="menu_sale_order_report_root"
               name="Sale Order Reports"
               parent="ir_sale_report.menu_reporting_root"
+              groups="ir_sale_report.group_sale_order_report_access_right,base.group_erp_manager"
               sequence="10"/>
 
     <menuitem id="menu_sale_order_report"
               name="Sale Order Reports"
               parent="ir_sale_report.menu_sale_order_report_root"
+              groups="ir_sale_report.group_sale_order_report_access_right,base.group_erp_manager"
               action="action_sale_order_report"
               sequence="10"/>
 

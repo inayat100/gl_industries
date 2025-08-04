@@ -127,12 +127,14 @@
 
     <!-- Menu Item -->
     <menuitem id="menu_sales_report_line_root" name="Fabric Yardage Report"
+              groups="ir_sale_report.group_sales_order_fabric_yardage_report_access_right,base.group_erp_manager"
               parent="ir_sale_report.menu_reporting_root"
     />
 
     <menuitem id="menu_sales_report_line" name="Fabric Yardage Report"
               parent="ir_sale_report.menu_sales_report_line_root"
               action="action_sales_report_line"
+              groups="ir_sale_report.group_sales_order_fabric_yardage_report_access_right,base.group_erp_manager"
               sequence="50"
     />
 
