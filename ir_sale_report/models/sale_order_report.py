@@ -210,13 +210,13 @@ class SaleOrderReport(models.Model):
                     if field.is_invisible:
                         field_node.set("column_invisible", "1")
             if report_id.disable_create:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
             if report_id.disable_delete:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("delete", "0")
             if report_id.disable_edit:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("edit", "0")
         return arch, view
 
