@@ -5,6 +5,7 @@ class SamplePlaning(models.Model):
     _name = "sample.planing"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    date = fields.Date(string="Date")
     is_favorite = fields.Boolean(string="Favorite")
     product_id = fields.Many2one("product.product", string="Product", tracking=True)
     party_id = fields.Many2one("res.partner", string="Party", tracking=True)
