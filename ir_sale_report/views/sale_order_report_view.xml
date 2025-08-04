@@ -44,7 +44,7 @@
                 <field name="article_no"/>
                 <field name="po_article" decoration-danger="po_article != article_no"/>
                 <field name="po_no"/>
-                <field name="style_no"/>
+                <field name="style_no" decoration-danger="style_no != po_no"/>
                 <field name="article_po_status"/>
                 <field name="pps_nd_date"/>
                 <field name="date_red" column_invisible="1"/>
