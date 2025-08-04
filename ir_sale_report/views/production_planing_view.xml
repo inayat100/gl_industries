@@ -8,17 +8,17 @@
                         class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
                 <field name="date"/>
-                <field name="product_id"/>
-                <field name="fabric_vendor_id"/>
+                <field name="product_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="fabric_vendor_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="fabric_item"/>
-                <field name="fabric_colour_id"/>
+                <field name="fabric_colour_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="qty" sum="QTY"/>
                 <field name="style_no"/>
                 <field name="party_id"/>
-                <field name="product_cat_id"/>
+                <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="status"/>
                 <field name="file_received_date"/>
-                <field name="cutting_master_id"/>
+                <field name="cutting_master_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="blanket"/>
                 <field name="blanket_status"/>
                 <field name="shrinkage_sample"/>
@@ -38,7 +38,7 @@
                 <field name="col_9"/>
                 <field name="col_10"/>
 
-                <field name="vendor_id"/>
+                <field name="vendor_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="location"/>
                 <field name="total_machines"/>
                 <field name="heavy_machines"/>

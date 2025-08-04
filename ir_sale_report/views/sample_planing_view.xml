@@ -8,16 +8,16 @@
                  <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
                 <field name="is_favorite" widget="boolean_favorite" optional="show" nolabel="1"/>
-                <field name="product_id"/>
-                <field name="party_id"/>
-                <field name="product_cat_id"/>
+                <field name="product_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="party_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="mrp" sum="MRP"/>
                 <field name="spec"/>
                 <field name="fabric"/>
-                <field name="vendor_id"/>
-                <field name="washing_id"/>
+                <field name="vendor_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="washing_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="washing"/>
-                <field name="merchant_id"/>
+                <field name="merchant_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="merchant_comment"/>
                 <field name="merchant_1_comment"/>
                 <field name="image_1"/>
