@@ -169,7 +169,7 @@ class SaleOrderReport(models.Model):
     @api.model
     def _get_view_cache_key(self, view_id=None, view_type="form", **options):
         key = super()._get_view_cache_key(view_id=view_id, view_type=view_type, options=options)
-        report_id = self.env['api.report.configration'].search([('report_type', '=', 'sale_fabric'), ('user_id', '=', self.env.user.id)], limit=1)
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'sale_order'), ('user_id', '=', self.env.user.id)], limit=1)
         test_list = []
         for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
             if field.is_readonly:
@@ -201,8 +201,8 @@ class SaleOrderReport(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        if view_type == "list":
-            report_id = self.env['api.report.configration'].search([('report_type', '=', 'sale_fabric'), ('user_id', '=', self.env.user.id)], limit=1)
+        if view_type in ["list", "form"]:
+            report_id = self.env['api.report.configration'].search([('report_type', '=', 'sale_order'), ('user_id', '=', self.env.user.id)], limit=1)
             for field in report_id.line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
                 for field_node in arch.xpath(f"//field[@name='{field.field_id.name}']"):
                     if field.is_readonly:
