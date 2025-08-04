@@ -56,7 +56,7 @@
                 <field name="pps_lot_lab_status"/>
                 <field name="lab_company"/>
                 <field name="tafta_content"/>
-                <field name="lab_article_no"/>
+                <field name="lab_article_no" decoration-danger="lab_article_no != article_no"/>
                 <field name="lab_content_n_weight"/>
                 <field name="po_content_n_weight"/>
                 <field name="content_weight_status"/>
