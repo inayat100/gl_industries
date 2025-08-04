@@ -47,7 +47,7 @@ class SaleOrderReport(models.Model):
     system_po_no = fields.Char(string="System PO NO")
     po_no = fields.Char(string="PO NO", tracking=True)
     article_po_status = fields.Char(string="Article PO Status", tracking=True)
-    pps_nd_date = fields.Date(string="PPS AND Date", tracking=True)
+    pps_nd_date = fields.Char(string="PPS AND Date", tracking=True)
     pps_expire_date = fields.Date(string="PPS Expire Date", tracking=True)
     stamp_lot_sample = fields.Char(string="STAMP/ LOT SAMPLE", tracking=True)
     lab_test_no = fields.Char(string="Lab Test NO", tracking=True)
@@ -319,7 +319,7 @@ class SaleOrderReport(models.Model):
                             }])
                             val['brand_id'] = brand_id.id
                     if data.get('item_master_attribute1_name'):
-                        color_id = self.env[''].search([('name', '=', data.get('item_master_attribute1_name'))], limit=1)
+                        color_id = self.env['color.master'].search([('name', '=', data.get('item_master_attribute1_name'))], limit=1)
                         if color_id:
                             val['color_id'] = color_id.id
                         else:

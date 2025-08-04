@@ -92,14 +92,14 @@ class SaleOrder(models.Model):
                         price_unit = data.get('Rate')
                         line = {
                             'voucher_id': data.get('voucher_id'),
-                            'detail_id': data.get('detail_id'),
+                            'detail_id': data.get('item_id'),
                             'product_id': product_id.id,
                             'name': product_id.name or 'Not Found Product',
                             'product_uom_qty': product_uom_qty,
                             'price_unit': price_unit,
                             'product_uom':uom_id.id
                         }
-                        exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
+                        exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('item_id'), configration.company_id)
                         if exist_line:
                             if line.order_id.state in ['draft', 'sent']:
                                 exist_line.write(line)
