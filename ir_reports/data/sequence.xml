@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_measurementr_report" model="ir.sequence">
+            <field name="name">Measurement Report Sequence</field>
+            <field name="code">measurement.report</field>
+            <field name="prefix">M</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_pps_report" model="ir.sequence">
+            <field name="name">PPS Lab Report Sequence</field>
+            <field name="code">pps.lab</field>
+            <field name="prefix">PPS</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_quality_report" model="ir.sequence">
+            <field name="name">Quality Report Sequence</field>
+            <field name="code">quality.report</field>
+            <field name="prefix">QT</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

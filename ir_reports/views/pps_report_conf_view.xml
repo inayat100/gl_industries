@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+ <record id="view_pps_process_tree" model="ir.ui.view">
+        <field name="name">pps.process.tree</field>
+        <field name="model">pps.process</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pps_process_form" model="ir.ui.view">
+        <field name="name">pps.process.form</field>
+        <field name="model">pps.process</field>
+        <field name="arch" type="xml">
+            <form string="PPS Process">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pps_route_tree" model="ir.ui.view">
+        <field name="name">pps.route.tree</field>
+        <field name="model">pps.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pps_route_form" model="ir.ui.view">
+        <field name="name">pps.route.form</field>
+        <field name="model">pps.route</field>
+        <field name="arch" type="xml">
+            <form string="PPS Route">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Process Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="process_id"/>
+                                    <field name="col1"/>
+                                    <field name="col2"/>
+                                    <field name="col3"/>
+                                    <field name="col4"/>
+                                    <field name="remark"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pps_process" model="ir.actions.act_window">
+        <field name="name">PPS Processes</field>
+        <field name="res_model">pps.process</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_pps_route" model="ir.actions.act_window">
+        <field name="name">PPS Routes</field>
+        <field name="res_model">pps.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_pps_root_configration" name="Configration" parent="ir_reports.menu_pps_lab_root"
+              sequence="20"/>
+    <menuitem id="menu_pps_process" name="Processes" parent="ir_reports.menu_pps_root_configration"
+              action="ir_reports.action_pps_process"/>
+    <menuitem id="menu_pps_routes" name="Routes" parent="ir_reports.menu_pps_root_configration"
+              action="ir_reports.action_pps_route"/>
+
+</odoo>

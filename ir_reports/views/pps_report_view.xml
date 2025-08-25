@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_pps_lab_tree" model="ir.ui.view">
+        <field name="name">pps.lab.tree</field>
+        <field name="model">pps.lab</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="document_type"/>
+                <field name="party_id"/>
+                <field name="po_no"/>
+                <field name="article_no"/>
+                <field name="color_id"/>
+                <field name="brand_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pps_lab_form" model="ir.ui.view">
+        <field name="name">pps.lab.form</field>
+        <field name="model">pps.lab</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="document_type"/>
+                            <field name="party_id"/>
+
+                            <field name="po_no" string="PO NO" invisible="document_type != 'po_article'"/>
+                            <field name="po_no" string="PPS NO" invisible="document_type != 'pps'"/>
+                            <field name="po_no" string="Lab Test NO" invisible="document_type != 'lab_test'"/>
+                            <field name="po_no" string="Photo Sample" invisible="document_type != 'photo_sample'"/>
+                            <field name="po_no" string="FIT Sample" invisible="document_type != 'fit_sample'"/>
+
+                            <field name="new_po_no" string="New PO NO" invisible="document_type != 'po_article'"/>
+                            <field name="new_po_no" string="New PPS NO" invisible="document_type != 'pps'"/>
+                            <field name="new_po_no" string="New Lab Test NO" invisible="document_type != 'lab_test'"/>
+                            <field name="new_po_no" string="New Photo Sample" invisible="document_type != 'photo_sample'"/>
+                            <field name="new_po_no" string="New FIT Sample" invisible="document_type != 'fit_sample'"/>
+
+                            <field name="article_no" string="PO Article" invisible="document_type != 'po_article'"/>
+                            <field name="article_no" string="PPS Article" invisible="document_type != 'pps'"/>
+                            <field name="article_no" string="Lab Test Article" invisible="document_type != 'lab_test'"/>
+                            <field name="article_no" string="Photo Sample Article" invisible="document_type != 'photo_sample'"/>
+                            <field name="article_no" string="FIT Sample Article" invisible="document_type != 'fit_sample'"/>
+
+                            <field name="article_url" string="PO URL" invisible="document_type != 'po_article'"/>
+                            <field name="article_url" string="PPS URL" invisible="document_type != 'pps'"/>
+                            <field name="article_url" string="Lab Test URL" invisible="document_type != 'lab_test'"/>
+                            <field name="article_url" string="Photo Sample URL" invisible="document_type != 'photo_sample'"/>
+                            <field name="article_url" string="FIT Sample URL" invisible="document_type != 'fit_sample'"/>
+
+                            <field name="new_article_no" string="PO New Article" invisible="document_type != 'po_article'"/>
+                            <field name="new_article_no" string="PPS New Article" invisible="document_type != 'pps'"/>
+                            <field name="new_article_no" string="Lab Test New Article" invisible="document_type != 'lab_test'"/>
+                            <field name="new_article_no" string="Photo Sample New Article" invisible="document_type != 'photo_sample'"/>
+                            <field name="new_article_no" string="FIT Sample New Article" invisible="document_type != 'fit_sample'"/>
+                        </group>
+                        <group>
+                            <field name="po_url" string="PO URL" invisible="document_type != 'po_article'"/>
+                            <field name="po_url" string="PPS URL" invisible="document_type != 'pps'"/>
+                            <field name="po_url" string="Lab URL" invisible="document_type != 'lab_test'"/>
+                            <field name="po_url" string="Photo Sample URL" invisible="document_type != 'photo_sample'"/>
+                            <field name="po_url" string="FIT Sample URL" invisible="document_type != 'fit_sample'"/>
+
+                            <field name="receive_date"/>
+                            <field name="sending_date"/>
+                            <field name="color_id"/>
+                            <field name="brand_id"/>
+                            <field name="product_cat_id"/>
+                            <field name="mrp"/>
+                            <field name="season_id"/>
+                            <field name="machine_name"/>
+                            <field name="style_no"/>
+                            <field name="remark"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <group>
+                                <field name="route_id"/>
+                            </group>
+                            <field name="pps_lab_lines">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="name"/>
+                                    <field name="col1"/>
+                                    <field name="col2"/>
+                                    <field name="col3"/>
+                                    <field name="col4"/>
+                                    <field name="detail"/>
+                                    <field name="date"/>
+                                    <field name="remark1"/>
+                                    <field name="remark2"/>
+                                    <field name="remark3"/>
+                                    <field name="remark4"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pps_lab" model="ir.actions.act_window">
+        <field name="name">PPS Lab</field>
+        <field name="res_model">pps.lab</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first PPS Lab record
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pps_lab_root" name="PPS Lab" sequence="10"/>
+    <menuitem id="menu_pps_lab" name="Documents" parent="menu_pps_lab_root" action="action_pps_lab" sequence="10"/>
+
+</odoo>

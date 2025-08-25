@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_quality_report_list" model="ir.ui.view">
+        <field name="name">quality.report.list</field>
+        <field name="model">quality.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="fabricator_name_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="status"/>
+                <field name="delivery_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_quality_report_form" model="ir.ui.view">
+        <field name="name">quality.report.form</field>
+        <field name="model">quality.report</field>
+        <field name="arch" type="xml">
+            <form string="Quality Report">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="fabricator_name_id"/>
+                            <field name="location"/>
+                            <field name="product_id"/>
+                            <field name="product_cat_id"/>
+                            <field name="qty"/>
+                        </group>
+                        <group>
+                            <field name="cutting_issue_date"/>
+                            <field name="brand_id"/>
+                            <field name="cutting_remark"/>
+                            <field name="seller_sample"/>
+                            <field name="no_of_operator"/>
+                            <field name="status"/>
+                            <field name="delivery_date"/>
+                            <field name="remark"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Trims">
+                            <group>
+                                <field name="trims_route_id"/>
+                            </group>
+                            <field name="trims_lines">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="process_remark"/>
+                                    <field name="product_id"/>
+                                    <field name="receive"/>
+                                    <field name="product_cat_id"/>
+                                    <field name="remark"/>
+                                    <field name="remark1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sewing">
+                            <group>
+                                <field name="sewing_route_id"/>
+                            </group>
+                            <field name="sewing_machine_lines">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="process_remark"/>
+                                    <field name="machine_name"/>
+                                    <field name="machine_no"/>
+                                    <field name="operator_name"/>
+                                    <field name="spi"/>
+                                    <field name="roll_no"/>
+                                    <field name="remark"/>
+                                    <field name="remark1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Feed Off">
+                            <group>
+                                <field name="feed_route_id"/>
+                            </group>
+                            <field name="feed_lines">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="process_remark"/>
+                                    <field name="machine_name"/>
+                                    <field name="machine_no"/>
+                                    <field name="operator_name"/>
+                                    <field name="spi"/>
+                                    <field name="roll_no"/>
+                                    <field name="remark"/>
+                                    <field name="remark1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Construction">
+                            <group>
+                                <field name="construction_route_id"/>
+                            </group>
+                            <field name="construction_lines">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="process_remark"/>
+                                    <field name="position"/>
+                                    <field name="operator_name"/>
+                                    <field name="roll_no"/>
+                                    <field name="remark"/>
+                                    <field name="remark1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_report" model="ir.actions.act_window">
+        <field name="name">Quality Reports</field>
+        <field name="res_model">quality.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first quality report
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_quality_root" name="Quality" sequence="10"/>
+    <menuitem id="menu_quality_reports" name="Quality Reports" parent="menu_quality_root" sequence="10"/>
+    <menuitem id="menu_quality_report" name="Reports" parent="menu_quality_reports" action="action_quality_report"/>
+</odoo>

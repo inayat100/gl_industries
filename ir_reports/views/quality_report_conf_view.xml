@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_quality_process_tree" model="ir.ui.view">
+        <field name="name">quality.process.tree</field>
+        <field name="model">quality.process</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_quality_process_form" model="ir.ui.view">
+        <field name="name">quality.process.form</field>
+        <field name="model">quality.process</field>
+        <field name="arch" type="xml">
+            <form string="Quality Process">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_process" model="ir.actions.act_window">
+        <field name="name">Quality Processes</field>
+        <field name="res_model">quality.process</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <record id="view_quality_route_tree" model="ir.ui.view">
+        <field name="name">quality.route.tree</field>
+        <field name="model">quality.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_quality_route_form" model="ir.ui.view">
+        <field name="name">quality.route.form</field>
+        <field name="model">quality.route</field>
+        <field name="arch" type="xml">
+            <form string="Job Work Route">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Process Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="process_id"/>
+                                    <field name="remark"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_route" model="ir.actions.act_window">
+        <field name="name">Job Work Routes</field>
+        <field name="res_model">quality.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_quality_root_configration" name="Configration" parent="ir_reports.menu_quality_root"
+              sequence="20"/>
+    <menuitem id="menu_quality_process" name="Processes" parent="ir_reports.menu_quality_root_configration"
+              action="ir_reports.action_quality_process"/>
+    <menuitem id="menu_quality_routes" name="Routes" parent="ir_reports.menu_quality_root_configration"
+              action="ir_reports.action_quality_route"/>
+
+</odoo>

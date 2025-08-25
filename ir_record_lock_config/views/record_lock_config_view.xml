@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Action -->
+    <record id="action_record_lock_config" model="ir.actions.act_window">
+        <field name="name">Record Lock Config</field>
+        <field name="res_model">record.lock.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_record_lock_root" name="Record Lock"/>
+
+    <menuitem id="menu_record_lock_config"
+              name="Configurations"
+              parent="menu_record_lock_root"
+              action="action_record_lock_config"/>
+
+    <!-- Tree View -->
+    <record id="view_record_lock_config_tree" model="ir.ui.view">
+        <field name="name">record.lock.config.tree</field>
+        <field name="model">record.lock.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="model_name"/>
+                <field name="lock_create_before"/>
+                <field name="lock_edit_before"/>
+                <field name="lock_delete_before"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_record_lock_config_form" model="ir.ui.view">
+        <field name="name">record.lock.config.form</field>
+        <field name="model">record.lock.config</field>
+        <field name="arch" type="xml">
+            <form string="Record Lock Config">
+                <sheet>
+                    <group>
+                        <field name="model_name"/>
+                        <field name="date_field_id"
+                                   options="{'no_open': True, 'no_create': True}"/>
+                        <field name="base_on_date"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="lock_create_before_day" invisible="base_on_date != False"/>
+                            <field name="lock_edit_before_day" invisible="base_on_date != False"/>
+                            <field name="lock_delete_before_day" invisible="base_on_date != False"/>
+                        </group>
+                        <group>
+                            <field name="lock_create_after_day" invisible="base_on_date != False"/>
+                            <field name="lock_edit_after_day" invisible="base_on_date != False"/>
+                            <field name="lock_delete_after_day" invisible="base_on_date != False"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="lock_create_before" invisible="base_on_date != True"/>
+                            <field name="lock_edit_before" invisible="base_on_date != True"/>
+                            <field name="lock_delete_before" invisible="base_on_date != True"/>
+                        </group>
+                        <group>
+                            <field name="lock_create_after" invisible="base_on_date != True"/>
+                            <field name="lock_edit_after" invisible="base_on_date != True"/>
+                            <field name="lock_delete_after" invisible="base_on_date != True"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

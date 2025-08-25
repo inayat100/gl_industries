@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_measurement_process_tree" model="ir.ui.view">
+        <field name="name">measurement.process.tree</field>
+        <field name="model">measurement.process</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_measurement_process_form" model="ir.ui.view">
+        <field name="name">measurement.process.form</field>
+        <field name="model">measurement.process</field>
+        <field name="arch" type="xml">
+            <form string="Measurement Process">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_measurement_process" model="ir.actions.act_window">
+        <field name="name">Measurement Processes</field>
+        <field name="res_model">measurement.process</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <record id="view_measurement_route_tree" model="ir.ui.view">
+        <field name="name">measurement.route.tree</field>
+        <field name="model">measurement.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_measurement_route_form" model="ir.ui.view">
+        <field name="name">measurement.route.form</field>
+        <field name="model">measurement.route</field>
+        <field name="arch" type="xml">
+            <form string="Measurement Route">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Process Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="process_id"/>
+                                    <field name="tol"/>
+                                    <field name="remark"/>
+                                    <field name="size1"/>
+                                    <field name="size2"/>
+                                    <field name="size3"/>
+                                    <field name="size4"/>
+                                    <field name="size5"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_measurement_route" model="ir.actions.act_window">
+        <field name="name">Measurement Routes</field>
+        <field name="res_model">measurement.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_measurement_root_configration" name="Configration" parent="ir_reports.menu_measurement_report_root"
+              sequence="20"/>
+    <menuitem id="menu_measurement_process" name="Processes" parent="ir_reports.menu_measurement_root_configration"
+              action="ir_reports.action_measurement_process"/>
+    <menuitem id="menu_measurement_routes" name="Routes" parent="ir_reports.menu_measurement_root_configration"
+              action="ir_reports.action_measurement_route"/>
+
+</odoo>

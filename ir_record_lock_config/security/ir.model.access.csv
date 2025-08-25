@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_record_lock_config,access_record_lock_config,model_record_lock_config,,1,1,1,1
+
+
+
+
+
+
+

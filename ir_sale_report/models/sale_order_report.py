@@ -134,7 +134,6 @@ class SaleOrderReport(models.Model):
             else:
                 res.qc_report_date_date_red = False
 
-
     @api.onchange('buyer_id')
     def _onchange_field_data(self):
         self.buyer_email = self.buyer_id.email
@@ -251,8 +250,10 @@ class SaleOrderReport(models.Model):
                 }
                 print("payload=-=-", payload)
                 response = requests.post(url, json=payload, headers=headers)
+                print("response=-==-", response)
                 json_response = response.json()
                 parsed_data = json.loads(json_response['JsonDataTable'])
+                print("parsed_data=-=-=-", parsed_data)
                 test_json = [parsed_data[0]]
                 error_report = []
                 items_list = []

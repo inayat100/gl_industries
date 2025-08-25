@@ -130,29 +130,32 @@ class ApiReportConfigration(models.Model):
         self.user_id.production_planing_report_id = False
         report_obj = self.env['api.report.configration']
         res = super(ApiReportConfigration, self).write(vals)
+
         report_id = report_obj.search([('report_type', '=', self.report_type), ('user_id', '=', self.user_id.id)])
         if report_id and len(report_id) > 1:
             raise UserError("This Report Type Is Already Exist For Same User..")
-        if self.report_type == 'sale_order':
-            self.user_id.sale_order_report_id = self.id
-            group_xml_id = "ir_sale_report.group_sale_order_report_access_right"
-            self.user_id.refresh_user_group(group_xml_id)
-        elif self.report_type == 'sample_planning':
-            self.user_id.sample_planning_report_id = self.id
-            group_xml_id = "ir_sale_report.group_sample_planing_report_access_right"
-            self.user_id.refresh_user_group(group_xml_id)
-        elif self.report_type == 'sale_fabric':
-            self.user_id.fabric_yardage_report_id = self.id
-            group_xml_id = "ir_sale_report.group_sales_order_fabric_yardage_report_access_right"
-            self.user_id.refresh_user_group(group_xml_id)
-        elif self.report_type == 'production_planning':
-            self.user_id.production_planing_report_id = self.id
-            group_xml_id = "ir_sale_report.group_production_planing_report_access_right"
-            self.user_id.refresh_user_group(group_xml_id)
-        elif self.report_type == 'component_report':
-            self.user_id.component_report_report_id = self.id
-            group_xml_id = "ir_sale_report.group_component_report_access_right"
-            self.user_id.refresh_user_group(group_xml_id)
+        report_ids = report_obj.search([('user_id', '=', self.user_id.id)])
+        for report in report_ids:
+            if report.report_type == 'sale_order':
+                report.user_id.sale_order_report_id = report.id
+                group_xml_id = "ir_sale_report.group_sale_order_report_access_right"
+                report.user_id.refresh_user_group(group_xml_id)
+            elif report.report_type == 'sample_planning':
+                report.user_id.sample_planning_report_id = report.id
+                group_xml_id = "ir_sale_report.group_sample_planing_report_access_right"
+                report.user_id.refresh_user_group(group_xml_id)
+            elif report.report_type == 'sale_fabric':
+                report.user_id.fabric_yardage_report_id = report.id
+                group_xml_id = "ir_sale_report.group_sales_order_fabric_yardage_report_access_right"
+                report.user_id.refresh_user_group(group_xml_id)
+            elif report.report_type == 'production_planning':
+                report.user_id.production_planing_report_id = report.id
+                group_xml_id = "ir_sale_report.group_production_planing_report_access_right"
+                report.user_id.refresh_user_group(group_xml_id)
+            elif report.report_type == 'component_report':
+                report.user_id.component_report_report_id = report.id
+                group_xml_id = "ir_sale_report.group_component_report_access_right"
+                report.user_id.refresh_user_group(group_xml_id)
         return res
 
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_pps_lab_line_joined_tree" model="ir.ui.view">
+    <field name="name">pps.lab.line.joined.tree</field>
+    <field name="model">pps.lab.line</field>
+    <field name="arch" type="xml">
+        <list string="PPS Lab Lines (Joined View)" create="false" edit="false" delete="false">
+            <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
+            <!-- Parent fields -->
+            <field name="parent_date"/>
+            <field name="document_type"/>
+            <field name="party_id"/>
+            <field name="po_no"/>
+            <field name="article_no"/>
+            <field name="style_no"/>
+            <field name="mrp"/>
+            <field name="route_id"/>
+            <!-- Child fields -->
+            <field name="process_id"/>
+            <field name="name"/>
+            <field name="col1"/>
+            <field name="col2"/>
+            <field name="col3"/>
+            <field name="col4"/>
+            <field name="detail"/>
+            <field name="date"/>
+            <field name="remark1"/>
+            <field name="remark2"/>
+        </list>
+    </field>
+</record>
+
+<record id="action_pps_lab_line_joined" model="ir.actions.act_window">
+    <field name="name">PPS Lab Joined View</field>
+    <field name="res_model">pps.lab.line</field>
+    <field name="view_mode">list</field>
+    <field name="views" eval="[(ref('view_pps_lab_line_joined_tree'), 'tree')]"/>
+</record>
+
+<menuitem id="menu_pps_lab_line_joined"
+          name="PPS Lab Lines"
+          parent="ir_reports.menu_pps_lab_root"
+          action="action_pps_lab_line_joined"/>
+
+</odoo>

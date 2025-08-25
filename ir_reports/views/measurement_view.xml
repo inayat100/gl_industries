@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_measurement_report_tree" model="ir.ui.view">
+        <field name="name">measurement.report.tree</field>
+        <field name="model">measurement.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="fabricator_name_id"/>
+                <field name="stage_id"/>
+                <field name="debit"/>
+                <field name="qty"/>
+                <field name="master_name_id"/>
+                <field name="style_no"/>
+                <field name="product_cat_id"/>
+                <field name="brand_id"/>
+                <field name="mrp"/>
+                <field name="party_id"/>
+                <field name="status"/>
+                <field name="delivery_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_measurement_report_form" model="ir.ui.view">
+        <field name="name">measurement.report.form</field>
+        <field name="model">measurement.report</field>
+        <field name="arch" type="xml">
+            <form string="Measurement Report">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="fabricator_name_id"/>
+                            <field name="stage_id"/>
+                            <field name="debit"/>
+                            <field name="qty"/>
+                            <field name="master_name_id"/>
+                            <field name="style_no"/>
+                        </group>
+                        <group>
+                            <field name="product_cat_id"/>
+                            <field name="brand_id"/>
+                            <field name="mrp"/>
+                            <field name="d_no"/>
+                            <field name="party_id"/>
+                            <field name="status"/>
+                            <field name="delivery_date"/>
+                            <field name="remark"/>
+                            <field name="remark1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Measurement Lines">
+                            <group>
+                                <field name="route_id"/>
+                            </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="process_id"/>
+                                    <field name="tol"/>
+                                    <field name="size1"/>
+                                    <field name="year1"/>
+                                    <field name="year2"/>
+                                    <field name="year3"/>
+                                    <field name="size2"/>
+                                    <field name="year4"/>
+                                    <field name="year5"/>
+                                    <field name="year6"/>
+                                    <field name="size3"/>
+                                    <field name="year7"/>
+                                    <field name="year8"/>
+                                    <field name="year9"/>
+                                    <field name="size4"/>
+                                    <field name="year10"/>
+                                    <field name="year11"/>
+                                    <field name="year12"/>
+                                    <field name="size5"/>
+                                    <field name="year13"/>
+                                    <field name="year14"/>
+                                    <field name="year15"/>
+                                    <field name="note1"/>
+                                    <field name="note2"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+      <record id="action_measurement_report" model="ir.actions.act_window">
+        <field name="name">Measurement Reports</field>
+        <field name="res_model">measurement.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Click <b>Create</b> to add a new Measurement Report.</p>
+        </field>
+    </record>
+
+        <menuitem id="menu_measurement_report_root" name="Measurement Reports" sequence="20"/>
+    <menuitem id="menu_measurement_report" name="Reports" parent="menu_measurement_report_root"
+              action="action_measurement_report" sequence="10"/>
+
+</odoo>

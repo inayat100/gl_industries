@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Tree View (readonly, no form) -->
+    <record id="view_measurement_report_line_tree_redirect" model="ir.ui.view">
+        <field name="name">measurement.report.line.tree.redirect</field>
+        <field name="model">measurement.report.line</field>
+        <field name="arch" type="xml">
+            <list string="Measurement Report Lines" create="false" edit="false" delete="false">
+                <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
+                <field name="report_date"/>
+                <field name="fabricator_name_id"/>
+                <field name="party_id"/>
+                <field name="brand_id"/>
+                <field name="delivery_date"/>
+                <field name="stage_id"/>
+                <field name="process_id"/>
+                <field name="remark"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action: when user clicks on a line, open parent report -->
+    <record id="action_measurement_report_lines_redirect" model="ir.actions.act_window">
+        <field name="name">Measurement Report Lines</field>
+        <field name="res_model">measurement.report.line</field>
+        <field name="view_mode">list</field>
+        <field name="views" eval="[(ref('view_measurement_report_line_tree_redirect'), 'tree')]"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No measurement report lines available.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_measurement_report_line_redirect"
+              name="Measurement Report Lines"
+              parent="menu_measurement_report_root"
+              action="action_measurement_report_lines_redirect"
+              sequence="19"/>
+</odoo>
