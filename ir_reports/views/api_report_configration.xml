@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_api_report_config_form_report" model="ir.ui.view">
+            <field name="name">api.report.configration.form</field>
+            <field name="model">api.report.configration</field>
+            <field name="inherit_id" ref="ir_sale_report.view_api_report_config_form"/>
+            <field name="arch" type="xml">
+                <field name="report_type" position="after">
+                    <field name="document_type" invisible="report_type not in ['pps.lab']"/>
+                        <field name="stage_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['measurement.report']"/>
+                </field>
+            </field>
+    </record>
+</odoo>

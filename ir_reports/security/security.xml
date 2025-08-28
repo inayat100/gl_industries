@@ -43,15 +43,15 @@
 
 
         <record id="group_quality_report_access_right" model="res.groups">
-            <field name="name">PPS Report Access Right</field>
+            <field name="name">Quality Report Access Right</field>
         </record>
 
         <record id="quality_report_record_rule" model="ir.rule">
-            <field name="name">PPS Report Record Rule</field>
+            <field name="name">Quality Report Record Rule</field>
             <field name="model_id" ref="model_pps_lab"/>
             <field name="domain_force">
                 [
-                '|', ('fabricator_name_id', 'in', user.quality_report_id.customer_ids.ids), ('fabricator_name_id', '=', False),
+                '|', ('party_id', 'in', user.quality_report_id.customer_ids.ids), ('party_id', '=', False),
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
                 '|', ('product_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id',
                 '=', False),

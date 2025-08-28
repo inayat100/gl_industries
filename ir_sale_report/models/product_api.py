@@ -61,6 +61,7 @@ class ProductTemplate(models.Model):
 
 
 
+
     @api.constrains('product_img_1', 'product_img_2', 'product_img_3')
     def _check_image_size(self):
         max_size_mb = 1

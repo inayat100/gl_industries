@@ -12,6 +12,9 @@ report_type_list = [
     ('so', 'Sale Orders'),
     ('mo', 'Manufacturing Orders'),
     ('po', 'Purchase Orders'),
+    ('measurement.report', 'Measurement Report'),
+    ('pps.lab', 'PPS Lab Report'),
+    ('quality.report', 'Quality Report'),
 ]
 
 class ApiReportConfigration(models.Model):

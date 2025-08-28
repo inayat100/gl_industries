@@ -8,7 +8,7 @@
     </record>
 
     <!-- Menu -->
-    <menuitem id="menu_record_lock_root" name="Record Lock"/>
+    <menuitem id="menu_record_lock_root" name="Record Lock" groups="ir_record_lock_config.group_lock_record_access_right"/>
 
     <menuitem id="menu_record_lock_config"
               name="Configurations"

@@ -118,7 +118,7 @@
         </field>
     </record>
 
-    <menuitem id="menu_pps_lab_root" name="PPS Lab" sequence="10"/>
+    <menuitem id="menu_pps_lab_root" name="PPS Lab" sequence="10" groups="ir_reports.group_pps_report_access_right"/>
     <menuitem id="menu_pps_lab" name="Documents" parent="menu_pps_lab_root" action="action_pps_lab" sequence="10"/>
 
 </odoo>

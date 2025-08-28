@@ -102,7 +102,7 @@
         </field>
     </record>
 
-        <menuitem id="menu_measurement_report_root" name="Measurement Reports" sequence="20"/>
+        <menuitem id="menu_measurement_report_root" name="Measurement Reports" sequence="20" groups="ir_reports.group_measurement_report_access_right"/>
     <menuitem id="menu_measurement_report" name="Reports" parent="menu_measurement_report_root"
               action="action_measurement_report" sequence="10"/>
 

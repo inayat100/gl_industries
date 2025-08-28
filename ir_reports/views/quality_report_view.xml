@@ -131,7 +131,7 @@
         </field>
     </record>
 
-    <menuitem id="menu_quality_root" name="Quality" sequence="10"/>
+    <menuitem id="menu_quality_root" name="Quality" sequence="10" groups="ir_reports.group_quality_report_access_right"/>
     <menuitem id="menu_quality_reports" name="Quality Reports" parent="menu_quality_root" sequence="10"/>
     <menuitem id="menu_quality_report" name="Reports" parent="menu_quality_reports" action="action_quality_report"/>
 </odoo>

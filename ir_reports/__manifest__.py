@@ -12,7 +12,7 @@
     ],
     "data": [
         'security/ir.model.access.csv',
-        # 'security/security.xml',
+        'security/security.xml',
         'data/sequence.xml',
         'views/quality_report_view.xml',
         'views/quality_report_conf_view.xml',
@@ -22,6 +22,8 @@
         'views/pps_report_view.xml',
         'views/pps_report_conf_view.xml',
         'views/pps_report_line_view.xml',
+        'views/res_user_view.xml',
+        'views/api_report_configration.xml',
     ],
     'installable': True,
     'application': True,

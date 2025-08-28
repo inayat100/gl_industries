@@ -12,6 +12,7 @@
     ],
     "data": [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/record_lock_config_view.xml',
     ],
     'installable': True,

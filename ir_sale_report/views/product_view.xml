@@ -10,6 +10,7 @@
                 <page string="Details">
                     <group>
                         <group>
+                            <field name="api_barcode"/>
                             <field name="fit_measurement_id"/>
                             <field name="purchase_rate"/>
                             <field name="inventory_ledger_name"/>
