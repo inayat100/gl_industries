@@ -207,6 +207,26 @@
         </field>
     </record>
 
+    <record id="view_sample_planing_search" model="ir.ui.view">
+        <field name="name">sample.planing.search</field>
+        <field name="model">sample.planing</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="party_id" string="Party" context="{'group_by':'party_id'}"/>
+                    <filter name="vendor_id" string="Fabric Supplier" context="{'group_by':'vendor_id'}"/>
+                    <filter name="washing_id" string="Washing" context="{'group_by':'washing_id'}"/>
+                    <filter name="merchant_id" string="Merchant" context="{'group_by':'merchant_id'}"/>
+                    <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <!-- Action -->
     <record id="action_sample_planing" model="ir.actions.act_window">
         <field name="name">Sample Planning</field>

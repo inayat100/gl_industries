@@ -115,6 +115,27 @@
 </record>
 
 
+    <record id="view_sales_order_fabric_search" model="ir.ui.view">
+        <field name="name">sales.order.fabric.search</field>
+        <field name="model">sales.order.fabric</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="party_id" string="BUYER NAME" context="{'group_by':'party_id'}"/>
+                    <filter name="vendor_id" string="Fabric Supplier" context="{'group_by':'vendor_id'}"/>
+                    <filter name="fabric_category_id" string="FABRIC CATEGORY" context="{'group_by':'fabric_category_id'}"/>
+                    <filter name="merchant_id" string="Merchant" context="{'group_by':'merchant_id'}"/>
+                    <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
     <!-- Action -->
     <record id="action_sales_report_line" model="ir.actions.act_window">
         <field name="name">Fabric YARDAGE</field>

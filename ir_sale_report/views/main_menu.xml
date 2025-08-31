@@ -3,4 +3,10 @@
 
     <menuitem id="menu_reporting_root" name="Reporting" sequence="10"/>
 
+    <menuitem name="Contacts"
+        id="contacts.menu_contacts"
+        sequence="20"
+        web_icon="contacts,static/description/icon.png"
+        groups="ir_sale_report.group_contact_access_right"/>
+
 </odoo>
