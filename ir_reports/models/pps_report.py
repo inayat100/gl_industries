@@ -166,7 +166,7 @@ class PPSLabLine(models.Model):
     season_id = fields.Many2one("season.master", related="pps_lab_id.season_id", string="Season", store=True,
                                 readonly=True)
     machine_name = fields.Char(related="pps_lab_id.machine_name", string="Machine Name", store=True, readonly=True)
-    style_no = fields.Char(related="pps_lab_id.style_no", string="Style NO", store=True, readonly=True)
+    product_id = fields.Char(related="pps_lab_id.product_id", string="Style NO", store=True, readonly=True)
     remark = fields.Char(related="pps_lab_id.remark", string="Remark", store=True, readonly=True)
     route_id = fields.Many2one("pps.route", related="pps_lab_id.route_id", string="Route", store=True, readonly=True)
 

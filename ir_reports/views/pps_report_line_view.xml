@@ -13,7 +13,7 @@
             <field name="party_id"/>
             <field name="po_no"/>
             <field name="article_no"/>
-            <field name="style_no"/>
+            <field name="product_id"/>
             <field name="mrp"/>
             <field name="route_id"/>
             <!-- Child fields -->
