@@ -59,6 +59,7 @@
                             <field name="new_article_no" string="Lab Test New Article" invisible="document_type != 'lab_test'"/>
                             <field name="new_article_no" string="Photo Sample New Article" invisible="document_type != 'photo_sample'"/>
                             <field name="new_article_no" string="FIT Sample New Article" invisible="document_type != 'fit_sample'"/>
+                            <field name="valid_upto"/>
                         </group>
                         <group>
                             <field name="po_url" string="PO URL" invisible="document_type != 'po_article'"/>

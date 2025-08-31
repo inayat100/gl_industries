@@ -35,6 +35,7 @@ class PPSLab(models.Model):
     receive_date = fields.Date(string="Receive Date", tracking=True)
     sending_date = fields.Date(string="Sending Date", tracking=True)
     active = fields.Boolean(string="Active", default=True)
+    valid_upto = fields.Date(string="Valid Upto")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
