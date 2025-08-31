@@ -33,19 +33,19 @@
                         <group>
                             <field name="name"/>
                             <field name="date"/>
-                            <field name="fabricator_name_id"/>
-                            <field name="stage_id"/>
+                            <field name="fabricator_name_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="stage_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="debit"/>
                             <field name="qty"/>
-                            <field name="master_name_id"/>
-                            <field name="product_id"/>
+                            <field name="master_name_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_id" options='{"no_open": True, "no_create": True}'/>
                         </group>
                         <group>
-                            <field name="product_cat_id"/>
-                            <field name="brand_id"/>
+                            <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="brand_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="mrp"/>
                             <field name="d_no"/>
-                            <field name="party_id"/>
+                            <field name="party_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="status"/>
                             <field name="delivery_date"/>
                             <field name="remark"/>

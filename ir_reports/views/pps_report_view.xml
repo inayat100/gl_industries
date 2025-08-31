@@ -28,7 +28,7 @@
                             <field name="name"/>
                             <field name="date"/>
                             <field name="document_type"/>
-                            <field name="party_id"/>
+                            <field name="party_id" options='{"no_open": True, "no_create": True}'/>
 
                             <field name="po_no" string="PO NO" invisible="document_type != 'po_article'"/>
                             <field name="po_no" string="PPS NO" invisible="document_type != 'pps'"/>
@@ -69,13 +69,13 @@
 
                             <field name="receive_date"/>
                             <field name="sending_date"/>
-                            <field name="color_id"/>
-                            <field name="brand_id"/>
-                            <field name="product_cat_id"/>
+                            <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="brand_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="mrp"/>
-                            <field name="season_id"/>
-                            <field name="merchant_id"/>
-                            <field name="product_id"/>
+                            <field name="season_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="merchant_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="remark"/>
                         </group>
                     </group>
