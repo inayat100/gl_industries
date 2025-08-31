@@ -27,6 +27,8 @@
                 <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="garment_average"/>
                 <field name="febric_product_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="system_po_no" string="FEBRIC Item"/>
+                <field name="merchant_partner_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="fit"/>
                 <field name="style"/>
                 <field name="po_description"/>
@@ -244,6 +246,7 @@
 
                 <!-- Filters -->
                 <filter name="filter_has_po" string="Has PO Number" domain="[('po_no', '!=', False)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
                 <filter name="filter_has_article" string="Has Article No" domain="[('article_no', '!=', False)]"/>
                 <filter name="filter_recent_orders" string="Recent Orders"
                         domain="[('vdate','>=',(context_today()-relativedelta(months=3)).strftime('%%Y-%%m-%%d'))]"/>
@@ -251,11 +254,11 @@
 
                 <!-- Group by -->
                 <group expand="0" string="Group By">
-                    <filter name="group_buyer" string="Buyer" context="{'group_by':'buyer_id'}"/>
+                    <filter name="group_party_id" string="Party" context="{'group_by':'party_id'}"/>
                     <filter name="group_product" string="Product" context="{'group_by':'product_id'}"/>
-                    <filter name="group_style" string="Style No" context="{'group_by':'style_no'}"/>
+                    <filter name="group_mc" string="MC" context="{'group_by':'product_cat_id'}"/>
                     <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
-                    <filter name="group_season" string="Season" context="{'group_by':'season'}"/>
+                    <filter name="group_merchant_partner_id" string="Merchant Name" context="{'group_by':'merchant_partner_id'}"/>
                 </group>
             </search>
         </field>

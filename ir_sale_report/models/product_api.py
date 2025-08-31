@@ -58,27 +58,38 @@ class ProductTemplate(models.Model):
     vendor_code = fields.Char(string="Vendor Code")
     washing_item_id = fields.Many2one("washing.item", string="WASHING")
 
-
-
-
+    @api.constrains('name')
+    def _check_unique_name(self):
+        for rec in self:
+            if rec.name:
+                exists = self.search([
+                    ('name', '=', rec.name),
+                    ('id', '!=', rec.id)
+                ], limit=1)
+                if exists:
+                    raise UserError("Product name must be unique!")
 
     @api.constrains('product_img_1', 'product_img_2', 'product_img_3')
     def _check_image_size(self):
-        max_size_mb = 1
+        max_size_kb = 100  # Limit in KB
+        max_size_bytes = max_size_kb * 1024
         for rec in self:
             if rec.product_img_1:
-                image_size_mb = sys.getsizeof(base64.b64decode(rec.product_img_1)) / (1024 * 1024)
-                if image_size_mb > max_size_mb:
-                    raise UserError(f"Image size exceeds {max_size_mb} MB limit.")
+                image_size_bytes = sys.getsizeof(base64.b64decode(rec.product_img_1))
+                if image_size_bytes > max_size_bytes:
+                    raise UserError(f"Image size exceeds {max_size_kb} KB limit.")
             if rec.product_img_2:
-                image_size_mb = sys.getsizeof(base64.b64decode(rec.product_img_2)) / (1024 * 1024)
-                if image_size_mb > max_size_mb:
-                    raise UserError(f"Image size exceeds {max_size_mb} MB limit.")
+                image_size_bytes = sys.getsizeof(base64.b64decode(rec.product_img_2))
+                if image_size_bytes > max_size_bytes:
+                    raise UserError(f"Image size exceeds {max_size_kb} KB limit.")
             if rec.product_img_3:
-                image_size_mb = sys.getsizeof(base64.b64decode(rec.product_img_3)) / (1024 * 1024)
-                if image_size_mb > max_size_mb:
-                    raise UserError(f"Image size exceeds {max_size_mb} MB limit.")
-
+                image_size_bytes = sys.getsizeof(base64.b64decode(rec.product_img_3))
+                if image_size_bytes > max_size_bytes:
+                    raise UserError(f"Image size exceeds {max_size_kb} KB limit.")
+            if rec.image_1920:
+                image_size_bytes = sys.getsizeof(base64.b64decode(rec.image_1920))
+                if image_size_bytes > max_size_bytes:
+                    raise UserError(f"Image size exceeds {max_size_kb} KB limit.")
 
     def _cron_create_product(self):
         configration_ids = self.env['product.template.configration'].search([('active', '=', True)])

@@ -38,7 +38,7 @@ class ProductionPlaning(models.Model):
     total_qty = fields.Float(string='Total Qty', tracking=True)
     status_by_qc = fields.Char(string='Status by QC', tracking=True)
     status_date = fields.Date(string='Status Date', tracking=True)
-    qc_status = fields.Html(string="Status", tracking=True)
+    qc_status = fields.Html(string="Status")
     next_week_remark = fields.Char(string='Remark', tracking=True)
     required_qty_vendor = fields.Char(string='Required Qty Vendor', tracking=True)
     next_week_plan = fields.Char(string='Next Week Planning', tracking=True)

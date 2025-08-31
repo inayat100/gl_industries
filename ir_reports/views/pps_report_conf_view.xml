@@ -79,7 +79,7 @@
     </record>
 
     <menuitem id="menu_pps_root_configration" name="Configration" parent="ir_reports.menu_pps_lab_root"
-              sequence="20"/>
+              sequence="20" groups="ir_reports.group_pps_report_configration_access_right"/>
     <menuitem id="menu_pps_process" name="Processes" parent="ir_reports.menu_pps_root_configration"
               action="ir_reports.action_pps_process"/>
     <menuitem id="menu_pps_routes" name="Routes" parent="ir_reports.menu_pps_root_configration"

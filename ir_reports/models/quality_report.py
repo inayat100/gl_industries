@@ -27,6 +27,12 @@ class QualityReport(models.Model):
     feed_route_id = fields.Many2one("quality.route", string="Route")
     construction_lines = fields.One2many("quality.report.construction", "quality_id", string="Construction")
     construction_route_id = fields.Many2one("quality.route", string="Route")
+    active = fields.Boolean(string="Active", default=True)
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.product_cat_id = self.product_id.categ_id.id
+        self.brand_id = self.product_id.brand_id.id
 
     @api.onchange('trims_route_id')
     def _onchange_trims_route_id(self):
@@ -156,6 +162,11 @@ class QualityReportTrims(models.Model):
     product_cat_id = fields.Many2one("product.category", string="MC")
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.product_cat_id = self.product_id.categ_id.id
+
 
 
 class QualityReportSewingMachine(models.Model):

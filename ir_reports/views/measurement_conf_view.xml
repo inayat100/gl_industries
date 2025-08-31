@@ -83,7 +83,7 @@
 
 
     <menuitem id="menu_measurement_root_configration" name="Configration" parent="ir_reports.menu_measurement_report_root"
-              sequence="20"/>
+              sequence="20" groups="ir_reports.group_measurement_report_configration_access_right"/>
     <menuitem id="menu_measurement_process" name="Processes" parent="ir_reports.menu_measurement_root_configration"
               action="ir_reports.action_measurement_process"/>
     <menuitem id="menu_measurement_routes" name="Routes" parent="ir_reports.menu_measurement_root_configration"

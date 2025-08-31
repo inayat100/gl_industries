@@ -93,6 +93,26 @@
         </field>
     </record>
 
+    <record id="view_measurement_report_search" model="ir.ui.view">
+        <field name="name">measurement.report.search</field>
+        <field name="model">measurement.report</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="fabricator_name_id" string="FABRICATOR NAME" context="{'group_by':'fabricator_name_id'}"/>
+                    <filter name="stage_id" string="State" context="{'group_by':'stage_id'}"/>
+                    <filter name="master_name_id" string="Master Name" context="{'group_by':'master_name_id'}"/>
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="brand_id" string="Brand" context="{'group_by':'brand_id'}"/>
+                    <filter name="party_id" string="Party" context="{'group_by':'party_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
       <record id="action_measurement_report" model="ir.actions.act_window">
         <field name="name">Measurement Reports</field>
         <field name="res_model">measurement.report</field>

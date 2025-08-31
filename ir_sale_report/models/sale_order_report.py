@@ -99,6 +99,7 @@ class SaleOrderReport(models.Model):
     lab_date_red = fields.Boolean(string="Lab Date Red", compute="_compute_date_red")
     delivery_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
     qc_report_date_date_red = fields.Boolean(string="Delivery Date Red", compute="_compute_date_red")
+    merchant_partner_id = fields.Many2one("res.partner", string="Merchant Name")
 
     def _compute_date_red(self):
         for res in self:
@@ -329,7 +330,7 @@ class SaleOrderReport(models.Model):
                             }])
                             val['color_id'] = color_id.id
                     try:
-                        exist_id = self.env['sale.order.report'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                        exist_id = self.env['sale.order.report'].search(['|', ('active', '=', True), ('active', '=', False), ('voucher_id', '=', data.get('voucher_id'))], limit=1)
                         print("exist_id==", exist_id)
                         if exist_id:
                             exist_id.write(val)

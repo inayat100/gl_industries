@@ -5,6 +5,10 @@
             <field name="name">Measurement Report Access Right</field>
         </record>
 
+        <record id="group_measurement_report_configration_access_right" model="res.groups">
+            <field name="name">Measurement Report Configration Access Right</field>
+        </record>
+
         <record id="measurement_report_record_rule" model="ir.rule">
             <field name="name">Measurement Report Record Rule</field>
             <field name="model_id" ref="model_measurement_report"/>
@@ -26,6 +30,10 @@
             <field name="name">PPS Report Access Right</field>
         </record>
 
+        <record id="group_pps_report_configration_access_right" model="res.groups">
+            <field name="name">PPS Report Configration Access Right</field>
+        </record>
+
         <record id="pps_report_record_rule" model="ir.rule">
             <field name="name">PPS Report Record Rule</field>
             <field name="model_id" ref="model_pps_lab"/>
@@ -44,6 +52,10 @@
 
         <record id="group_quality_report_access_right" model="res.groups">
             <field name="name">Quality Report Access Right</field>
+        </record>
+
+        <record id="group_quality_report_configration_access_right" model="res.groups">
+            <field name="name">Quality Report Configration Access Right</field>
         </record>
 
         <record id="quality_report_record_rule" model="ir.rule">

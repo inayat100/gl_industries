@@ -120,6 +120,25 @@
         </field>
     </record>
 
+    <record id="view_quality_report_search" model="ir.ui.view">
+        <field name="name">quality.report.search</field>
+        <field name="model">quality.report</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="fabricator_name_id" string="FABRICATOR Name" context="{'group_by':'fabricator_name_id'}"/>
+                    <filter name="product_id" string="STYLE NO" context="{'group_by':'product_id'}"/>
+                    <filter name="status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="brand_id" string="Brand" context="{'group_by':'brand_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_quality_report" model="ir.actions.act_window">
         <field name="name">Quality Reports</field>
         <field name="res_model">quality.report</field>

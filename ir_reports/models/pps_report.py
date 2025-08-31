@@ -27,13 +27,22 @@ class PPSLab(models.Model):
     mrp = fields.Float(string="MRP")
     season_id = fields.Many2one("season.master", string="Season")
     machine_name = fields.Char(string="Machine Name")
-    style_no = fields.Char(string="Style NO")
+    product_id = fields.Many2one("product.product", string="Style NO")
     remark = fields.Char(string="Remark")
     pps_lab_lines = fields.One2many("pps.lab.line", "pps_lab_id", string="Lines")
     route_id = fields.Many2one("pps.route", string="Route")
     brand_id = fields.Many2one("brand.master", string="Brand")
     receive_date = fields.Date(string="Receive Date")
     sending_date = fields.Date(string="Sending Date")
+    active = fields.Boolean(string="Active", default=True)
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.product_cat_id = self.product_id.categ_id.id
+        self.brand_id = self.product_id.brand_id.id
+        self.season_id = self.product_id.season_id.id
+        self.color_id = self.product_id.color_id.id
+        self.mrp = self.product_id.mrp
 
     @api.onchange('route_id')
     def _onchange_route_id(self):

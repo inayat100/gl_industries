@@ -75,7 +75,7 @@
                             <field name="mrp"/>
                             <field name="season_id"/>
                             <field name="machine_name"/>
-                            <field name="style_no"/>
+                            <field name="product_id"/>
                             <field name="remark"/>
                         </group>
                     </group>
@@ -104,6 +104,26 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_pps_lab_form_search" model="ir.ui.view">
+        <field name="name">pps.lab.search</field>
+        <field name="model">pps.lab</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="document_type" string="Document type" context="{'group_by':'document_type'}"/>
+                    <filter name="color_id" string="Color" context="{'group_by':'color_id'}"/>
+                    <filter name="season_id" string="Season" context="{'group_by':'season_id'}"/>
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="brand_id" string="Brand" context="{'group_by':'brand_id'}"/>
+                    <filter name="party_id" string="Party" context="{'group_by':'party_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

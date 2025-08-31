@@ -23,6 +23,7 @@ class MeasurementReport(models.Model):
     remark1 = fields.Char(string="Remark-1")
     line_ids = fields.One2many("measurement.report.line", "measurement_id", string="Lines")
     route_id = fields.Many2one("measurement.route", string="Route")
+    active = fields.Boolean(string="Active", default=True)
 
     @api.onchange('route_id')
     def _onchange_route_id(self):
