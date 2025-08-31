@@ -42,6 +42,17 @@
         </field>
     </record>
 
+    <record id="job_work_route_view_search" model="ir.ui.view">
+        <field name="name">job.work.route.search</field>
+        <field name="model">job.work.route</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
     <!-- Action -->
     <record id="action_job_work_route" model="ir.actions.act_window">
         <field name="name">Job Work Routes</field>

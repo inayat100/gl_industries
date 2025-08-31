@@ -71,6 +71,17 @@
         </field>
     </record>
 
+    <record id="view_quality_route_search" model="ir.ui.view">
+        <field name="name">quality.route.search</field>
+        <field name="model">quality.route</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_quality_route" model="ir.actions.act_window">
         <field name="name">Job Work Routes</field>
         <field name="res_model">quality.route</field>

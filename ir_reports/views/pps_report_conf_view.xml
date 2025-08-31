@@ -68,6 +68,17 @@
         </field>
     </record>
 
+    <record id="view_pps_route_search" model="ir.ui.view">
+        <field name="name">pps.route.search</field>
+        <field name="model">pps.route</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_pps_process" model="ir.actions.act_window">
         <field name="name">PPS Processes</field>
         <field name="res_model">pps.process</field>
