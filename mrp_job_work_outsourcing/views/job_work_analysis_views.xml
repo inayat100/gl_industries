@@ -13,7 +13,8 @@
                 <field name="mrp"/>
                 <field name="process_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="vendor_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
-                <field name="issue_date" readonly="1"/>
+                <field name="issue_date" column_invisible="1" readonly="1"/>
+                <field name="user_issue_date" readonly="1"/>
                 <field name="expected_date" readonly="1"/>
                 <field name="days_to_complete" readonly="1"/>
                 <field name="last_receipt_date" readonly="1"/>

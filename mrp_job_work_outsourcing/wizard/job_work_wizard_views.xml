@@ -13,6 +13,7 @@
                     <field name="issued_qty"/>
                     <field name="rate"/>
                     <field name="amount" force_save="1"/>
+                    <field name="user_issue_date"/>
                     <field name="expected_date"/>
                 </group>
                 <footer>

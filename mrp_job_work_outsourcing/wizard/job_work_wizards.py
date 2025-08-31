@@ -12,6 +12,7 @@ class JobWorkIssueWizard(models.TransientModel):
     expected_date = fields.Date('Expected Date')
     rate = fields.Float('Rate', required=True)
     amount = fields.Float(string="Total Amount", compute='_compute_amount', readonly=True)
+    user_issue_date = fields.Date('Issue Date', required=True)
 
     # Helper field to show user how much is available
     available_qty = fields.Float(string="Available Quantity", readonly=True)
@@ -32,6 +33,7 @@ class JobWorkIssueWizard(models.TransientModel):
             'job_work_line_id': self.job_work_line_id.id,
             'vendor_id': self.vendor_id.id,
             'issued_qty': self.issued_qty,
+            'user_issue_date': self.user_issue_date,
             'expected_date': self.expected_date,
             'rate': self.rate,
         })
