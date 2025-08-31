@@ -4,21 +4,23 @@ from odoo import models, fields, api
 
 class MeasurementProcess(models.Model):
     _name = 'pps.process'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'PPS Process'
     _order = 'id'
 
-    name = fields.Char('Process Name', required=True)
-    description = fields.Text('Description')
+    name = fields.Char('Process Name', required=True, tracking=True)
+    description = fields.Text('Description', tracking=True)
 
 
 
 class MeasurementRoute(models.Model):
     _name = 'pps.route'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'PPS Route'
 
-    name = fields.Char('Route Name', required=True)
+    name = fields.Char('Route Name', required=True, tracking=True)
     line_ids = fields.One2many('pps.route.line', 'pps_id', string='Process Lines', copy=True)
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(string="Active", default=True, tracking=True)
 
 class MeasurementRouteLine(models.Model):
     _name = 'pps.route.line'

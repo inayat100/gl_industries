@@ -5,21 +5,23 @@ from odoo import models, fields, api, _
 
 class QualityProcess(models.Model):
     _name = 'quality.process'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Quality Work Process'
     _order = 'id'
 
-    name = fields.Char('Process Name', required=True)
-    description = fields.Text('Description')
+    name = fields.Char('Process Name', required=True, tracking=True)
+    description = fields.Text('Description', tracking=True)
 
 
 
 class QualityRoute(models.Model):
     _name = 'quality.route'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Job Work Route'
 
-    name = fields.Char('Route Name', required=True)
+    name = fields.Char('Route Name', required=True, tracking=True)
     line_ids = fields.One2many('quality.route.line', 'route_id', string='Process Lines', copy=True)
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(string="Active", default=True, tracking=True)
 
 class QualityRouteLine(models.Model):
     _name = 'quality.route.line'

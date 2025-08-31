@@ -18,6 +18,7 @@ Key Features:
     'depends': ['mrp', 'ir_sale_report'],
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/job_work_process_views.xml',
         'views/job_work_route_views.xml',
         'views/mrp_production_views.xml',

@@ -23,6 +23,7 @@
                         <field name="description"/>
                     </group>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -64,6 +65,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                 <chatter/>
             </form>
         </field>
     </record>
