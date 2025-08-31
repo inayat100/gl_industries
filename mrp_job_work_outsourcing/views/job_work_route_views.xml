@@ -10,6 +10,9 @@
                     <div class="oe_title">
                         <h1><field name="name" placeholder="e.g. T-Shirt Standard Route"/></h1>
                     </div>
+                    <group>
+                        <field name="active"/>
+                    </group>
                     <notebook>
                         <page string="Processes" name="processes">
                             <field name="line_ids">
@@ -34,6 +37,7 @@
         <field name="arch" type="xml">
             <list string="Job Work Routes">
                 <field name="name"/>
+                <field name="active"/>
             </list>
         </field>
     </record>

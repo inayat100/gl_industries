@@ -18,7 +18,7 @@ class MeasurementRoute(models.Model):
 
     name = fields.Char('Route Name', required=True)
     line_ids = fields.One2many('pps.route.line', 'pps_id', string='Process Lines', copy=True)
-
+    active = fields.Boolean(string="Active", default=True)
 
 class MeasurementRouteLine(models.Model):
     _name = 'pps.route.line'

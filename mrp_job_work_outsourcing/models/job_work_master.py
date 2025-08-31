@@ -19,7 +19,7 @@ class JobWorkRoute(models.Model):
 
     name = fields.Char('Route Name', required=True)
     line_ids = fields.One2many('job.work.route.line', 'route_id', string='Process Lines', copy=True)
-
+    active = fields.Boolean(string="Active", default=True)
 
 class JobWorkRouteLine(models.Model):
     _name = 'job.work.route.line'

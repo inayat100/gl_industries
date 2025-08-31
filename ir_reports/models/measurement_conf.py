@@ -13,13 +13,14 @@ class MeasurementProcess(models.Model):
 
 
 
+
 class MeasurementRoute(models.Model):
     _name = 'measurement.route'
     _description = 'Measurement Route'
 
     name = fields.Char('Route Name', required=True)
     line_ids = fields.One2many('measurement.route.line', 'measurement_id', string='Process Lines', copy=True)
-
+    active = fields.Boolean(string="Active", default=True)
 
 class MeasurementRouteLine(models.Model):
     _name = 'measurement.route.line'

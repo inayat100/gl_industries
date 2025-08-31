@@ -19,7 +19,7 @@ class QualityRoute(models.Model):
 
     name = fields.Char('Route Name', required=True)
     line_ids = fields.One2many('quality.route.line', 'route_id', string='Process Lines', copy=True)
-
+    active = fields.Boolean(string="Active", default=True)
 
 class QualityRouteLine(models.Model):
     _name = 'quality.route.line'

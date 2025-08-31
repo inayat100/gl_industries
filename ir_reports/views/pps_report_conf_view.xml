@@ -33,6 +33,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                 <field name="active"/>
             </list>
         </field>
     </record>
@@ -45,6 +46,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                         <field name="active"/>
                     </group>
                     <notebook>
                         <page string="Process Lines">
