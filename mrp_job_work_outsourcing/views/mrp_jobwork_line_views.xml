@@ -37,11 +37,11 @@
                         <page string="Issued to Vendors">
                             <field name="issued_to_vendor_ids">
                                 <list editable="bottom">
-                                    <field name="vendor_id" options="{'no_create': True,'no_open': True}"/>
-                                    <field name="issued_qty"/>
-                                    <field name="issue_date" invisible="1"/>
+                                     <field name="issue_date" invisible="1"/>
                                     <field name="user_issue_date" invisible="1"/>
                                     <field name="expected_date"/>
+                                    <field name="vendor_id" options="{'no_create': True,'no_open': True}"/>
+                                    <field name="issued_qty"/>
                                     <field name="received_qty" readonly="1"/>
                                 </list>
                             </field>
