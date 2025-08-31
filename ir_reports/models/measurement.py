@@ -2,28 +2,36 @@ from odoo import models, fields, api
 
 class MeasurementReport(models.Model):
     _name = "measurement.report"
-    _inherit = "record.lock.mixin"
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'record.lock.mixin']
 
-    name = fields.Char(string="Number", copy=False, required=True, index=True, readonly=1, default='New')
-    date = fields.Date(string="Date")
-    fabricator_name_id = fields.Many2one("res.partner", string="FABRICATOR NAME")
-    stage_id = fields.Many2one("stage.master", string="STAGE")
-    debit = fields.Char(string="DEBIT")
-    qty = fields.Float(string="Qty")
-    master_name_id = fields.Many2one("res.partner", string="Master NAME")
-    style_no = fields.Char(string="Style NO")
-    product_cat_id = fields.Many2one("product.category", string="MC")
-    brand_id = fields.Many2one("brand.master", string="Brand")
-    mrp = fields.Float(string="MRP")
-    d_no = fields.Char(string="D.NO")
-    party_id = fields.Many2one("res.partner", string="Party")
-    status = fields.Char(string="Status")
-    delivery_date = fields.Date(string="Delivery DATE")
-    remark = fields.Char(string="Remark")
-    remark1 = fields.Char(string="Remark-1")
-    line_ids = fields.One2many("measurement.report.line", "measurement_id", string="Lines")
-    route_id = fields.Many2one("measurement.route", string="Route")
-    active = fields.Boolean(string="Active", default=True)
+    name = fields.Char(string="Number", copy=False, required=True, index=True, readonly=1, default='New', tracking=True)
+    date = fields.Date(string="Date", tracking=True)
+    fabricator_name_id = fields.Many2one("res.partner", string="FABRICATOR NAME", tracking=True)
+    stage_id = fields.Many2one("stage.master", string="STAGE", tracking=True)
+    debit = fields.Char(string="DEBIT", tracking=True)
+    qty = fields.Float(string="Qty", tracking=True)
+    master_name_id = fields.Many2one("res.partner", string="Master NAME", tracking=True)
+    product_id = fields.Many2one("product.product", string="Style NO", tracking=True)
+    product_cat_id = fields.Many2one("product.category", string="MC", tracking=True)
+    brand_id = fields.Many2one("brand.master", string="Brand", tracking=True)
+    mrp = fields.Float(string="MRP", tracking=True)
+    d_no = fields.Char(string="D.NO", tracking=True)
+    party_id = fields.Many2one("res.partner", string="Party", tracking=True)
+    status = fields.Char(string="Status", tracking=True)
+    delivery_date = fields.Date(string="Delivery DATE", tracking=True)
+    remark = fields.Char(string="Remark", tracking=True)
+    remark1 = fields.Char(string="Remark-1", tracking=True)
+    line_ids = fields.One2many("measurement.report.line", "measurement_id", string="Lines", tracking=True)
+    route_id = fields.Many2one("measurement.route", string="Route", tracking=True)
+    active = fields.Boolean(string="Active", default=True, tracking=True)
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        self.product_cat_id = self.product_id.categ_id.id
+        self.brand_id = self.product_id.brand_id.id
+        self.mrp = self.product_id.mrp
+        self.d_no = self.product_id.design_no
+
 
     @api.onchange('route_id')
     def _onchange_route_id(self):

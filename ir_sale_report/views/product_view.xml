@@ -24,7 +24,7 @@
                             <field name="content_pentone"/>
                             <field name="mrp"/>
                             <field name="vendor_name"/>
-                            <field name="mrp"/>
+                            <field name="design_no"/>
                         </group>
                     </group>
                     <group>

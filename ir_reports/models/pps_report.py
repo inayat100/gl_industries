@@ -10,7 +10,7 @@ document_type_list = [
 
 class PPSLab(models.Model):
     _name = "pps.lab"
-    _inherit = "record.lock.mixin"
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'record.lock.mixin']
 
     name = fields.Char(string="Number", copy=False, required=True, index=True, readonly=1, default='New')
     date = fields.Date(string="Date")
@@ -26,7 +26,7 @@ class PPSLab(models.Model):
     product_cat_id = fields.Many2one("product.category", string="MC")
     mrp = fields.Float(string="MRP")
     season_id = fields.Many2one("season.master", string="Season")
-    machine_name = fields.Char(string="Machine Name")
+    merchant_id = fields.Many2one("res.users", string="Merchant", tracking=True)
     product_id = fields.Many2one("product.product", string="Style NO")
     remark = fields.Char(string="Remark")
     pps_lab_lines = fields.One2many("pps.lab.line", "pps_lab_id", string="Lines")
@@ -165,7 +165,7 @@ class PPSLabLine(models.Model):
     mrp = fields.Float(related="pps_lab_id.mrp", string="MRP", store=True, readonly=True)
     season_id = fields.Many2one("season.master", related="pps_lab_id.season_id", string="Season", store=True,
                                 readonly=True)
-    machine_name = fields.Char(related="pps_lab_id.machine_name", string="Machine Name", store=True, readonly=True)
+    merchant_id = fields.Many2one(related="pps_lab_id.merchant_id", string="Machine Name", store=True, readonly=True)
     product_id = fields.Many2one(related="pps_lab_id.product_id", string="Style NO", store=True, readonly=True)
     remark = fields.Char(related="pps_lab_id.remark", string="Remark", store=True, readonly=True)
     route_id = fields.Many2one("pps.route", related="pps_lab_id.route_id", string="Route", store=True, readonly=True)

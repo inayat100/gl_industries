@@ -1,68 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="ir_cron_sale_report_api_data" model="ir.cron">
-        <field name="name">Sale Order Report API</field>
-        <field name="model_id" ref="model_sale_order_report"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_fetch_report()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+    <data noupdate="1">
+        <record id="ir_cron_sale_report_api_data" model="ir.cron">
+            <field name="name">Sale Order Report API</field>
+            <field name="model_id" ref="model_sale_order_report"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_fetch_report()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
 
-    <record id="ir_cron_product_template" model="ir.cron">
-        <field name="name">Product API</field>
-        <field name="model_id" ref="model_product_template"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_create_product()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+        <record id="ir_cron_product_template" model="ir.cron">
+            <field name="name">Product API</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_create_product()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
 
-    <record id="ir_cron_sale_order" model="ir.cron">
-        <field name="name">Sale Order API</field>
-        <field name="model_id" ref="model_sale_order"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_create_sale_order()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+        <record id="ir_cron_sale_order" model="ir.cron">
+            <field name="name">Sale Order API</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_create_sale_order()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
 
-    <record id="ir_cron_purchase_order" model="ir.cron">
-        <field name="name">Purchase Order API</field>
-        <field name="model_id" ref="model_purchase_order"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_create_purchase_order()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+        <record id="ir_cron_purchase_order" model="ir.cron">
+            <field name="name">Purchase Order API</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_create_purchase_order()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
 
-    <record id="ir_cron_account_invoice" model="ir.cron">
-        <field name="name">Account Invoice API</field>
-        <field name="model_id" ref="model_account_move"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_create_invoice()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+        <record id="ir_cron_account_invoice" model="ir.cron">
+            <field name="name">Account Invoice API</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_create_invoice()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
 
-    <record id="ir_cron_account_vendor_bill" model="ir.cron">
-        <field name="name">Account Vendor Bill API</field>
-        <field name="model_id" ref="model_account_move"/>
-        <field name="state">code</field>
-        <field name="code">model._cron_create_bill()</field>
-        <field name="active" eval="True"/>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-    </record>
+        <record id="ir_cron_account_vendor_bill" model="ir.cron">
+            <field name="name">Account Vendor Bill API</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_create_bill()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+    </data>
 </odoo>

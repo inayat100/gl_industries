@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 class QualityReport(models.Model):
     _name = "quality.report"
-    _inherit = "record.lock.mixin"
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'record.lock.mixin']
 
     name = fields.Char(string="Number", copy=False, required=True, index=True, readonly=1, default='New')
     date = fields.Date(string="Date")

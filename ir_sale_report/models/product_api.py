@@ -34,6 +34,7 @@ class ProductTemplate(models.Model):
     product_img_1 = fields.Binary(string="Back Image")
     product_img_2 = fields.Binary(string="Image1")
     product_img_3 = fields.Binary(string="Image2")
+    design_no = fields.Char(string="Design NO")
 
     fabric_short_no = fields.Float(string="Fabric short no.")
     fabric_qty = fields.Float(string="Fabric Qty")

@@ -12,7 +12,7 @@
                 <field name="debit"/>
                 <field name="qty"/>
                 <field name="master_name_id"/>
-                <field name="style_no"/>
+                <field name="product_id"/>
                 <field name="product_cat_id"/>
                 <field name="brand_id"/>
                 <field name="mrp"/>
@@ -38,7 +38,7 @@
                             <field name="debit"/>
                             <field name="qty"/>
                             <field name="master_name_id"/>
-                            <field name="style_no"/>
+                            <field name="product_id"/>
                         </group>
                         <group>
                             <field name="product_cat_id"/>
@@ -89,6 +89,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
