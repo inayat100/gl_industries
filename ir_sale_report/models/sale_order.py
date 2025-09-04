@@ -99,7 +99,8 @@ class SaleOrder(models.Model):
                             'price_unit': price_unit,
                             'product_uom':uom_id.id
                         }
-                        exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('item_id'), configration.company_id)
+                        # exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('item_id'), configration.company_id)
+                        exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
                         if exist_line:
                             if line.order_id.state in ['draft', 'sent']:
                                 exist_line.write(line)
@@ -138,14 +139,20 @@ class SaleOrder(models.Model):
             }])
             return partner_id
 
-    def _get_order_exist_line(self, voucher_id, detail_id, company_id):
-        domain = [('voucher_id', '=', voucher_id), ('detail_id', '=', detail_id)]
-        if company_id:
-            domain.append(('order_id.company_id', '=', company_id.id))
-        line_id = self.env['sale.order.line'].search(domain, limit=1)
-        if line_id:
-            return False
-        return False
+    # def _get_order_exist_line(self, voucher_id, detail_id, company_id):
+    #     domain = [('voucher_id', '=', voucher_id), ('detail_id', '=', detail_id)]
+    #     if company_id:
+    #         domain.append(('order_id.company_id', '=', company_id.id))
+    #     line_id = self.env['sale.order.line'].search(domain, limit=1)
+    #     if line_id:
+    #         return False
+    #     return False
+
+    def _get_order_exist_line(self, voucher_id, product_id, product_uom_qty, price_unit):
+        line_ids = self.env['sale.order.line'].search([('voucher_id', '=', voucher_id)])
+        for res in line_ids:
+            if res.product_id.id == product_id.id and res.product_uom_qty == product_uom_qty and res.price_unit == price_unit:
+                return res
 
     def action_confirm(self):
         res = super().action_confirm()

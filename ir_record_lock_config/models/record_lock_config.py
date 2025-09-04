@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 model_name_list = [
         ('quality.report', 'Quality Report'),
@@ -22,6 +23,7 @@ class RecordLockConfig(models.Model):
         ondelete="cascade",
         help="Select the date/datetime field used for validation"
     )
+    user_id = fields.Many2one("res.users", string="User", copy=False)
     base_on_date = fields.Boolean(string="Base On Date")
 
     lock_create_before_day = fields.Integer(string="Disallow Create Before")
@@ -40,6 +42,18 @@ class RecordLockConfig(models.Model):
     lock_edit_after = fields.Date("Disallow Edit After")
     lock_delete_after = fields.Date("Disallow Delete After")
 
-    _sql_constraints = [
-        ('unique_model', 'unique(model_name)', "Configuration for this model already exists!"),
-    ]
+    @api.constrains('model_name', 'user_id')
+    def _check_unique_user_model(self):
+        for record in self:
+            if record.user_id:
+                for user in record.user_id:
+                    duplicate = self.search([
+                        ('id', '!=', record.id),
+                        ('model_name', '=', record.model_name),
+                        ('user_id', '=', user.id)
+                    ], limit=1)
+                    if duplicate:
+                        raise UserError(_(
+                            "User '%s' is already assigned to model '%s'. "
+                            "Duplicate entries are not allowed."
+                        ) % (user.name, record.model_name))

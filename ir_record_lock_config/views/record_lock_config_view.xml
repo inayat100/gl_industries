@@ -22,6 +22,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="model_name"/>
+                <field name="user_id"/>
                 <field name="lock_create_before"/>
                 <field name="lock_edit_before"/>
                 <field name="lock_delete_before"/>
@@ -40,6 +41,7 @@
                         <field name="model_name"/>
                         <field name="date_field_id"
                                    options="{'no_open': True, 'no_create': True}"/>
+                        <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
                         <field name="base_on_date"/>
                     </group>
                     <group>

@@ -7,12 +7,12 @@ class RecordLockMixin(models.AbstractModel):
     _name = "record.lock.mixin"
     _description = "Record Lock Validation Mixin"
 
-    def _get_lock_config(self):
+    def _get_lock_config(self, user_id):
         """Fetch the config for the current model"""
-        return self.env['record.lock.config'].search([('model_name', '=', self._name)], limit=1)
+        return self.env['record.lock.config'].search([('model_name', '=', self._name), ('user_id', '=', user_id.id)], limit=1)
 
-    def _check_lock(self, operation):
-        config = self._get_lock_config()
+    def _check_lock(self, operation, user_id):
+        config = self._get_lock_config(user_id)
         if not config:
             return  # no config → no restriction
 
@@ -102,14 +102,15 @@ class RecordLockMixin(models.AbstractModel):
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
-        records._check_lock("create")
+        for record in records:
+            record._check_lock("create", record.create_uid)
         return records
 
     def write(self, vals):
         res = super().write(vals)
-        self._check_lock("write")
+        self._check_lock("write", self.create_uid)
         return res
 
     def unlink(self):
-        self._check_lock("unlink")
+        self._check_lock("unlink", self.create_uid)
         return super().unlink()
