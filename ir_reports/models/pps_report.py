@@ -15,6 +15,7 @@ class PPSLab(models.Model):
     name = fields.Char(string="Number", copy=False, required=True, index=True, readonly=1, default='New', tracking=True)
     date = fields.Date(string="Date", tracking=True)
     document_type = fields.Selection(document_type_list, string="Document type", tracking=True)
+    document_type_id = fields.Many2one("document.type.master", string="Document type", tracking=True)
     party_id = fields.Many2one("res.partner", string="Party", tracking=True)
     po_no = fields.Char(string="PO NO", tracking=True)
     new_po_no = fields.Char(string="New PO NO", tracking=True)
@@ -60,6 +61,19 @@ class PPSLab(models.Model):
                 'remark1': line.remark,
             }))
         self.pps_lab_lines = lines
+
+    @api.onchange('document_type_id')
+    def _onchange_document_type_id(self):
+        if self.document_type_id.name == 'PO/ARTICLE':
+            self.document_type = 'po_article'
+        elif self.document_type_id.name == 'PPS':
+            self.document_type = 'pps'
+        elif self.document_type_id.name == 'Lab Test':
+            self.document_type = 'lab_test'
+        elif self.document_type_id.name == 'Photo Sample':
+            self.document_type = 'photo_sample'
+        elif self.document_type_id.name == 'FIT Sample':
+            self.document_type = 'fit_sample'
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -183,4 +197,7 @@ class PPSLabLine(models.Model):
         }
 
 
+class DocumentTypeMaster(models.Model):
+    _name = "document.type.master"
 
+    name = fields.Char(string="Name")

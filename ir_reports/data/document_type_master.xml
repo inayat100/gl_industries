@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="record_po_article" model="document.type.master">
+        <field name="name">PO/ARTICLE</field>
+    </record>
+
+    <record id="record_pps" model="document.type.master">
+        <field name="name">PPS</field>
+    </record>
+
+    <record id="record_lab_test" model="document.type.master">
+        <field name="name">Lab Test</field>
+    </record>
+
+    <record id="record_photo_sample" model="document.type.master">
+        <field name="name">Photo Sample</field>
+    </record>
+
+    <record id="record_fit_sample" model="document.type.master">
+        <field name="name">FIT Sample</field>
+    </record>
+</odoo>

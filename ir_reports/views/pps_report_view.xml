@@ -7,7 +7,7 @@
             <list>
                 <field name="name"/>
                 <field name="date"/>
-                <field name="document_type"/>
+                <field name="document_type_id"/>
                 <field name="party_id"/>
                 <field name="po_no"/>
                 <field name="article_no"/>
@@ -27,7 +27,8 @@
                         <group>
                             <field name="name"/>
                             <field name="date"/>
-                            <field name="document_type"/>
+                            <field name="document_type" invisible="1"/>
+                            <field name="document_type_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="party_id" options='{"no_open": True, "no_create": True}'/>
 
                             <field name="po_no" string="PO NO" invisible="document_type != 'po_article'"/>

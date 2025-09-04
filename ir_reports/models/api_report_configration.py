@@ -14,6 +14,7 @@ class ApiReportConfigration(models.Model):
 
     stage_ids = fields.Many2many("stage.master", string="Stage")
     document_type = fields.Selection(document_type_list, string="Document type")
+    document_type_ids = fields.Many2many("document.type.master", string="Document type")
 
     @api.onchange('report_type')
     def _onchange_report_type_model(self):

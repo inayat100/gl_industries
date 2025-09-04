@@ -14,6 +14,7 @@
         'security/ir.model.access.csv',
         'security/security.xml',
         'data/sequence.xml',
+        'data/document_type_master.xml',
         'views/quality_report_view.xml',
         'views/quality_report_conf_view.xml',
         'views/measurement_view.xml',

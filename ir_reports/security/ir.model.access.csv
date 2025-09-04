@@ -18,6 +18,8 @@ access_pps_process,access_pps_process,model_pps_process,,1,1,1,1
 access_pps_route,access_pps_route,model_pps_route,,1,1,1,1
 access_pps_route_line,access_pps_route_line,model_pps_route_line,,1,1,1,1
 access_stage_master,access_stage_master,model_stage_master,,1,1,1,1
+access_document_type_master,access_document_type_master,model_document_type_master,,1,1,1,1
+
 
 
 
