@@ -49,6 +49,7 @@ class ApiReportConfigration(models.Model):
         "order_id", "brand_id",
         string="Brands"
     )
+    active = fields.Boolean(string="Active", default=True)
 
 
 
