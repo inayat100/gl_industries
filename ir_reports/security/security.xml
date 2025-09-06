@@ -60,7 +60,7 @@
 
         <record id="quality_report_record_rule" model="ir.rule">
             <field name="name">Quality Report Record Rule</field>
-            <field name="model_id" ref="model_pps_lab"/>
+            <field name="model_id" ref="model_quality_report"/>
             <field name="domain_force">
                 [
                 '|', ('party_id', 'in', user.quality_report_id.customer_ids.ids), ('party_id', '=', False),
