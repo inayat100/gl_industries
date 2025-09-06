@@ -102,7 +102,7 @@ class ApiReportConfigration(models.Model):
             user_id = val.get('user_id')
             user = self.env['res.users'].browse(user_id)
             report_id = report_obj.search([('report_type', '=', report_type), ('user_id', '=', user_id)])
-            if report_id:
+            if report_id and len(report_id) > 1:
                 raise UserError(f"{report_id.name} This Report Type Is Already Exist For Same User. {user.name}")
         res = super().create(vals_list)
         if res.report_type == 'sale_order':
