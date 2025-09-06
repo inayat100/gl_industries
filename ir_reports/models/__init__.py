@@ -9,4 +9,6 @@ from . import purchase_order
 from . import mrp_production
 from . import res_user
 from . import api_report_configration
+from . import product
+
 

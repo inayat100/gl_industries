@@ -25,6 +25,7 @@
         'views/pps_report_line_view.xml',
         'views/res_user_view.xml',
         'views/api_report_configration.xml',
+        'views/product_view.xml',
     ],
     'installable': True,
     'application': True,
