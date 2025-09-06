@@ -22,7 +22,7 @@ class ApiReportConfigration(models.Model):
 
     name = fields.Char(string="Name")
     report_id = fields.Many2one("ir.model", string="Report Model")
-    user_id = fields.Many2one("res.users", string="User")
+    user_id = fields.Many2one("res.users", string="User", copy=False)
     report_type = fields.Selection(report_type_list, string="Report Type", required=True)
     disable_edit = fields.Boolean(string="Disable Edit")
     disable_delete = fields.Boolean(string="Disable Delete")
