@@ -148,7 +148,7 @@ class SamplePlaning(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        if view_type == "list":
+        if view_type in ["list", "form"]:
             report_id = self.env['api.report.configration'].search(
                 [('report_type', '=', 'sample_planning'), ('user_id', '=', self.env.user.id)], limit=1)
             for field in report_id.sudo().line_ids.filtered(lambda l: l.is_readonly or l.is_invisible):
@@ -158,13 +158,13 @@ class SamplePlaning(models.Model):
                     if field.is_invisible:
                         field_node.set("column_invisible", "1")
             if report_id.disable_create:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
             if report_id.disable_delete:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("delete", "0")
             if report_id.disable_edit:
-                for node in arch.xpath("//form"):
+                for node in arch.xpath(f"//{view_type}"):
                     node.set("edit", "0")
         return arch, view
 
