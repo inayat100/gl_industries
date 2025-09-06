@@ -132,6 +132,7 @@ class ProductTemplate(models.Model):
                         'voucher_id': data.get('voucher_id') or '',
                         'name': data.get('name') or '',
                         'api_default_code': data.get('code') or '',
+                        'design_no': data.get('code') or '',
                         'active': data.get('Inactive') or '',
                         'l10n_in_hsn_code': data.get('gst_classification_name') or '',
                         'list_price': data.get('sales_rate') or 0.0,
