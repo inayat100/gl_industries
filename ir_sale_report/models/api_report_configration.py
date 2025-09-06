@@ -19,6 +19,7 @@ report_type_list = [
 
 class ApiReportConfigration(models.Model):
     _name = "api.report.configration"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Name")
     report_id = fields.Many2one("ir.model", string="Report Model")
