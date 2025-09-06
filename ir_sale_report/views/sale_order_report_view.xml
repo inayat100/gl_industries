@@ -232,8 +232,8 @@
         <field name="arch" type="xml">
             <search string="Search Sale Order Reports">
                 <!-- Basic search fields -->
-                <field name="style_no"/>
                 <field name="product_id"/>
+                <field name="style_no"/>
                 <field name="buyer_id"/>
                 <field name="po_no"/>
                 <field name="article_no"/>
@@ -256,7 +256,10 @@
                 <group expand="0" string="Group By">
                     <filter name="group_party_id" string="Party" context="{'group_by':'party_id'}"/>
                     <filter name="group_product" string="Product" context="{'group_by':'product_id'}"/>
+                    <filter name="group_lab_test_no" string="Lab Test NO" context="{'group_by':'lab_test_no'}"/>
                     <filter name="group_mc" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="group_pps_nd_date" string="PPS NO" context="{'group_by':'pps_nd_date'}"/>
+                    <filter name="group_vendor_id" string="Contractor Name" context="{'group_by':'vendor_id'}"/>
                     <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
                     <filter name="group_merchant_partner_id" string="Merchant Name" context="{'group_by':'merchant_partner_id'}"/>
                 </group>
