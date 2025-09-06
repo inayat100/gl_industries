@@ -40,7 +40,7 @@
             <field name="domain_force">
                 [
                 '|', ('party_id', 'in', user.pps_report_id.customer_ids.ids), ('party_id', '=', False),
-                '|', ('document_type_id', 'in', user.pps_report_id.document_type_ids), ('document_type_id', '=', False),
+                '|', ('document_type_id', 'in', user.pps_report_id.document_type_ids.ids), ('document_type_id', '=', False),
                 '|', ('brand_id', 'in', user.pps_report_id.brand_ids.ids), ('brand_id', '=', False),
                 '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id',
                 '=', False),
