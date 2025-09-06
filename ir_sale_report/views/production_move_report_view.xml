@@ -54,16 +54,19 @@
             <search string="Production Move Report Search">
                 <!-- Group by -->
                 <group expand="0" string="Group By">
+                    <filter name="group_by_product_cat_id" string="MC" context="{'group_by': 'product_cat_id'}"/>
+                    <filter name="group_by_brand_id" string="Brand" context="{'group_by': 'brand_id'}"/>
                     <filter name="group_by_sale" string="Sale Order" context="{'group_by': 'sale_id'}"/>
                     <filter name="group_by_purchase" string="Purchase Line" context="{'group_by': 'purchase_line_id'}"/>
                 </group>
 
                 <!-- Filters -->
+                <field name="product_id" string="Product"/>
                 <field name="sale_id" string="Sale Order"/>
                 <field name="purchase_line_id" string="Purchase Line"/>
                 <field name="mo_id" string="Manufacturing Order"/>
                 <field name="bom_product_id" string="Component"/>
-                <field name="product_id" string="Product"/>
+
 
                 <!-- Range filters -->
                 <filter string="SO 0 Qty" name="so_qty_gt_0" domain="[('so_qty', '=', 0)]"/>
