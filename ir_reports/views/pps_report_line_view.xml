@@ -61,6 +61,7 @@
         </search>
     </field>
 </record>
+
     <menuitem id="menu_pps_lab_line_joined"
               name="PPS Lab Lines"
               parent="ir_reports.menu_pps_lab_root"

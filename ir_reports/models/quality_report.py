@@ -172,6 +172,18 @@ class QualityReportTrims(models.Model):
     def _onchange_product_id(self):
         self.product_cat_id = self.product_id.categ_id.id
 
+    def action_open_form_view(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Quality Reports",
+            "res_model": "quality.report",
+            "res_id": self.quality_id.id,
+            "domain": [("id", "=", self.quality_id.id)],
+            "view_mode": "form",
+            "context": {'create': False, 'edit': False, 'delete': False},
+        }
+
 
 
 class QualityReportSewingMachine(models.Model):
@@ -194,6 +206,18 @@ class QualityReportSewingMachine(models.Model):
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
     route_id = fields.Many2one(related="quality_id.sewing_route_id", store=True, string="Route")
 
+    def action_open_form_view(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Quality Reports",
+            "res_model": "quality.report",
+            "res_id": self.quality_id.id,
+            "domain": [("id", "=", self.quality_id.id)],
+            "view_mode": "form",
+            "context": {'create': False, 'edit': False, 'delete': False},
+        }
+
 
 class QualityReportFeedOffMachine(models.Model):
     _name = "quality.report.feed.off.machine"
@@ -215,6 +239,18 @@ class QualityReportFeedOffMachine(models.Model):
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
     route_id = fields.Many2one(related="quality_id.feed_route_id", store=True, string="Route")
+
+    def action_open_form_view(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Quality Reports",
+            "res_model": "quality.report",
+            "res_id": self.quality_id.id,
+            "domain": [("id", "=", self.quality_id.id)],
+            "view_mode": "form",
+            "context": {'create': False, 'edit': False, 'delete': False},
+        }
 
 
 class QualityReportConstruction(models.Model):
