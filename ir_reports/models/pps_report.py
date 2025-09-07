@@ -147,6 +147,7 @@ class PPSLabLine(models.Model):
     _name = "pps.lab.line"
 
     pps_lab_id = fields.Many2one("pps.lab", string="PPS LAB")
+    valid_upto = fields.Date(related="pps_lab_id.valid_upto", string="Valid Upto")
     process_id = fields.Many2one('pps.process', string='Process', required=True)
     name = fields.Char(string="Description")
     col1 = fields.Char(string="Col-1")
@@ -161,6 +162,8 @@ class PPSLabLine(models.Model):
     remark4 = fields.Char(string="Remark-4")
 
     parent_date = fields.Date(related="pps_lab_id.date", string="Date", store=True, readonly=True)
+    brand_id = fields.Many2one(related="pps_lab_id.brand_id", string="Brand", store=True, readonly=True)
+
     document_type = fields.Selection(
         related="pps_lab_id.document_type", string="Document Type", store=True, readonly=True
     )
