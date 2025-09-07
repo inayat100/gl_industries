@@ -7,6 +7,8 @@
         <field name="arch" type="xml">
             <list string="Job Work Analysis" editable="bottom">
                 <field name="mo_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+                <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
+                        class="btn btn-link icon-only"/>
                 <field name="product_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="categ_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="brand_id" readonly="1" options="{'no_create': True,'no_open': True}"/>

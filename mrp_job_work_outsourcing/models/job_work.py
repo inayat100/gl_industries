@@ -238,6 +238,17 @@ class JobWorkIssueLine(models.Model):
                         field_node.set("column_invisible", "1")
         return arch, view
 
+    def action_open_form_view(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "MO",
+            "res_model": "mrp.production",
+            "res_id": self.mo_id.id,
+            "domain": [("id", "=", self.mo_id.id)],
+            "view_mode": "form",
+        }
+
 
 
 
