@@ -24,6 +24,9 @@ class MeasurementReport(models.Model):
     line_ids = fields.One2many("measurement.report.line", "measurement_id", string="Lines", tracking=True)
     route_id = fields.Many2one("measurement.route", string="Route", tracking=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
+    color_id = fields.Many2one("color.master", string="Color", tracking=True)
+    washing_item_id = fields.Many2one("washing.item", string="WASHING", tracking=True)
+    vendor_name = fields.Char(string="WASHER Name")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -31,6 +34,9 @@ class MeasurementReport(models.Model):
         self.brand_id = self.product_id.brand_id.id
         self.mrp = self.product_id.mrp
         self.d_no = self.product_id.design_no
+        self.vendor_name = self.product_id.vendor_name
+        self.color_id = self.product_id.color_id.id
+        self.washing_item_id = self.product_id.washing_item_id.id
 
 
     @api.onchange('route_id')
@@ -158,6 +164,8 @@ class MeasurementReportLine(models.Model):
         string="Fabricator Name"
     )
     stage_id = fields.Many2one(related="measurement_id.stage_id", store=True, string="Stage")
+    product_cat_id = fields.Many2one(related="measurement_id.product_cat_id", store=True, string="MC")
+    product_id = fields.Many2one(related="measurement_id.product_id", store=True, string="Style NO")
     brand_id = fields.Many2one(
         related="measurement_id.brand_id",
         store=True,
@@ -173,6 +181,7 @@ class MeasurementReportLine(models.Model):
         store=True,
         string="Delivery Date"
     )
+    mrp = fields.Float(related="measurement_id.mrp", store=True, string="Mrp")
 
 
     def action_open_form_view(self):

@@ -7,6 +7,7 @@
         <field name="inherit_id" ref="ir_sale_report.product_template_form_view"/>
         <field name="arch" type="xml">
             <field name="api_barcode" position="before">
+                <field name="washing_item_id"/>
                 <field name="stage_id"/>
             </field>
         </field>

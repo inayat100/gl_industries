@@ -8,15 +8,75 @@
             <list string="Measurement Report Lines" create="false" edit="false" delete="false">
                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
+               <field name="measurement_id"/>
+                <field name="process_id"/>
+                <field name="tol"/>
+                <field name="remark"/>
+                <field name="size1"/>
+                <field name="year1"/>
+                <field name="year2"/>
+                <field name="year3"/>
+                <field name="size2"/>
+                <field name="year4"/>
+                <field name="year5"/>
+                <field name="year6"/>
+                <field name="size3"/>
+                <field name="year7"/>
+                <field name="year8"/>
+                <field name="year9"/>
+                <field name="size4"/>
+                <field name="year10"/>
+                <field name="year11"/>
+                <field name="year12"/>
+                <field name="size5"/>
+                <field name="year13"/>
+                <field name="year14"/>
+                <field name="year15"/>
+                <field name="note1"/>
+                <field name="note2"/>
+                <!-- Related fields -->
                 <field name="report_date"/>
                 <field name="fabricator_name_id"/>
-                <field name="party_id"/>
-                <field name="brand_id"/>
-                <field name="delivery_date"/>
                 <field name="stage_id"/>
+                <field name="product_cat_id"/>
+                <field name="product_id"/>
+                <field name="brand_id"/>
+                <field name="party_id"/>
+                <field name="delivery_date"/>
+                <field name="mrp"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_measurement_report_line_search" model="ir.ui.view">
+        <field name="name">measurement.report.line.search</field>
+        <field name="model">measurement.report.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Measurement Report Lines">
+                <field name="product_id"/>
+                <field name="measurement_id"/>
                 <field name="process_id"/>
                 <field name="remark"/>
-            </list>
+                <field name="party_id"/>
+                <field name="brand_id"/>
+                <field name="fabricator_name_id"/>
+                <field name="stage_id"/>
+                <field name="product_cat_id"/>
+                <field name="report_date"/>
+                <field name="delivery_date"/>
+                <field name="mrp"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_measurement" string="Measurement" context="{'group_by':'measurement_id'}"/>
+                    <filter name="group_process" string="Particular" context="{'group_by':'process_id'}"/>
+                    <filter name="group_fabricator" string="Fabricator" context="{'group_by':'fabricator_name_id'}"/>
+                    <filter name="group_brand" string="Brand" context="{'group_by':'brand_id'}"/>
+                    <filter name="group_party" string="Party" context="{'group_by':'party_id'}"/>
+                    <filter name="group_stage" string="Stage" context="{'group_by':'stage_id'}"/>
+                    <filter name="group_mc" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="group_style" string="Style NO" context="{'group_by':'product_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

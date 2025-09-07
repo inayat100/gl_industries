@@ -19,6 +19,9 @@
                 <field name="party_id"/>
                 <field name="status"/>
                 <field name="delivery_date"/>
+                <field name="remark"/>
+                <field name="remark1"/>
+                <field name="vendor_name"/>
             </list>
         </field>
     </record>
@@ -32,20 +35,24 @@
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="date"/>
-                            <field name="fabricator_name_id" options='{"no_open": True, "no_create": True}'/>
-                            <field name="stage_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="date" required="1"/>
+                            <field name="fabricator_name_id" required="1"
+                                   options='{"no_open": True, "no_create": True}'/>
+                            <field name="stage_id" required="1" options='{"no_open": True, "no_create": True}'/>
                             <field name="debit"/>
                             <field name="qty"/>
                             <field name="master_name_id" options='{"no_open": True, "no_create": True}'/>
-                            <field name="product_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_id" required="1" options='{"no_open": True, "no_create": True}'/>
+                            <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="washing_item_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="vendor_name"/>
                         </group>
                         <group>
                             <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="brand_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="mrp"/>
                             <field name="d_no"/>
-                            <field name="party_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="party_id" required="1" options='{"no_open": True, "no_create": True}'/>
                             <field name="status"/>
                             <field name="delivery_date"/>
                             <field name="remark"/>
@@ -99,31 +106,40 @@
         <field name="model">measurement.report</field>
         <field name="arch" type="xml">
             <search string="Search View">
+                <field name="product_id"/>
+                <field name="fabricator_name_id"/>
+                <field name="mrp"/>
+
                 <filter name="active" string="Active" domain="[('active', '=', True)]"/>
                 <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
 
                 <group expand="0" string="Group By">
-                    <filter name="fabricator_name_id" string="FABRICATOR NAME" context="{'group_by':'fabricator_name_id'}"/>
-                    <filter name="stage_id" string="State" context="{'group_by':'stage_id'}"/>
+                    <filter name="fabricator_name_id" string="FABRICATOR NAME"
+                            context="{'group_by':'fabricator_name_id'}"/>
+                    <filter name="stage_id" string="Stage" context="{'group_by':'stage_id'}"/>
                     <filter name="master_name_id" string="Master Name" context="{'group_by':'master_name_id'}"/>
                     <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
                     <filter name="brand_id" string="Brand" context="{'group_by':'brand_id'}"/>
                     <filter name="party_id" string="Party" context="{'group_by':'party_id'}"/>
+                    <filter name="color_id" string="Color" context="{'group_by':'color_id'}"/>
+                    <filter name="vendor_name" string="WASHER Name" context="{'group_by':'vendor_name'}"/>
                 </group>
             </search>
         </field>
     </record>
 
-      <record id="action_measurement_report" model="ir.actions.act_window">
+    <record id="action_measurement_report" model="ir.actions.act_window">
         <field name="name">Measurement Reports</field>
         <field name="res_model">measurement.report</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
-            <p>Click <b>Create</b> to add a new Measurement Report.</p>
+            <p>Click <b>Create</b> to add a new Measurement Report.
+            </p>
         </field>
     </record>
 
-        <menuitem id="menu_measurement_report_root" name="Measurement Reports" sequence="20" groups="ir_reports.group_measurement_report_access_right"/>
+    <menuitem id="menu_measurement_report_root" name="Measurement Reports" sequence="20"
+              groups="ir_reports.group_measurement_report_access_right"/>
     <menuitem id="menu_measurement_report" name="Reports" parent="menu_measurement_report_root"
               action="action_measurement_report" sequence="10"/>
 
