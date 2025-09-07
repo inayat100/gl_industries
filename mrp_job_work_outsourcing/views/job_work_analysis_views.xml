@@ -9,6 +9,10 @@
                 <field name="mo_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <button name="action_open_form_view" type="object" icon="fa-eye" title="Open Form"
                         class="btn btn-link icon-only"/>
+                <field name="bom_id" readonly="1"/>
+                <field name="job_work_expected_date" readonly="1"/>
+                <field name="date_start" readonly="1"/>
+                <field name="product_qty" readonly="1"/>
                 <field name="product_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="categ_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
                 <field name="brand_id" readonly="1" options="{'no_create': True,'no_open': True}"/>

@@ -166,6 +166,10 @@ class JobWorkIssueLine(models.Model):
 
     # Related fields for easier access and reporting
     mo_id = fields.Many2one(related='job_work_line_id.mo_id', store=True, readonly=True)
+    bom_id = fields.Many2one(related='job_work_line_id.mo_id.bom_id', store=True, readonly=True)
+    job_work_expected_date = fields.Date(related='job_work_line_id.mo_id.job_work_expected_date', store=True, readonly=True)
+    date_start = fields.Datetime(related='job_work_line_id.mo_id.date_start', store=True, readonly=True)
+    product_qty = fields.Float(related='job_work_line_id.mo_id.product_qty', store=True, readonly=True)
     product_id = fields.Many2one(related='job_work_line_id.mo_id.product_id', store=True, readonly=True)
     categ_id = fields.Many2one(related='job_work_line_id.mo_id.product_id.categ_id', store=True, readonly=True)
     mrp = fields.Float(related='job_work_line_id.mo_id.product_id.mrp', store=True, readonly=True)
