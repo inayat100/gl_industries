@@ -129,6 +129,9 @@
         <field name="model">quality.report</field>
         <field name="arch" type="xml">
             <search string="Search View">
+                <field name="product_id"/>
+                <field name="fabricator_name_id"/>
+
                 <filter name="active" string="Active" domain="[('active', '=', True)]"/>
                 <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
 
