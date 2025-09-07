@@ -164,6 +164,60 @@ class ApiReportConfigration(models.Model):
                 report.user_id.refresh_user_group(group_xml_id)
         return res
 
+    def action_selection_customer(self):
+        partner_ids = self.env['res.partner'].search([])
+        self.customer_ids = partner_ids.ids
+
+    def action_remove_customer(self):
+        self.customer_ids = [(5, 0, 0)]
+
+    def action_selection_vendor(self):
+        partner_ids = self.env['res.partner'].search([])
+        self.vendor_ids = partner_ids.ids
+
+    def action_remove_vendor(self):
+        self.vendor_ids = [(5, 0, 0)]
+
+    def action_selection_user(self):
+        user_ids = self.env['res.users'].search([])
+        self.user_ids = user_ids.ids
+
+    def action_remove_user(self):
+        self.user_ids = [(5, 0, 0)]
+
+    def action_selection_brand(self):
+        brand_ids = self.env['brand.master'].search([])
+        self.brand_ids = brand_ids.ids
+
+    def action_remove_brand(self):
+        self.brand_ids = [(5, 0, 0)]
+
+    def action_selection_mc(self):
+        mc_ids = self.env['product.category'].search([])
+        self.product_cat_ids = mc_ids.ids
+
+    def action_remove_mc(self):
+        self.product_cat_ids = [(5, 0, 0)]
+
+    def action_selection_readonly(self):
+        self.line_ids.write({
+            'is_readonly': True
+        })
+
+    def action_remove_readonly(self):
+        self.line_ids.write({
+            'is_readonly': False
+        })
+
+    def action_selection_invisible(self):
+        self.line_ids.write({
+            'is_invisible': True
+        })
+
+    def action_remove_invisible(self):
+        self.line_ids.write({
+            'is_invisible': False
+        })
 
 
 class ApiReportConfigrationLine(models.Model):

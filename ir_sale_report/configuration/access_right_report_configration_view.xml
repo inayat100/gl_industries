@@ -7,18 +7,36 @@
         <field name="arch" type="xml">
             <form string="API Report Configuration">
                 <header>
-                     <button name="action_create_line" type="object" string="Create Line"/>
+                    <button name="action_create_line" type="object" string="Create Line"/>
+                    <button name="action_selection_customer" type="object" string="All Customer Selection"/>
+                    <button name="action_selection_vendor" type="object" string="All Vendor Selection"/>
+                    <button name="action_selection_user" type="object" string="All User Selection"/>
+                    <button name="action_selection_brand" type="object" string="All Brand Selection"/>
+                    <button name="action_selection_mc" type="object" string="All MC Selection"/>
+
+                    <button name="action_remove_customer" type="object" string="All Customer Remove"/>
+                    <button name="action_remove_vendor" type="object" string="All Vendor Remove"/>
+                    <button name="action_remove_user" type="object" string="All User Remove"/>
+                    <button name="action_remove_brand" type="object" string="All Brand Remove"/>
+                    <button name="action_remove_mc" type="object" string="All MC Remove"/>
                 </header>
                 <sheet>
                     <group>
                         <field name="name"/>
                         <field name="user_id"/>
                         <field name="report_type" required="1"/>
-                        <field name="customer_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
-                        <field name="vendor_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
-                        <field name="user_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
-                        <field name="brand_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
-                        <field name="product_cat_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags" invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="customer_ids" options='{"no_open": True, "no_create": True}'
+                               widget="many2many_tags"
+                               invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="vendor_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
+                               invisible="report_type not in ['measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="user_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
+                               invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="brand_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
+                               invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                        <field name="product_cat_ids" options='{"no_open": True, "no_create": True}'
+                               widget="many2many_tags"
+                               invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
                         <field name="report_id" invisible="1"/>
                     </group>
                     <group>
@@ -34,9 +52,14 @@
                     </group>
                     <notebook>
                         <page string="Fields Configuration">
+                            <button name="action_selection_readonly" type="object" string="All Readonly" class="m-2"/>
+                            <button name="action_remove_readonly" type="object" string="All Remove Readonly" class="m-2"/>
+                            <button name="action_selection_invisible" type="object" string="All Invisible" class="m-2"/>
+                            <button name="action_remove_invisible" type="object" string="All Remove Invisible" class="m-2"/>
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="field_id" options='{"no_open": True, "no_create": True}' domain="[('model_id', '=', parent.report_id)]"/>
+                                    <field name="field_id" options='{"no_open": True, "no_create": True}'
+                                           domain="[('model_id', '=', parent.report_id)]"/>
                                     <field name="is_readonly"/>
                                     <field name="is_invisible"/>
                                 </list>
@@ -92,8 +115,10 @@
     </record>
 
     <!-- MENU -->
-    <menuitem id="menu_api_report_root" name="Report Access Right" groups="ir_sale_report.group_report_access_right" sequence="10"/>
+    <menuitem id="menu_api_report_root" name="Report Access Right" groups="ir_sale_report.group_report_access_right"
+              sequence="10"/>
     <menuitem id="menu_api_report_config" name="Configurations" parent="menu_api_report_root" sequence="20"/>
-    <menuitem id="menu_api_report_config_action" name="Field Config" parent="menu_api_report_config" action="action_api_report_config" sequence="30"/>
+    <menuitem id="menu_api_report_config_action" name="Field Config" parent="menu_api_report_config"
+              action="action_api_report_config" sequence="30"/>
 
 </odoo>
