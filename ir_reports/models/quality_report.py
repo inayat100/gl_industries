@@ -157,6 +157,10 @@ class QualityReportTrims(models.Model):
     process_id = fields.Many2one('quality.process', string='Process')
     process_remark = fields.Char(string="Process Remark")
     quality_id = fields.Many2one("quality.report", string="Quality")
+    fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
+    product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
+    product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
+    qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
     product_id = fields.Many2one("product.product", string="Product")
     receive = fields.Char(string="Receive")
     product_cat_id = fields.Many2one("product.category", string="MC")
@@ -183,6 +187,10 @@ class QualityReportSewingMachine(models.Model):
     roll_no = fields.Char(string="Roll NO")
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
+    fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
+    product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
+    product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
+    qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
 
 
 class QualityReportFeedOffMachine(models.Model):
@@ -199,6 +207,11 @@ class QualityReportFeedOffMachine(models.Model):
     roll_no = fields.Char(string="Roll NO")
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
+
+    fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
+    product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
+    product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
+    qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
 
 
 class QualityReportConstruction(models.Model):

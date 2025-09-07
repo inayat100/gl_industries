@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Tree/List View -->
+    <record id="view_quality_report_trims_tree" model="ir.ui.view">
+        <field name="name">quality.report.trims.tree</field>
+        <field name="model">quality.report.trims</field>
+        <field name="arch" type="xml">
+            <list string="Trims" default_order="id desc">
+                <field name="process_id"/>
+                <field name="process_remark"/>
+                <field name="product_id"/>
+                <field name="receive"/>
+                <field name="product_cat_id"/>
+                <field name="remark"/>
+                <field name="remark1"/>
+                <field name="fabricator_name_id"/>
+                <field name="product_qt_id"/>
+                <field name="product_qt_cat_id"/>
+                <field name="qty"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_quality_report_trims_form" model="ir.ui.view">
+        <field name="name">quality.report.trims.form</field>
+        <field name="model">quality.report.trims</field>
+        <field name="arch" type="xml">
+            <form string="Trims">
+                <sheet>
+                    <group>
+                        <field name="process_id"/>
+                        <field name="process_remark"/>
+                        <field name="product_id"/>
+                        <field name="receive"/>
+                        <field name="product_cat_id"/>
+                        <field name="remark"/>
+                        <field name="remark1"/>
+                    </group>
+                    <group>
+                        <field name="fabricator_name_id" readonly="1"/>
+                        <field name="product_qt_id" readonly="1"/>
+                        <field name="product_qt_cat_id" readonly="1"/>
+                        <field name="qty" readonly="1"/>
+                        <field name="quality_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_quality_report_trims" model="ir.actions.act_window">
+        <field name="name">Trims</field>
+        <field name="res_model">quality.report.trims</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': 0, 'edit':0, 'delete': 0}</field>
+    </record>
+
+
+    <record id="view_quality_report_trims_search" model="ir.ui.view">
+        <field name="name">quality.report.trims.search</field>
+        <field name="model">quality.report.trims</field>
+        <field name="arch" type="xml">
+            <search string="Trims">
+                <!-- Quick search fields -->
+                <field name="process_id"/>
+                <field name="product_id"/>
+                <field name="product_cat_id"/>
+                <field name="fabricator_name_id"/>
+                <field name="product_qt_id"/>
+                <field name="product_qt_cat_id"/>
+                <field name="receive"/>
+                <field name="remark"/>
+
+                <!-- Filters -->
+                <filter name="filter_process" string="By Process" domain="[]"
+                        context="{'group_by': 'process_id'}"/>
+                <filter name="filter_product" string="By Product" domain="[]"
+                        context="{'group_by': 'product_id'}"/>
+                <filter name="filter_fabricator" string="By Fabricator" domain="[]"
+                        context="{'group_by': 'fabricator_name_id'}"/>
+                <filter name="filter_mc" string="By MC" domain="[]"
+                        context="{'group_by': 'product_cat_id'}"/>
+
+                <!-- Group By Section -->
+                <group expand="0" string="Group By">
+                    <filter name="group_by_process" string="Process"
+                            context="{'group_by': 'process_id'}"/>
+                    <filter name="group_by_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_by_fabricator" string="Fabricator"
+                            context="{'group_by': 'fabricator_name_id'}"/>
+                    <filter name="group_by_mc" string="MC"
+                            context="{'group_by': 'product_cat_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Menu Item (under Quality Report main menu) -->
+    <menuitem id="menu_quality_report_trims_root"
+              name="Trims"
+              parent="ir_reports.menu_quality_root"
+              action="action_quality_report_trims"
+              sequence="30"/>
+</odoo>

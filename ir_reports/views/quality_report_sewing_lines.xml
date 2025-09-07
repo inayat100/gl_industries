@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_quality_report_sewing_machine_tree" model="ir.ui.view">
+        <field name="name">quality.report.sewing.machine.tree</field>
+        <field name="model">quality.report.sewing.machine</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="process_id"/>
+                <field name="process_remark"/>
+                <field name="machine_name"/>
+                <field name="machine_no"/>
+                <field name="operator_name"/>
+                <field name="spi"/>
+                <field name="roll_no"/>
+                <field name="remark"/>
+                <field name="remark1"/>
+                <field name="fabricator_name_id"/>
+                <field name="product_qt_id"/>
+                <field name="product_qt_cat_id"/>
+                <field name="qty"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_quality_report_sewing_machine_form" model="ir.ui.view">
+        <field name="name">quality.report.sewing.machine.form</field>
+        <field name="model">quality.report.sewing.machine</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="process_id"/>
+                            <field name="process_remark"/>
+                            <field name="machine_name"/>
+                            <field name="machine_no"/>
+                            <field name="operator_name"/>
+                            <field name="spi"/>
+                            <field name="roll_no"/>
+                        </group>
+                        <group>
+                            <field name="remark"/>
+                            <field name="remark1"/>
+                            <field name="fabricator_name_id"/>
+                            <field name="product_qt_id"/>
+                            <field name="product_qt_cat_id"/>
+                            <field name="qty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_quality_report_sewing_machine_search" model="ir.ui.view">
+        <field name="name">quality.report.sewing.machine.search</field>
+        <field name="model">quality.report.sewing.machine</field>
+        <field name="arch" type="xml">
+           <search string="Search Sewing Machine">
+            <!-- Quick search fields -->
+            <field name="process_id"/>
+            <field name="machine_name"/>
+            <field name="machine_no"/>
+            <field name="operator_name"/>
+            <field name="spi"/>
+            <field name="roll_no"/>
+            <field name="fabricator_name_id"/>
+            <field name="product_qt_id"/>
+            <field name="product_qt_cat_id"/>
+               
+        </search>
+        </field>
+    </record>
+
+    <record id="action_quality_report_sewing_machine" model="ir.actions.act_window">
+        <field name="name">Sewing Machine Reports</field>
+        <field name="res_model">quality.report.sewing.machine</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_quality_report_sewing_machine_root"
+              name="Sewing Machine Reports"
+              parent="ir_reports.menu_quality_root"
+              action="action_quality_report_sewing_machine"/>
+</odoo>
