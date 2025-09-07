@@ -5,6 +5,7 @@
         <field name="model">quality.report.sewing.machine</field>
         <field name="arch" type="xml">
             <list>
+                <field name="route_id"/>
                 <field name="process_id"/>
                 <field name="process_remark"/>
                 <field name="machine_name"/>
@@ -30,6 +31,7 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="route_id"/>
                             <field name="process_id"/>
                             <field name="process_remark"/>
                             <field name="machine_name"/>
@@ -68,7 +70,7 @@
             <field name="fabricator_name_id"/>
             <field name="product_qt_id"/>
             <field name="product_qt_cat_id"/>
-               
+
         </search>
         </field>
     </record>

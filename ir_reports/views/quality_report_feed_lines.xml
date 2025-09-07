@@ -6,6 +6,7 @@
         <field name="model">quality.report.feed.off.machine</field>
         <field name="arch" type="xml">
             <list string="Feed Off Machines" default_order="id desc">
+                <field name="route_id"/>
                 <field name="process_id"/>
                 <field name="process_remark"/>
                 <field name="machine_name"/>
@@ -31,6 +32,7 @@
             <form string="Feed Off Machine">
                 <sheet>
                     <group>
+                        <field name="route_id"/>
                         <field name="process_id"/>
                         <field name="process_remark"/>
                         <field name="machine_name"/>

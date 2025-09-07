@@ -161,6 +161,7 @@ class QualityReportTrims(models.Model):
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
+    route_id = fields.Many2one(related="quality_id.trims_route_id", store=True, string="Route")
     product_id = fields.Many2one("product.product", string="Product")
     receive = fields.Char(string="Receive")
     product_cat_id = fields.Many2one("product.category", string="MC")
@@ -191,6 +192,7 @@ class QualityReportSewingMachine(models.Model):
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
+    route_id = fields.Many2one(related="quality_id.sewing_route_id", store=True, string="Route")
 
 
 class QualityReportFeedOffMachine(models.Model):
@@ -212,6 +214,7 @@ class QualityReportFeedOffMachine(models.Model):
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
+    route_id = fields.Many2one(related="quality_id.feed_route_id", store=True, string="Route")
 
 
 class QualityReportConstruction(models.Model):

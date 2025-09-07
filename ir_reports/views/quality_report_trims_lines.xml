@@ -6,6 +6,7 @@
         <field name="model">quality.report.trims</field>
         <field name="arch" type="xml">
             <list string="Trims" default_order="id desc">
+                <field name="route_id"/>
                 <field name="process_id"/>
                 <field name="process_remark"/>
                 <field name="product_id"/>
