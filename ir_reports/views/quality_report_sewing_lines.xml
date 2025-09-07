@@ -61,6 +61,7 @@
         <field name="arch" type="xml">
            <search string="Search Sewing Machine">
             <!-- Quick search fields -->
+               <field name="product_qt_id"/>
             <field name="process_id"/>
             <field name="machine_name"/>
             <field name="machine_no"/>
@@ -68,8 +69,19 @@
             <field name="spi"/>
             <field name="roll_no"/>
             <field name="fabricator_name_id"/>
-            <field name="product_qt_id"/>
             <field name="product_qt_cat_id"/>
+
+
+               <group expand="0" string="Group By">
+                    <filter name="group_by_process_id" string="Process"
+                            context="{'group_by': 'process_id'}"/>
+                    <filter name="group_by_product_qt_id" string="Product"
+                            context="{'group_by': 'product_qt_id'}"/>
+                    <filter name="group_by_fabricator_name_id" string="Fabricator"
+                            context="{'group_by': 'fabricator_name_id'}"/>
+                    <filter name="group_by_product_qt_cat_id" string="MC"
+                            context="{'group_by': 'product_qt_cat_id'}"/>
+                </group>
 
         </search>
         </field>

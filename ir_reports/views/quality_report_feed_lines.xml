@@ -69,6 +69,8 @@
         <field name="arch" type="xml">
             <search string="Feed Off Machines">
                 <!-- Quick search fields -->
+                <field name="product_qt_id"/>
+                <field name="product_qt_cat_id"/>
                 <field name="process_id"/>
                 <field name="machine_name"/>
                 <field name="machine_no"/>
@@ -76,8 +78,6 @@
                 <field name="spi"/>
                 <field name="roll_no"/>
                 <field name="fabricator_name_id"/>
-                <field name="product_qt_id"/>
-                <field name="product_qt_cat_id"/>
                 <field name="remark"/>
                 <field name="remark1"/>
 

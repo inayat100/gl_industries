@@ -65,8 +65,8 @@
         <field name="arch" type="xml">
             <search string="Trims">
                 <!-- Quick search fields -->
-                <field name="process_id"/>
                 <field name="product_id"/>
+                <field name="process_id"/>
                 <field name="product_cat_id"/>
                 <field name="fabricator_name_id"/>
                 <field name="product_qt_id"/>
