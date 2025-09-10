@@ -5,6 +5,10 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")
+    remark_1 = fields.Char(string="Remark 1")
+    remark_2 = fields.Char(string="Remark 2")
+    remark_3 = fields.Char(string="Remark 3")
+    remark_4 = fields.Char(string="Remark 4")
 
     @api.model
     def _get_view_cache_key(self, view_id=None, view_type="form", **options):
