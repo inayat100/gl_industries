@@ -6,16 +6,19 @@
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+
                 <button name="action_view_jobwork_issues" type="object" class="oe_stat_button" icon="fa-truck">
                     <field name="jobwork_issue_count" widget="statinfo" string="Issues"/>
                 </button>
+
                 <button name="action_view_jobwork_receipts" type="object" class="oe_stat_button" icon="fa-inbox">
                     <field name="jobwork_receipt_count" widget="statinfo" string="Receipts"/>
                 </button>
+
             </xpath>
 
             <xpath expr="//field[@name='user_id']" position="after">
-                <field name="job_work_route_id"/>
+                <field name="job_work_route_id" options="{'no_create': True,'no_open': True}"/>
                 <field name="total_job_work_days" readonly="1" invisible="total_job_work_days == 0"/>
                 <field name="job_work_expected_date" readonly="1" invisible="total_job_work_days == 0"/>
             </xpath>
