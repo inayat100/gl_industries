@@ -19,4 +19,12 @@
     <record id="record_fit_sample" model="document.type.master">
         <field name="name">FIT Sample</field>
     </record>
+
+    <record id="record_Lot_sample" model="document.type.master">
+        <field name="name">Lot Sample</field>
+    </record>
+
+    <record id="record_final_sample" model="document.type.master">
+        <field name="name">Final Sample</field>
+    </record>
 </odoo>

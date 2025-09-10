@@ -6,6 +6,8 @@ document_type_list = [
     ('lab_test', 'Lab Test'),
     ('photo_sample', 'Photo Sample'),
     ('fit_sample', 'FIT Sample'),
+    ('lot_sample', 'Lot Sample'),
+    ('final_sample', 'Final Sample'),
 ]
 
 class PPSLab(models.Model):
@@ -75,6 +77,10 @@ class PPSLab(models.Model):
             self.document_type = 'photo_sample'
         elif self.document_type_id.name == 'FIT Sample':
             self.document_type = 'fit_sample'
+        elif self.document_type_id.name == 'Lot Sample':
+            self.document_type = 'lot_sample'
+        elif self.document_type_id.name == 'Final Sample':
+            self.document_type = 'final_sample'
 
     @api.model_create_multi
     def create(self, vals_list):

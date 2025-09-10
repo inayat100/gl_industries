@@ -40,30 +40,41 @@
                             <field name="po_no" required="1" string="Lab Test NO" invisible="document_type != 'lab_test'"/>
                             <field name="po_no" required="1" string="Photo Sample" invisible="document_type != 'photo_sample'"/>
                             <field name="po_no" required="1" string="FIT Sample" invisible="document_type != 'fit_sample'"/>
+                            <field name="po_no" required="1" string="Lot Sample" invisible="document_type != 'lot_sample'"/>
+                            <field name="po_no" required="1" string="Lot Final Sample" invisible="document_type != 'final_sample'"/>
 
                             <field name="new_po_no" string="New PO NO" invisible="document_type != 'po_article'"/>
                             <field name="new_po_no" string="New PPS NO" invisible="document_type != 'pps'"/>
                             <field name="new_po_no" string="New Lab Test NO" invisible="document_type != 'lab_test'"/>
                             <field name="new_po_no" string="New Photo Sample" invisible="document_type != 'photo_sample'"/>
                             <field name="new_po_no" string="New FIT Sample" invisible="document_type != 'fit_sample'"/>
+                            <field name="new_po_no" string="New Lot Sample" invisible="document_type != 'lot_sample'"/>
+                            <field name="new_po_no" string="New Lot Final Sample" invisible="document_type != 'final_sample'"/>
 
                             <field name="article_no" string="PO Article" invisible="document_type != 'po_article'"/>
                             <field name="article_no" string="PPS Article" invisible="document_type != 'pps'"/>
                             <field name="article_no" string="Lab Test Article" invisible="document_type != 'lab_test'"/>
                             <field name="article_no" string="Photo Sample Article" invisible="document_type != 'photo_sample'"/>
                             <field name="article_no" string="FIT Sample Article" invisible="document_type != 'fit_sample'"/>
+                            <field name="article_no" string="Lot Sample Article" invisible="document_type != 'lot_sample'"/>
+                            <field name="article_no" string="Lot Final Sample Article" invisible="document_type != 'final_sample'"/>
 
                             <field name="article_url" string="PO URL" invisible="document_type != 'po_article'"/>
                             <field name="article_url" string="PPS URL" invisible="document_type != 'pps'"/>
                             <field name="article_url" string="Lab Test URL" invisible="document_type != 'lab_test'"/>
                             <field name="article_url" string="Photo Sample URL" invisible="document_type != 'photo_sample'"/>
                             <field name="article_url" string="FIT Sample URL" invisible="document_type != 'fit_sample'"/>
+                            <field name="article_url" string="Lot Sample URL" invisible="document_type != 'lot_sample'"/>
+                            <field name="article_url" string="Lot Final Sample URL" invisible="document_type != 'final_sample'"/>
 
                             <field name="new_article_no" string="PO New Article" invisible="document_type != 'po_article'"/>
                             <field name="new_article_no" string="PPS New Article" invisible="document_type != 'pps'"/>
                             <field name="new_article_no" string="Lab Test New Article" invisible="document_type != 'lab_test'"/>
                             <field name="new_article_no" string="Photo Sample New Article" invisible="document_type != 'photo_sample'"/>
                             <field name="new_article_no" string="FIT Sample New Article" invisible="document_type != 'fit_sample'"/>
+                            <field name="new_article_no" string="Lot Sample New Article" invisible="document_type != 'lot_sample'"/>
+                            <field name="new_article_no" string="Lot Final Sample New Article" invisible="document_type != 'final_sample'"/>
+
                             <field name="valid_upto"/>
                             <field name="img" widget="image" class="oe_avatar"
                                options="{'preview_image': 'image_128'}"/>
