@@ -137,4 +137,19 @@
         </field>
     </record>
 
+    <record id="view_product_template_search_inherit" model="ir.ui.view">
+    <field name="name">product.template.search.inherit.groupby</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_search_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//group" position="inside">
+         <filter string="Brand" name="group_by_brand" context="{'group_by': 'brand_id'}"/>
+         <filter string="Color" name="group_by_color_id" context="{'group_by': 'color_id'}"/>
+         <filter string="Season" name="group_by_season_id" context="{'group_by': 'season_id'}"/>
+         <filter string="PPS/WIDTH" name="group_by_pps_width" context="{'group_by': 'pps_width'}"/>
+         <filter string="LAB/Comp" name="group_by_lab_comp" context="{'group_by': 'lab_comp'}"/>
+        </xpath>
+    </field>
+    </record>
+
 </odoo>
