@@ -35,8 +35,8 @@
                             <field name="product_id" required="1" options='{"no_open": True, "no_create": True}'/>
                             <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
                             <field name="qty" required="1"/>
-<!--                            <field name="img" widget="image" class="oe_avatar"-->
-<!--                               options="{'convert_to_webp': True, 'preview_image': 'image_128'}"/>-->
+                            <field name="img" widget="image" class="oe_avatar"
+                               options="{'preview_image': 'image_128'}"/>
                         </group>
                         <group>
                             <field name="cutting_issue_date" required="1"/>

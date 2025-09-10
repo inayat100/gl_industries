@@ -66,7 +66,7 @@
                             <field name="new_article_no" string="FIT Sample New Article" invisible="document_type != 'fit_sample'"/>
                             <field name="valid_upto"/>
                             <field name="img" widget="image" class="oe_avatar"
-                               options="{'convert_to_webp': True, 'preview_image': 'image_128'}"/>
+                               options="{'preview_image': 'image_128'}"/>
                         </group>
                         <group>
                             <field name="po_url" string="PO URL" invisible="document_type != 'po_article'"/>
