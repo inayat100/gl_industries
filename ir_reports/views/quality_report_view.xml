@@ -51,11 +51,11 @@
                     <notebook>
                         <page string="Trims">
                             <group>
-                                <field name="trims_route_id"/>
+                                <field name="trims_route_id" options='{"no_open": True, "no_create": True}'/>
                             </group>
                             <field name="trims_lines">
                                 <list editable="bottom">
-                                    <field name="process_id"/>
+                                    <field name="process_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="process_remark"/>
                                     <field name="product_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="receive"/>
@@ -67,11 +67,11 @@
                         </page>
                         <page string="Sewing">
                             <group>
-                                <field name="sewing_route_id"/>
+                                <field name="sewing_route_id" options='{"no_open": True, "no_create": True}'/>
                             </group>
                             <field name="sewing_machine_lines">
                                 <list editable="bottom">
-                                    <field name="process_id"/>
+                                    <field name="process_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="process_remark"/>
                                     <field name="machine_name"/>
                                     <field name="machine_no"/>
@@ -85,11 +85,11 @@
                         </page>
                         <page string="Feed Off">
                             <group>
-                                <field name="feed_route_id"/>
+                                <field name="feed_route_id" options='{"no_open": True, "no_create": True}'/>
                             </group>
                             <field name="feed_lines">
                                 <list editable="bottom">
-                                    <field name="process_id"/>
+                                    <field name="process_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="process_remark"/>
                                     <field name="machine_name"/>
                                     <field name="machine_no"/>
@@ -103,11 +103,11 @@
                         </page>
                         <page string="Construction">
                             <group>
-                                <field name="construction_route_id"/>
+                                <field name="construction_route_id" options='{"no_open": True, "no_create": True}'/>
                             </group>
                             <field name="construction_lines">
                                 <list editable="bottom">
-                                    <field name="process_id"/>
+                                    <field name="process_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="process_remark"/>
                                     <field name="position"/>
                                     <field name="operator_name"/>

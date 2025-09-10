@@ -67,7 +67,7 @@
                             </group>
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="process_id"/>
+                                    <field name="process_id" options='{"no_open": True, "no_create": True}'/>
                                     <field name="tol"/>
                                     <field name="size1"/>
                                     <field name="year1"/>
