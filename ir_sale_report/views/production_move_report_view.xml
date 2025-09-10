@@ -57,6 +57,9 @@
                     <filter name="group_by_product_cat_id" string="MC" context="{'group_by': 'product_cat_id'}"/>
                     <filter name="group_by_brand_id" string="Brand" context="{'group_by': 'brand_id'}"/>
                     <filter name="group_by_sale" string="Sale Order" context="{'group_by': 'sale_id'}"/>
+                    <filter name="group_by_mo_id" string="MO" context="{'group_by': 'mo_id'}"/>
+                    <filter name="group_by_so_partner_id" string="Customer" context="{'group_by': 'so_partner_id'}"/>
+                    <filter name="group_by_po_partner_id" string="Vendor" context="{'group_by': 'po_partner_id'}"/>
                     <filter name="group_by_purchase" string="Purchase Line" context="{'group_by': 'purchase_line_id'}"/>
                 </group>
 
