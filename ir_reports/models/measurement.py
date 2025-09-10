@@ -27,6 +27,7 @@ class MeasurementReport(models.Model):
     color_id = fields.Many2one("color.master", string="Color", tracking=True)
     washing_item_id = fields.Many2one("washing.item", string="WASHING", tracking=True)
     vendor_name = fields.Char(string="WASHER Name")
+    img = fields.Binary(string="Image")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

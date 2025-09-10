@@ -37,6 +37,7 @@ class PPSLab(models.Model):
     sending_date = fields.Date(string="Sending Date", tracking=True)
     active = fields.Boolean(string="Active", default=True)
     valid_upto = fields.Date(string="Valid Upto")
+    img = fields.Binary(string="Image")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

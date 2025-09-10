@@ -167,6 +167,7 @@ class QualityReportTrims(models.Model):
     product_cat_id = fields.Many2one("product.category", string="MC")
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
+    img = fields.Binary(string="Image")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
