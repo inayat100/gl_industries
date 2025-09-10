@@ -7,12 +7,12 @@
         <field name="priority">32</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-            <field name="bom_id" position="after">
+            <group name="group_extra_info" position="inside">
                  <field name="remark_1"/>
                 <field name="remark_2"/>
                 <field name="remark_3"/>
                 <field name="remark_4"/>
-            </field>
+            </group>
 
             <xpath expr="//page[@name='components']/field[@name='move_raw_ids']/list/field[@name='product_id']" position="after">
                 <field name="purchase_order_line_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True,'no_open': True}"/>
