@@ -28,6 +28,7 @@ class QualityReport(models.Model):
     construction_lines = fields.One2many("quality.report.construction", "quality_id", string="Construction")
     construction_route_id = fields.Many2one("quality.route", string="Route")
     active = fields.Boolean(string="Active", default=True)
+    img = fields.Binary(string="Image")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -167,7 +168,6 @@ class QualityReportTrims(models.Model):
     product_cat_id = fields.Many2one("product.category", string="MC")
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
-    img = fields.Binary(string="Image")
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
