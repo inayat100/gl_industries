@@ -316,6 +316,20 @@ class ProductTemplate(models.Model):
                     node.set("edit", "0")
         return arch, view
 
+    def copy(self, default=None):
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'product_product'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_duplicate:
+            raise UserError("You are not allowed to duplicate, as duplication is restricted.")
+        res = super().copy(default)
+        return res
+
+    def toggle_active(self):
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'product_product'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_archive:
+            raise UserError("You are not allowed to archive or unarchive this record.")
+        return super().toggle_active()
+
 
 class SaleOrderReportConfigration(models.Model):
     _name = "product.template.configration"

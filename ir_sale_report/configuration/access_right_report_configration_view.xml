@@ -25,6 +25,25 @@
                         <field name="name"/>
                         <field name="user_id"/>
                         <field name="report_type" required="1"/>
+                        <field name="report_id" invisible="0"/>
+                        <field name="report_ids" widget="many2many_tags" invisible="0"/>
+                    </group>
+                     <group>
+                        <group>
+                            <field name="disable_create"/>
+                        </group>
+                        <group>
+                            <field name="disable_edit"/>
+                        </group>
+                        <group>
+                            <field name="disable_delete"/>
+                        </group>
+                        <group>
+                            <field name="disable_duplicate"/>
+                            <field name="disable_archive"/>
+                        </group>
+                    </group>
+                    <group>
                         <field name="customer_ids" options='{"no_open": True, "no_create": True}'
                                widget="many2many_tags"
                                invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
@@ -37,29 +56,19 @@
                         <field name="product_cat_ids" options='{"no_open": True, "no_create": True}'
                                widget="many2many_tags"
                                invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
-                        <field name="report_id" invisible="1"/>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="disable_create"/>
-                        </group>
-                        <group>
-                            <field name="disable_edit"/>
-                        </group>
-                        <group>
-                            <field name="disable_delete"/>
-                        </group>
                     </group>
                     <notebook>
                         <page string="Fields Configuration">
                             <button name="action_selection_readonly" type="object" string="All Readonly" class="m-2"/>
-                            <button name="action_remove_readonly" type="object" string="All Remove Readonly" class="m-2"/>
+                            <button name="action_remove_readonly" type="object" string="All Remove Readonly"
+                                    class="m-2"/>
                             <button name="action_selection_invisible" type="object" string="All Invisible" class="m-2"/>
-                            <button name="action_remove_invisible" type="object" string="All Remove Invisible" class="m-2"/>
+                            <button name="action_remove_invisible" type="object" string="All Remove Invisible"
+                                    class="m-2"/>
                             <field name="line_ids">
                                 <list editable="bottom">
                                     <field name="field_id" options='{"no_open": True, "no_create": True}'
-                                           domain="[('model_id', '=', parent.report_id)]"/>
+                                           domain="[('model_id', 'in', parent.report_ids)]"/>
                                     <field name="is_readonly"/>
                                     <field name="is_invisible"/>
                                 </list>

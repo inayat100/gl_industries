@@ -3,6 +3,7 @@ from datetime import datetime
 import requests
 import json
 from odoo.osv import expression
+from odoo.exceptions import UserError
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
@@ -214,7 +215,10 @@ class PurchaseOrder(models.Model):
                     if field.is_readonly:
                         field_node.set("readonly", "1")
                     if field.is_invisible:
-                        field_node.set("invisible", "1")
+                        if field.field_id.model == 'purchase.order.line':
+                            field_node.set("column_invisible", "1")
+                        else:
+                            field_node.set("invisible", "1")
             if report_id.disable_create:
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
@@ -225,6 +229,22 @@ class PurchaseOrder(models.Model):
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("edit", "0")
         return arch, view
+
+    def copy(self, default=None):
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'po'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_duplicate:
+            raise UserError("You are not allowed to duplicate, as duplication is restricted.")
+        res = super().copy(default)
+        return res
+
+    def toggle_active(self):
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'po'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_archive:
+            raise UserError("You are not allowed to archive or unarchive this record.")
+        return super().toggle_active()
+
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"

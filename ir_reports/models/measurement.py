@@ -116,7 +116,10 @@ class MeasurementReport(models.Model):
                             field_node.set("column_invisible", "1")
                     if view_type == "form":
                         if field.is_invisible:
-                            field_node.set("invisible", "1")
+                            if field.field_id.model == 'measurement.report.line':
+                                field_node.set("column_invisible", "1")
+                            else:
+                                field_node.set("invisible", "1")
             if report_id.disable_create:
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
@@ -174,6 +177,11 @@ class MeasurementReportLine(models.Model):
     )
     party_id = fields.Many2one(
         related="measurement_id.party_id",
+        store=True,
+        string="Party"
+    )
+    master_name_id = fields.Many2one(
+        related="measurement_id.master_name_id",
         store=True,
         string="Party"
     )

@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 
 class SamplePlaning(models.Model):
@@ -103,7 +104,6 @@ class SamplePlaning(models.Model):
             "context": {'create': False, 'edit': False},
         }
 
-
     @api.onchange('product_id')
     def _onchange_product_id_method(self):
         self.mrp = self.product_id.mrp
@@ -167,5 +167,20 @@ class SamplePlaning(models.Model):
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("edit", "0")
         return arch, view
+
+
+    def copy(self, default=None):
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'sample_planning'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_duplicate:
+            raise UserError("You are not allowed to duplicate, as duplication is restricted.")
+        res = super().copy(default)
+        return res
+
+    def toggle_active(self):
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'sample_planning'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_archive:
+            raise UserError("You are not allowed to archive or unarchive this record.")
+        return super().toggle_active()
 
 

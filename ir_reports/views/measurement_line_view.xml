@@ -37,6 +37,7 @@
                 <!-- Related fields -->
                 <field name="report_date"/>
                 <field name="fabricator_name_id"/>
+                <field name="master_name_id"/>
                 <field name="stage_id"/>
                 <field name="product_cat_id"/>
                 <field name="product_id"/>

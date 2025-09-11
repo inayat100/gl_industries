@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 import requests
 import json
+from odoo.exceptions import UserError
 from datetime import datetime, date, timedelta
 
 
@@ -348,6 +349,20 @@ class SaleOrderReport(models.Model):
             return datetime.strptime(date_str, "%d/%m/%Y").date() if date_str else False
         except Exception:
             return False
+
+    def copy(self, default=None):
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'sale_order'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_duplicate:
+            raise UserError("You are not allowed to duplicate, as duplication is restricted.")
+        res = super().copy(default)
+        return res
+
+    def toggle_active(self):
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'sale_order'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_archive:
+            raise UserError("You are not allowed to archive or unarchive this record.")
+        return super().toggle_active()
 
 
 class SaleOrderReportConfigration(models.Model):

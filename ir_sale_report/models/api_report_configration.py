@@ -23,11 +23,14 @@ class ApiReportConfigration(models.Model):
 
     name = fields.Char(string="Name")
     report_id = fields.Many2one("ir.model", string="Report Model")
+    report_ids = fields.Many2many("ir.model", string="Report Model")
     user_id = fields.Many2one("res.users", string="User", copy=False)
     report_type = fields.Selection(report_type_list, string="Report Type", required=True)
     disable_edit = fields.Boolean(string="Disable Edit")
     disable_delete = fields.Boolean(string="Disable Delete")
     disable_create = fields.Boolean(string="Disable Create")
+    disable_duplicate = fields.Boolean(string="Disable Duplicate")
+    disable_archive = fields.Boolean(string="Disable Archive/Unarchive")
     line_ids = fields.One2many("api.report.configration.line", "report_id", string="Lines")
 
     customer_ids = fields.Many2many(
@@ -58,30 +61,48 @@ class ApiReportConfigration(models.Model):
     def _onchange_report_type(self):
         if self.report_type == 'sale_order':
             report_id = self.env.ref("ir_sale_report.model_sale_order_report")
+            report_ids = [self.env.ref("ir_sale_report.model_sale_order_report").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'sample_planning':
             report_id = self.env.ref("ir_sale_report.model_sample_planing")
+            report_ids = [self.env.ref("ir_sale_report.model_sample_planing").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'production_planning':
             report_id = self.env.ref("ir_sale_report.model_production_planing")
+            report_ids = [self.env.ref("ir_sale_report.model_production_planing").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'sale_fabric':
             report_id = self.env.ref("ir_sale_report.model_sales_order_fabric")
+            report_ids = [self.env.ref("ir_sale_report.model_sales_order_fabric").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'product_product':
             report_id = self.env.ref("product.model_product_template")
+            report_ids = [self.env.ref("product.model_product_template").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'component_report':
             report_id = self.env.ref("ir_sale_report.model_production_move_report")
+            report_ids = [self.env.ref("ir_sale_report.model_production_move_report").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'so':
             report_id = self.env.ref("sale.model_sale_order")
+            report_ids = [self.env.ref("sale.model_sale_order").id, self.env.ref("sale.model_sale_order_line").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'mo':
             report_id = self.env.ref("mrp.model_mrp_production")
+            report_ids = [self.env.ref("mrp.model_mrp_production").id, self.env.ref("stock.model_stock_move").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
         elif self.report_type == 'po':
             report_id = self.env.ref("purchase.model_purchase_order")
+            report_ids = [self.env.ref("purchase.model_purchase_order").id, self.env.ref("purchase.model_purchase_order_line").id]
+            self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
 
     def action_create_line(self):

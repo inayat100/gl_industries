@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+from odoo.exceptions import UserError
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
@@ -54,7 +54,10 @@ class MrpProduction(models.Model):
                     if field.is_readonly:
                         field_node.set("readonly", "1")
                     if field.is_invisible:
-                        field_node.set("invisible", "1")
+                        if field.field_id.model == 'stock.move':
+                            field_node.set("column_invisible", "1")
+                        else:
+                            field_node.set("invisible", "1")
             if report_id.disable_create:
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
@@ -65,6 +68,20 @@ class MrpProduction(models.Model):
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("edit", "0")
         return arch, view
+
+    def copy(self, default=None):
+        report_id = self.env['api.report.configration'].search([('report_type', '=', 'mo'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_duplicate:
+            raise UserError("You are not allowed to duplicate, as duplication is restricted.")
+        res = super().copy(default)
+        return res
+
+    def toggle_active(self):
+        report_id = self.env['api.report.configration'].search(
+            [('report_type', '=', 'mo'), ('user_id', '=', self.env.user.id)], limit=1)
+        if report_id and report_id.disable_archive:
+            raise UserError("You are not allowed to archive or unarchive this record.")
+        return super().toggle_active()
 
 
 class StockMove(models.Model):

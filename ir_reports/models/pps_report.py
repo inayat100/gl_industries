@@ -137,7 +137,10 @@ class PPSLab(models.Model):
                             field_node.set("column_invisible", "1")
                     if view_type == "form":
                         if field.is_invisible:
-                            field_node.set("invisible", "1")
+                            if field.field_id.model == 'pps.lab.line':
+                                field_node.set("column_invisible", "1")
+                            else:
+                                field_node.set("invisible", "1")
             if report_id.disable_create:
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
@@ -194,6 +197,7 @@ class PPSLabLine(models.Model):
     product_id = fields.Many2one(related="pps_lab_id.product_id", string="Style NO", store=True, readonly=True)
     remark = fields.Char(related="pps_lab_id.remark", string="Remark", store=True, readonly=True)
     route_id = fields.Many2one("pps.route", related="pps_lab_id.route_id", string="Route", store=True, readonly=True)
+    document_type_id = fields.Many2one( related="pps_lab_id.document_type_id", string="Document Type", store=True, readonly=True)
 
     def action_open_form_view(self):
         self.ensure_one()

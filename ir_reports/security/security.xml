@@ -25,6 +25,22 @@
             <field name="groups" eval="[(4, ref('group_measurement_report_access_right'))]"/>
         </record>
 
+        <record id="measurement_report_line_record_rule" model="ir.rule">
+            <field name="name">Measurement Report Line Record Rule</field>
+            <field name="model_id" ref="model_measurement_report_line"/>
+            <field name="domain_force">
+                [
+                '|', ('fabricator_name_id', 'in', user.measurement_report_id.customer_ids.ids), ('fabricator_name_id', '=', False),
+                '|', ('master_name_id', 'in', user.measurement_report_id.vendor_ids.ids), ('master_name_id', '=', False),
+                '|', ('brand_id', 'in', user.measurement_report_id.brand_ids.ids), ('brand_id', '=', False),
+                '|', ('stage_id', 'in', user.measurement_report_id.stage_ids.ids), ('stage_id', '=', False),
+                '|', ('product_cat_id', 'in', user.measurement_report_id.product_cat_ids.ids), ('product_cat_id',
+                '=', False),
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('group_measurement_report_access_right'))]"/>
+        </record>
+
 
         <record id="group_pps_report_access_right" model="res.groups">
             <field name="name">PPS Report Access Right</field>
@@ -37,6 +53,21 @@
         <record id="pps_report_record_rule" model="ir.rule">
             <field name="name">PPS Report Record Rule</field>
             <field name="model_id" ref="model_pps_lab"/>
+            <field name="domain_force">
+                [
+                '|', ('party_id', 'in', user.pps_report_id.customer_ids.ids), ('party_id', '=', False),
+                '|', ('document_type_id', 'in', user.pps_report_id.document_type_ids.ids), ('document_type_id', '=', False),
+                '|', ('brand_id', 'in', user.pps_report_id.brand_ids.ids), ('brand_id', '=', False),
+                '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id',
+                '=', False),
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('group_pps_report_access_right'))]"/>
+        </record>
+
+        <record id="pps_line_report_record_rule" model="ir.rule">
+            <field name="name">PPS Line Report Record Rule</field>
+            <field name="model_id" ref="model_pps_lab_line"/>
             <field name="domain_force">
                 [
                 '|', ('party_id', 'in', user.pps_report_id.customer_ids.ids), ('party_id', '=', False),
@@ -67,6 +98,45 @@
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
                 '|', ('product_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id',
                 '=', False),
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
+        </record>
+
+        <record id="quality_report_trims_record_rule" model="ir.rule">
+            <field name="name">Quality Report Trims Record Rule</field>
+            <field name="model_id" ref="model_quality_report_trims"/>
+            <field name="domain_force">
+                [
+                '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
+                '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
+        </record>
+
+        <record id="quality_report_sewing_machine_record_rule" model="ir.rule">
+            <field name="name">Quality Report Sewing Machine Record Rule</field>
+            <field name="model_id" ref="model_quality_report_sewing_machine"/>
+            <field name="domain_force">
+                [
+                '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
+                '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
+        </record>
+
+        <record id="quality_report_feed_off_machine_record_rule" model="ir.rule">
+            <field name="name">Quality Report Sewing Machine Record Rule</field>
+            <field name="model_id" ref="model_quality_report_feed_off_machine"/>
+            <field name="domain_force">
+                [
+                '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
+                '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>

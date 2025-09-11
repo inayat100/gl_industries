@@ -138,7 +138,10 @@ class QualityReport(models.Model):
                             field_node.set("column_invisible", "1")
                     if view_type == "form":
                         if field.is_invisible:
-                            field_node.set("invisible", "1")
+                            if field.field_id.model in ['quality.report.trims', 'quality.report.sewing.machine', 'quality.report.feed.off.machine', 'quality.report.construction']:
+                                field_node.set("column_invisible", "1")
+                            else:
+                                field_node.set("invisible", "1")
             if report_id.disable_create:
                 for node in arch.xpath(f"//{view_type}"):
                     node.set("create", "0")
@@ -160,6 +163,7 @@ class QualityReportTrims(models.Model):
     quality_id = fields.Many2one("quality.report", string="Quality")
     fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
+    brand_id = fields.Many2one(related="quality_id.brand_id", store=True, string="Brand")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
     route_id = fields.Many2one(related="quality_id.trims_route_id", store=True, string="Route")
@@ -202,6 +206,7 @@ class QualityReportSewingMachine(models.Model):
     remark = fields.Char(string="Remark")
     remark1 = fields.Char(string="Remark1")
     fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
+    brand_id = fields.Many2one(related="quality_id.brand_id", store=True, string="Brand")
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")
@@ -236,6 +241,7 @@ class QualityReportFeedOffMachine(models.Model):
     remark1 = fields.Char(string="Remark1")
 
     fabricator_name_id = fields.Many2one(related="quality_id.fabricator_name_id", store=True, string="FABRICATOR NAME")
+    brand_id = fields.Many2one(related="quality_id.brand_id", store=True, string="Brand")
     product_qt_id = fields.Many2one(related="quality_id.product_id", store=True, string="STYLE NO")
     product_qt_cat_id = fields.Many2one(related="quality_id.product_cat_id", store=True, string="MC")
     qty = fields.Float(related="quality_id.qty", store=True, string="QTY")

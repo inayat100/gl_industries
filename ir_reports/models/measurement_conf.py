@@ -21,8 +21,16 @@ class MeasurementRoute(models.Model):
     _description = 'Measurement Route'
 
     name = fields.Char('Route Name', required=True, tracking=True)
+    partner_id = fields.Many2one("res.partner", string="Custoomer")
     line_ids = fields.One2many('measurement.route.line', 'measurement_id', string='Process Lines', copy=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
+
+    @api.depends('name', 'partner_id')
+    def _compute_display_name(self):
+        for route in self:
+            route.display_name = f"{route.name} [{route.partner_id.name}]" if route.partner_id and route.name else route.name
+
+
 
 class MeasurementRouteLine(models.Model):
     _name = 'measurement.route.line'
