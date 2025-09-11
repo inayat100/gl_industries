@@ -107,12 +107,13 @@ class ApiReportConfigration(models.Model):
 
     def action_create_line(self):
         field_list = []
-        for field in self.report_id.field_id:
-            field_list.append((0, 0, {
-                'field_id': field.id,
-                'is_readonly': False,
-                'is_invisible': False,
-            }))
+        for report in self.report_ids:
+            for field in report.field_id:
+                field_list.append((0, 0, {
+                    'field_id': field.id,
+                    'is_readonly': False,
+                    'is_invisible': False,
+                }))
         if self.line_ids:
             self.line_ids = [(5, 0, 0)]
         self.line_ids = field_list
