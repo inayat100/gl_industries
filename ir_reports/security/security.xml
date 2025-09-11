@@ -18,8 +18,7 @@
                 '|', ('master_name_id', 'in', user.measurement_report_id.vendor_ids.ids), ('master_name_id', '=', False),
                 '|', ('brand_id', 'in', user.measurement_report_id.brand_ids.ids), ('brand_id', '=', False),
                 '|', ('stage_id', 'in', user.measurement_report_id.stage_ids.ids), ('stage_id', '=', False),
-                '|', ('product_cat_id', 'in', user.measurement_report_id.product_cat_ids.ids), ('product_cat_id',
-                '=', False),
+                '|', ('product_cat_id', 'in', user.measurement_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_measurement_report_access_right'))]"/>
@@ -34,8 +33,7 @@
                 '|', ('master_name_id', 'in', user.measurement_report_id.vendor_ids.ids), ('master_name_id', '=', False),
                 '|', ('brand_id', 'in', user.measurement_report_id.brand_ids.ids), ('brand_id', '=', False),
                 '|', ('stage_id', 'in', user.measurement_report_id.stage_ids.ids), ('stage_id', '=', False),
-                '|', ('product_cat_id', 'in', user.measurement_report_id.product_cat_ids.ids), ('product_cat_id',
-                '=', False),
+                '|', ('product_cat_id', 'in', user.measurement_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_measurement_report_access_right'))]"/>
@@ -58,8 +56,7 @@
                 '|', ('party_id', 'in', user.pps_report_id.customer_ids.ids), ('party_id', '=', False),
                 '|', ('document_type_id', 'in', user.pps_report_id.document_type_ids.ids), ('document_type_id', '=', False),
                 '|', ('brand_id', 'in', user.pps_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id',
-                '=', False),
+                '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_pps_report_access_right'))]"/>
@@ -73,8 +70,7 @@
                 '|', ('party_id', 'in', user.pps_report_id.customer_ids.ids), ('party_id', '=', False),
                 '|', ('document_type_id', 'in', user.pps_report_id.document_type_ids.ids), ('document_type_id', '=', False),
                 '|', ('brand_id', 'in', user.pps_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id',
-                '=', False),
+                '|', ('product_cat_id', 'in', user.pps_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_pps_report_access_right'))]"/>
@@ -96,8 +92,7 @@
                 [
                 '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id',
-                '=', False),
+                '|', ('product_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
