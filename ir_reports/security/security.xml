@@ -105,7 +105,7 @@
                 [
                 '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_qt_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
@@ -118,7 +118,7 @@
                 [
                 '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_qt_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
@@ -131,7 +131,7 @@
                 [
                 '|', ('fabricator_name_id', 'in', user.quality_report_id.vendor_ids.ids), ('fabricator_name_id', '=', False),
                 '|', ('brand_id', 'in', user.quality_report_id.brand_ids.ids), ('brand_id', '=', False),
-                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_cat_id', '=', False),
+                '|', ('product_qt_cat_id', 'in', user.quality_report_id.product_cat_ids.ids), ('product_qt_cat_id', '=', False),
                 ]
             </field>
             <field name="groups" eval="[(4, ref('group_quality_report_access_right'))]"/>
