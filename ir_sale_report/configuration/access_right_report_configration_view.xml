@@ -43,7 +43,7 @@
                             <field name="disable_archive"/>
                         </group>
                     </group>
-                    <group>
+                    <group name="many2many_fields">
                         <field name="customer_ids" options='{"no_open": True, "no_create": True}'
                                widget="many2many_tags"
                                invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
@@ -52,10 +52,10 @@
                         <field name="user_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
                                invisible="report_type not in ['sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
                         <field name="brand_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
-                               invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                               invisible="report_type not in ['mrp.bom', 'quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
                         <field name="product_cat_ids" options='{"no_open": True, "no_create": True}'
                                widget="many2many_tags"
-                               invisible="report_type not in ['quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
+                               invisible="report_type not in ['mrp.bom', 'quality.report', 'pps.lab', 'measurement.report', 'component_report', 'sale_order', 'sample_planning', 'production_planning', 'sale_fabric']"/>
                     </group>
                     <notebook>
                         <page string="Fields Configuration">

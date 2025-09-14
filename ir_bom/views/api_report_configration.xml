@@ -6,9 +6,9 @@
         <field name="inherit_id" ref="ir_sale_report.view_api_report_config_form"/>
         <field name="arch" type="xml">
             <group name="many2many_fields" position="inside">
-                <field name="document_type_ids" widget="many2many_tags" options='{"no_open": True, "no_create": True}' invisible="report_type not in ['pps.lab']"/>
-                <field name="stage_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
-                       invisible="report_type not in ['measurement.report']"/>
+                <field name="color_ids" widget="many2many_tags" options='{"no_open": True, "no_create": True}' invisible="report_type not in ['mrp.bom']"/>
+                <field name="product_design_type_ids" options='{"no_open": True, "no_create": True}' widget="many2many_tags"
+                       invisible="report_type not in ['mrp.bom']"/>
             </group>
         </field>
     </record>

@@ -108,9 +108,11 @@ class RecordLockMixin(models.AbstractModel):
 
     def write(self, vals):
         res = super().write(vals)
-        self._check_lock("write", self.create_uid)
+        user = self.env.user
+        self._check_lock("write", user)
         return res
 
     def unlink(self):
-        self._check_lock("unlink", self.create_uid)
+        user = self.env.user
+        self._check_lock("unlink", user)
         return super().unlink()

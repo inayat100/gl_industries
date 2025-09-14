@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_users_view_form_report_view_ir_report" model="ir.ui.view">
+            <field name="name">res.users.view.form.inherit.calendar</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="ir_sale_report.res_users_view_form_report_view"/>
+            <field name="arch" type="xml">
+                <field name="sample_planning_report_id" position="after">
+                    <field name="bom_report_id" options='{ "no_create": True}' readonly="1"/>
+                    <field name="bom_line_report_id" options='{ "no_create": True}' readonly="1"/>
+                </field>
+            </field>
+    </record>
+</odoo>

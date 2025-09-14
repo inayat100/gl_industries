@@ -15,6 +15,8 @@ report_type_list = [
     ('measurement.report', 'Measurement Report'),
     ('pps.lab', 'PPS Lab Report'),
     ('quality.report', 'Quality Report'),
+    ('mrp.bom', 'BOM'),
+    ('mrp.bom.line', 'BOM Components'),
 ]
 
 class ApiReportConfigration(models.Model):
@@ -102,6 +104,16 @@ class ApiReportConfigration(models.Model):
         elif self.report_type == 'po':
             report_id = self.env.ref("purchase.model_purchase_order")
             report_ids = [self.env.ref("purchase.model_purchase_order").id, self.env.ref("purchase.model_purchase_order_line").id]
+            self.report_ids = [(6, 0, report_ids)]
+            self.report_id = report_id.id
+        elif self.report_type == 'mrp.bom':
+            report_id = self.env.ref("mrp.model_mrp_bom")
+            report_ids = [self.env.ref("mrp.model_mrp_bom").id, self.env.ref("mrp.model_mrp_bom_line").id]
+            self.report_ids = [(6, 0, report_ids)]
+            self.report_id = report_id.id
+        elif self.report_type == 'mrp.bom.line':
+            report_id = self.env.ref("mrp.model_mrp_bom_line")
+            report_ids = [self.env.ref("mrp.model_mrp_bom_line").id]
             self.report_ids = [(6, 0, report_ids)]
             self.report_id = report_id.id
 

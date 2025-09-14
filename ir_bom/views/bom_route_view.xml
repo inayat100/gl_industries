@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_record_bom_route_tree" model="ir.ui.view">
+        <field name="name">bom.route.tree</field>
+        <field name="model">bom.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_cat_id"/>
+                <field name="mrp" sum="mrp"/>
+                <field name="party_id"/>
+                <field name="qty" sum="qty"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_record_bom_route_form" model="ir.ui.view">
+        <field name="name">bom.route.form</field>
+        <field name="model">bom.route</field>
+        <field name="arch" type="xml">
+            <form string="Record Lock Config">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                        <group>
+                            <field name="mrp"/>
+                            <field name="party_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="qty"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="note"/>
+                                    <field name="uom_id" options='{"no_open": True, "no_create": True}'/>
+                                     <field name="qty" sum="qty"/>
+                                     <field name="qty_per_pack" sum="qty_per_pack" optional="hide"/>
+                                     <field name="qty_percent" sum="qty_percent" optional="hide"/>
+                                    <field name="rate" sum="rate"/>
+                                    <field name="extra_per" sum="extra_per"/>
+                                    <field name="amount" sum="amount"/>
+                                    <field name="qty_in_pack" sum="qty_in_pack"/>
+                                    <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="size_id" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="vendor_id" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="remark"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_record_bom_route_search" model="ir.ui.view">
+        <field name="name">bom.route.tree</field>
+        <field name="model">bom.route</field>
+        <field name="arch" type="xml">
+            <search string="Search View">
+                <field name="product_id"/>
+                <field name="name"/>
+                <field name="product_cat_id"/>
+                <field name="party_id"/>
+                <field name="mrp"/>
+                <field name="qty"/>
+
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
+                    <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                    <filter name="product_cat_id" string="MC" context="{'group_by':'product_cat_id'}"/>
+                    <filter name="party_id" string="Party" context="{'group_by':'party_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_record_bom_route_action" model="ir.actions.act_window">
+        <field name="name">Bom Route</field>
+        <field name="res_model">bom.route</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Click <b>Create</b> to add a new Bom Route.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="view_record_bom_route_root" name="Bom" sequence="20"/>
+
+    <menuitem id="view_record_bom_route_bom_route" name="Bom Route" parent="view_record_bom_route_root"
+              groups="ir_bom.group_bom_route_access_right_id"
+              action="view_record_bom_route_action" sequence="10"/>
+
+</odoo>

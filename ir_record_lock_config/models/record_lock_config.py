@@ -8,6 +8,7 @@ model_name_list = [
         ('sale.order', 'Sale Order'),
         ('purchase.order', 'Purchase Order'),
         ('mrp.production', 'Manufacturing Order'),
+        ('mrp.bom', 'BOM'),
     ]
 
 class RecordLockConfig(models.Model):

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.common.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <field name="code" position="before">
+                <field name="date"/>
+            </field>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+            </xpath>
+
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" name="action_view_mo_orders" type="object" icon="fa-wrench"
+                        invisible="mrp_production_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="mrp_production_count"/>
+                        </span>
+                        <span class="o_stat_text">Manufacturing</span>
+                    </div>
+                </button>
+            </div>
+
+            <field name="product_id" position="after">
+                <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="brand_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="product_design_type_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="mrp"/>
+            </field>
+
+            <xpath expr="//field[@name='bom_line_ids']" position="before">
+                <group>
+                    <field name="route_id" options='{"no_open": True, "no_create": True}'/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_qty']" position="after">
+                <field name="uom_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="qty_per_pack" sum="qty_per_pack" optional="hide"/>
+                <field name="qty_percent" sum="qty_percent" optional="hide"/>
+                <field name="extra_per" sum="extra_per"/>
+                <field name="rate" sum="rate"/>
+                <field name="amount" sum="amount"/>
+                <field name="qty_in_pack" sum="qty_in_pack"/>
+                <field name="note"/>
+                <field name="color_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="size_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="vendor_id" options='{"no_open": True, "no_create": True}'/>
+                <field name="remark"/>
+            </xpath>
+
+            <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_qty']" position="replace">
+                <field name="product_qty" sum="product_qty"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_list_view" model="ir.ui.view">
+        <field name="name">mrp.bom.common.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="product_uom_id" position="after">
+                <field name="mrp_production_ids" widget="many2many_tags"/>
+                <field name="state"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="mrp_bom_search_view" model="ir.ui.view">
+        <field name="name">mrp.bom.common.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name="arch" type="xml">
+            <filter name="phantom" position="after">
+                <filter string="Open/Running" name="open_running" domain="[('state', 'in', ['open', 'running'])]"/>
+                <filter string="Open" name="open" domain="[('state', '=', 'open')]"/>
+                <filter string="Running" name="running" domain="[('state', '=', 'running')]"/>
+                <filter string="Closed" name="closed" domain="[('state', '=', 'closed')]"/>
+            </filter>
+
+            <filter name="default_unit_of_measure" position="after">
+                <filter string="State" name="default_state" domain="[]" context="{'group_by' : 'state'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="mrp_bom_form_action_inherit" model="ir.actions.act_window">
+        <field name="name">Bills of Materials</field>
+        <field name="res_model">mrp.bom</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+            'search_default_open_running': 1}
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No bill of materials found. Let's create one!
+            </p>
+            <p>
+                Bills of materials allow you to define the list of required raw
+                materials used to make a finished product; through a manufacturing
+                order or a pack of products.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            action="mrp_bom_form_action_inherit"
+            id="menu_mrp_bom_form_action_inherit"
+            parent="ir_bom.view_record_bom_route_root"
+            groups="ir_bom.group_bom_route_access_right"
+            sequence="9"/>
+</odoo>
