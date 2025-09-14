@@ -5,8 +5,23 @@
         <field name="model">mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id'][1]" position="attributes">
+                <attribute name="options">{"no_open": True, "no_create": True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_id'][2]" position="attributes">
+                <attribute name="options">{"no_open": True, "no_create": True}</attribute>
+            </xpath>
+
+            <field name="product_tmpl_id" position="attributes">
+                <attribute name="options">{"no_open": True, "no_create": True}</attribute>
+            </field>
+
+            <xpath expr="//field[@name='product_qty']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+
             <field name="code" position="before">
-                <field name="date"/>
+                <field name="date" required="1"/>
             </field>
             <xpath expr="//sheet" position="before">
                 <header>
