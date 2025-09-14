@@ -9,7 +9,7 @@ class BomRoute(models.Model):
     product_cat_id = fields.Many2one("product.category", string="MC")
     mrp = fields.Float(string="MRP")
     party_id = fields.Many2one("res.partner", string="Party")
-    qty = fields.Float(string="Qty")
+    qty = fields.Float(string="Qty", default=1)
     line_ids = fields.One2many("bom.route.line", "route_id", string="Lines")
     date = fields.Date(string="Date", default=fields.date.today())
     active = fields.Boolean(string="Active", default=True)
@@ -19,6 +19,15 @@ class BomRoute(models.Model):
         self.product_cat_id = self.product_id.categ_id.id
         self.mrp = self.product_id.mrp
 
+    @api.depends('name', 'product_cat_id', 'party_id')
+    def _compute_display_name(self):
+        for route in self:
+            name = route.name
+            if route.product_cat_id:
+                name = f"{name}-{route.product_cat_id.name}"
+            if route.party_id:
+                name = f"{name}-{route.product_cat_id.name}-{route.party_id.name}"
+            route.display_name = name
 
 
 class BomRouteLine(models.Model):

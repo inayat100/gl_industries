@@ -24,13 +24,13 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="name"/>
+                            <field name="name" required="1"/>
                             <field name="product_id" options='{"no_open": True, "no_create": True}'/>
-                            <field name="product_cat_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="product_cat_id" required="1" options='{"no_open": True, "no_create": True}'/>
                         </group>
                         <group>
                             <field name="mrp"/>
-                            <field name="party_id" options='{"no_open": True, "no_create": True}'/>
+                            <field name="party_id" required="1" options='{"no_open": True, "no_create": True}'/>
                             <field name="qty"/>
                         </group>
                     </group>

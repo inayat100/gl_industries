@@ -15,6 +15,8 @@ class MrpBom(models.Model):
     state = fields.Selection([('open', 'Open'),('running', 'Running'), ('closed', 'Closed')], string="State", compute="_compute_mrp_state", store=True)
     date = fields.Date(string="Date", default=fields.date.today())
     route_id = fields.Many2one("bom.route", string="Route")
+    remark1 = fields.Char(string="Remark 1")
+    remark2 = fields.Char(string="Remark 2")
 
     def _compute_mrp_production_ids(self):
         for res in self:
@@ -314,7 +316,11 @@ class MrpBomLine(models.Model):
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     remark = fields.Char(string="Remark")
 
+    date = fields.Date(related="bom_id.date", string="Date", store=True)
     p_product_qty = fields.Float(related="bom_id.product_qty", string="Bom Qty", store=True)
+    p_mrp = fields.Float(related="bom_id.mrp", string="Mrp", store=True)
+    product_cat_id = fields.Many2one(related="bom_id.product_cat_id", string="MC", store=True)
+    brand_id = fields.Many2one(related="bom_id.brand_id", string="Brand", store=True)
     state = fields.Selection(related="bom_id.state", string="State", store=True)
 
     @api.onchange('product_id', 'extra_per', 'qty_in_pack')

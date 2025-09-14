@@ -5,6 +5,10 @@
         <field name="model">mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//group/group[2]" position="inside">
+                <field name="remark1"/>
+                <field name="remark2"/>
+            </xpath>
             <xpath expr="//field[@name='product_id'][1]" position="attributes">
                 <attribute name="options">{"no_open": True, "no_create": True}</attribute>
             </xpath>
@@ -55,6 +59,9 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_id']" position="attributes">
+                <attribute name="options">{"no_open": True, "no_create": True}</attribute>
+            </xpath>
             <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_qty']" position="after">
                 <field name="uom_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="qty_per_pack" sum="qty_per_pack" optional="hide"/>
@@ -82,6 +89,10 @@
         <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
         <field name="arch" type="xml">
             <field name="product_uom_id" position="after">
+                <field name="brand_id"/>
+                <field name="color_id"/>
+                <field name="product_cat_id"/>
+                <field name="mrp" sum="mrp"/>
                 <field name="mrp_production_ids" widget="many2many_tags"/>
                 <field name="state"/>
             </field>
@@ -102,6 +113,9 @@
 
             <filter name="default_unit_of_measure" position="after">
                 <filter string="State" name="default_state" domain="[]" context="{'group_by' : 'state'}"/>
+                <filter string="Brand" name="default_brand_id" domain="[]" context="{'group_by' : 'brand_id'}"/>
+                <filter string="Color" name="default_color_id" domain="[]" context="{'group_by' : 'color_id'}"/>
+                <filter string="MC" name="default_product_cat_id" domain="[]" context="{'group_by' : 'product_cat_id'}"/>
             </filter>
         </field>
     </record>
