@@ -2,6 +2,7 @@ from odoo import models, fields, api
 
 class BomRoute(models.Model):
     _name = "bom.route"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Name")
     product_id = fields.Many2one("product.product", string="Product")
