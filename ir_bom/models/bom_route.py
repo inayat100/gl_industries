@@ -61,7 +61,7 @@ class BomRouteLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
         self.uom_id = self.product_id.uom_id.id
-        self.rate = self.product_id.mrp
+        self.rate = self.product_id.standard_price
         self.qty_in_pack = self.product_id.qty_in_pack
         self.color_id = self.product_id.color_id.id
         self.size_id = self.product_id.size_id.id
