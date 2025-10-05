@@ -12,9 +12,12 @@
                 <field name="process_remark"/>
                 <field name="machine_name"/>
                 <field name="machine_no"/>
-                <field name="operator_name"/>
+<!--                <field name="operator_name"/>-->
+                <field name="employee_id" options='{"no_open": True, "no_create": True}'/>
                 <field name="spi"/>
                 <field name="roll_no"/>
+                 <field name="quantity"/>
+                                    <field name="date"/>
                 <field name="remark"/>
                 <field name="remark1"/>
                 <field name="fabricator_name_id"/>

@@ -34,18 +34,36 @@ class SaleOrder(models.Model):
                 lock_delete_before = config.lock_delete_before
                 lock_delete_after = config.lock_delete_after
             else:
-                lock_create_before = today - timedelta(
-                    days=config.lock_create_before_day) if config.lock_create_before_day > 0 else False
-                lock_create_after = today + timedelta(
-                    days=config.lock_create_after_day) if config.lock_create_after_day > 0 else False
-                lock_edit_before = today - timedelta(
-                    days=config.lock_edit_before_day) if config.lock_edit_before_day > 0 else False
-                lock_edit_after = today + timedelta(
-                    days=config.lock_edit_after_day) if config.lock_edit_after_day > 0 else False
-                lock_delete_before = today - timedelta(
-                    days=config.lock_delete_before_day) if config.lock_delete_before_day > 0 else False
-                lock_delete_after = today + timedelta(
-                    days=config.lock_delete_after_day) if config.lock_delete_after_day > 0 else False
+                if config.lock_create_before_day == 0:
+                    lock_create_before = today
+                else:
+                    lock_create_before = today - timedelta(
+                        days=config.lock_create_before_day) if config.lock_create_before_day > 0 else False
+                if config.lock_create_after_day == 0:
+                    lock_create_after = today
+                else:
+                    lock_create_after = today + timedelta(
+                        days=config.lock_create_after_day) if config.lock_create_after_day > 0 else False
+                if config.lock_edit_before_day == 0:
+                    lock_edit_before = today
+                else:
+                    lock_edit_before = today - timedelta(
+                        days=config.lock_edit_before_day) if config.lock_edit_before_day > 0 else False
+                if config.lock_edit_after_day == 0:
+                    lock_edit_after = today
+                else:
+                    lock_edit_after = today + timedelta(
+                        days=config.lock_edit_after_day) if config.lock_edit_after_day > 0 else False
+                if config.lock_delete_before_day == 0:
+                    lock_delete_before = today
+                else:
+                    lock_delete_before = today - timedelta(
+                        days=config.lock_delete_before_day) if config.lock_delete_before_day > 0 else False
+                if config.lock_delete_after_day == 0:
+                    lock_delete_after = today
+                else:
+                    lock_delete_after = today + timedelta(
+                        days=config.lock_delete_after_day) if config.lock_delete_after_day > 0 else False
             if not record_date:
                 continue  # skip if no date set
             if lock_create_before and lock_create_after:

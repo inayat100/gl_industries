@@ -8,7 +8,7 @@
     "description": """
    """,
     "depends": [
-        "base", "sale", "mail", "purchase", "account", "product", "ir_sale_report", "ir_record_lock_config"
+        "base", "sale", "mail", "purchase", "account", "product", "ir_sale_report", "ir_record_lock_config", "hr"
     ],
     "data": [
         'security/ir.model.access.csv',
