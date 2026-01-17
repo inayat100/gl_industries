@@ -250,6 +250,8 @@ class SaleOrderReport(models.Model):
                         }
                     }
                 }
+                print("url=-=-", url)
+                print("headers=-=-", headers)
                 print("payload=-=-", payload)
                 response = requests.post(url, json=payload, headers=headers)
                 print("response=-==-", response)
