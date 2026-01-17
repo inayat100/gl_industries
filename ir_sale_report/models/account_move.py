@@ -51,86 +51,87 @@ class AccountMove(models.Model):
                 }
                 response = requests.post(url, json=payload, headers=headers)
                 json_response = response.json()
-                parsed_data = json.loads(json_response['JsonDataTable'])
-                test_json = [parsed_data[0]]
-                print("test_json==", test_json)
-                sale_order = self.env['sale.order']
-                product_id = self.env['product.product']
-                uom_id = self.env['uom.uom']
-                tax_ids = self.env['account.tax']
-                for data in parsed_data:
-                    try:
-                        if data.get('parent_vno'):
-                            sale_order = sale_order.search([('company_id', '=', configration.company_id.id), ('voucher_number', '=', data.get('parent_vno'))], limit=1)
-                        journal_id = self.env['account.journal'].search([('company_id', '=', configration.company_id.id), ('type', '=', 'sale')], limit=1)
-                        val = {
-                            'move_type': 'out_invoice',
-                            'voucher_id': data.get('voucher_id'),
-                            'api_move': True,
-                            'journal_id': journal_id.id,
-                            'voucher_number': data.get('voucher_number'),
-                            'ref_vno': data.get('ref_vno'),
-                            'api_remark': data.get('voucher_remark'),
-                            'detail_remark': data.get('detail_remark'),
-                            'po_number': data.get('document_udf1'),
-                            'total_bags': data.get('document_udf2'),
-                            'invoice_origin': sale_order.name or '',
-                            'company_id': configration.company_id.id
+                if json_response.get('JsonDataTable'):
+                    parsed_data = json.loads(json_response['JsonDataTable'])
+                    test_json = [parsed_data[0]]
+                    print("test_json==", test_json)
+                    sale_order = self.env['sale.order']
+                    product_id = self.env['product.product']
+                    uom_id = self.env['uom.uom']
+                    tax_ids = self.env['account.tax']
+                    for data in parsed_data:
+                        try:
+                            if data.get('parent_vno'):
+                                sale_order = sale_order.search([('company_id', '=', configration.company_id.id), ('voucher_number', '=', data.get('parent_vno'))], limit=1)
+                            journal_id = self.env['account.journal'].search([('company_id', '=', configration.company_id.id), ('type', '=', 'sale')], limit=1)
+                            val = {
+                                'move_type': 'out_invoice',
+                                'voucher_id': data.get('voucher_id'),
+                                'api_move': True,
+                                'journal_id': journal_id.id,
+                                'voucher_number': data.get('voucher_number'),
+                                'ref_vno': data.get('ref_vno'),
+                                'api_remark': data.get('voucher_remark'),
+                                'detail_remark': data.get('detail_remark'),
+                                'po_number': data.get('document_udf1'),
+                                'total_bags': data.get('document_udf2'),
+                                'invoice_origin': sale_order.name or '',
+                                'company_id': configration.company_id.id
 
-                        }
-                        if data.get('Party'):
-                            if sale_order and sale_order.partner_id.name == data.get('Party'):
-                                val['partner_id'] =  sale_order.partner_id.id
+                            }
+                            if data.get('Party'):
+                                if sale_order and sale_order.partner_id.name == data.get('Party'):
+                                    val['partner_id'] =  sale_order.partner_id.id
+                                else:
+                                    partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
+                                    val['partner_id'] = partner_id.id
+                            if data.get('reference_date'):
+                                invoice_date = self.parse_iso_date(data.get('reference_date'))
+                                val['invoice_date'] = invoice_date
+                            if data.get('voucher_date'):
+                                invoice_date = self.parse_iso_date(data.get('voucher_date'))
+                                val['v_date'] = invoice_date
+                            move_id = self.env['account.move'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                            if move_id:
+                                if move_id.state in ['draft']:
+                                    move_id.write(val)
                             else:
-                                partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
-                                val['partner_id'] = partner_id.id
-                        if data.get('reference_date'):
-                            invoice_date = self.parse_iso_date(data.get('reference_date'))
-                            val['invoice_date'] = invoice_date
-                        if data.get('voucher_date'):
-                            invoice_date = self.parse_iso_date(data.get('voucher_date'))
-                            val['v_date'] = invoice_date
-                        move_id = self.env['account.move'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
-                        if move_id:
-                            if move_id.state in ['draft']:
-                                move_id.write(val)
-                        else:
-                            move_id = self.env['account.move'].create([val])
-                        if data.get('Item'):
-                            product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
-                            if product_id:
-                                product_id = product_id
-                        if data.get('unit_name'):
-                            uom_id = uom_id.search([('name', '=', data.get('unit_name'))], limit=1)
-                            if uom_id:
-                                uom_id = uom_id
-                        # if data.get('Tax_Code'):
-                        #     tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
-                        #     if tax_ids:
-                        #         pass
-                        product_uom_qty = data.get('qty')
-                        price_unit = data.get('rate')
-                        account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
-                        line = {
-                            'voucher_id': data.get('voucher_id'),
-                            'detail_id': data.get('detail_id'),
-                            'product_id': product_id.id,
-                            'name': product_id.name,
-                            'quantity': product_uom_qty,
-                            'price_unit': price_unit,
-                            'batch_no': data.get('batch_no'),
-                            # 'account_id': account_id.id,
-                            'product_uom_id': uom_id.id
-                        }
-                        exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
-                        if exist_line:
-                            if exist_line.move_id.state in ['draft']:
-                                exist_line.write(line)
-                        else:
-                            line['move_id'] = move_id.id
-                            self.env['account.move.line'].create([line])
-                    except Exception as e:
-                        print("Erroes", e)
+                                move_id = self.env['account.move'].create([val])
+                            if data.get('Item'):
+                                product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
+                                if product_id:
+                                    product_id = product_id
+                            if data.get('unit_name'):
+                                uom_id = uom_id.search([('name', '=', data.get('unit_name'))], limit=1)
+                                if uom_id:
+                                    uom_id = uom_id
+                            # if data.get('Tax_Code'):
+                            #     tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
+                            #     if tax_ids:
+                            #         pass
+                            product_uom_qty = data.get('qty')
+                            price_unit = data.get('rate')
+                            account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
+                            line = {
+                                'voucher_id': data.get('voucher_id'),
+                                'detail_id': data.get('detail_id'),
+                                'product_id': product_id.id,
+                                'name': product_id.name,
+                                'quantity': product_uom_qty,
+                                'price_unit': price_unit,
+                                'batch_no': data.get('batch_no'),
+                                # 'account_id': account_id.id,
+                                'product_uom_id': uom_id.id
+                            }
+                            exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
+                            if exist_line:
+                                if exist_line.move_id.state in ['draft']:
+                                    exist_line.write(line)
+                            else:
+                                line['move_id'] = move_id.id
+                                self.env['account.move.line'].create([line])
+                        except Exception as e:
+                            print("Erroes", e)
 
     def _cron_create_bill(self):
         configration_ids = self.env['account.move.configration'].search([('type', '=', 'bill'), ('active', '=', True)])
@@ -162,88 +163,89 @@ class AccountMove(models.Model):
                 }
                 response = requests.post(url, json=payload, headers=headers)
                 json_response = response.json()
-                parsed_data = json.loads(json_response['JsonDataTable'])
-                test_json = [parsed_data[0]]
-                print("test_json==", test_json)
-                purchase_order = self.env['purchase.order']
-                product_id = self.env['product.product']
-                uom_id = self.env['uom.uom']
-                tax_ids = self.env['account.tax']
-                for data in parsed_data:
-                    try:
-                        if data.get('parent_vno'):
-                            purchase_order = purchase_order.search([('company_id', '=', configration.company_id.id), ('voucher_number', '=', data.get('parent_vno'))], limit=1)
-                        journal_id = self.env['account.journal'].search([('company_id', '=', configration.company_id.id), ('type', '=', 'purchase')], limit=1)
-                        val = {
-                            'move_type': 'in_invoice',
-                            'voucher_id': data.get('voucher_id'),
-                            'api_move': True,
-                            'journal_id': journal_id.id,
-                            'voucher_number': data.get('voucher_number'),
-                            'ref_vno': data.get('ref_vno'),
-                            'api_remark': data.get('voucher_remark'),
-                            'detail_remark': data.get('detail_remark'),
-                            'po_number': data.get('document_udf1'),
-                            'total_bags': data.get('document_udf2'),
-                            'invoice_origin': purchase_order.name or '',
-                            'company_id': configration.company_id.id
+                if json_response.get('JsonDataTable'):
+                    parsed_data = json.loads(json_response['JsonDataTable'])
+                    test_json = [parsed_data[0]]
+                    print("test_json==", test_json)
+                    purchase_order = self.env['purchase.order']
+                    product_id = self.env['product.product']
+                    uom_id = self.env['uom.uom']
+                    tax_ids = self.env['account.tax']
+                    for data in parsed_data:
+                        try:
+                            if data.get('parent_vno'):
+                                purchase_order = purchase_order.search([('company_id', '=', configration.company_id.id), ('voucher_number', '=', data.get('parent_vno'))], limit=1)
+                            journal_id = self.env['account.journal'].search([('company_id', '=', configration.company_id.id), ('type', '=', 'purchase')], limit=1)
+                            val = {
+                                'move_type': 'in_invoice',
+                                'voucher_id': data.get('voucher_id'),
+                                'api_move': True,
+                                'journal_id': journal_id.id,
+                                'voucher_number': data.get('voucher_number'),
+                                'ref_vno': data.get('ref_vno'),
+                                'api_remark': data.get('voucher_remark'),
+                                'detail_remark': data.get('detail_remark'),
+                                'po_number': data.get('document_udf1'),
+                                'total_bags': data.get('document_udf2'),
+                                'invoice_origin': purchase_order.name or '',
+                                'company_id': configration.company_id.id
 
-                        }
-                        if data.get('Party'):
-                            if purchase_order and purchase_order.partner_id.name == data.get('Party'):
-                                val['partner_id'] =  purchase_order.partner_id.id
+                            }
+                            if data.get('Party'):
+                                if purchase_order and purchase_order.partner_id.name == data.get('Party'):
+                                    val['partner_id'] =  purchase_order.partner_id.id
+                                else:
+                                    partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
+                                    val['partner_id'] = partner_id.id
+                            if data.get('reference_date'):
+                                invoice_date = self.parse_iso_date(data.get('reference_date'))
+                                val['invoice_date'] = invoice_date
+                            if data.get('voucher_date'):
+                                invoice_date = self.parse_iso_date(data.get('voucher_date'))
+                                val['v_date'] = invoice_date
+                            move_id = self.env['account.move'].search([('company_id', '=', configration.company_id.id), ('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                            if move_id:
+                                if move_id.is_locked_bill:
+                                    continue
+                                if move_id.state in ['draft']:
+                                    move_id.write(val)
                             else:
-                                partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
-                                val['partner_id'] = partner_id.id
-                        if data.get('reference_date'):
-                            invoice_date = self.parse_iso_date(data.get('reference_date'))
-                            val['invoice_date'] = invoice_date
-                        if data.get('voucher_date'):
-                            invoice_date = self.parse_iso_date(data.get('voucher_date'))
-                            val['v_date'] = invoice_date
-                        move_id = self.env['account.move'].search([('company_id', '=', configration.company_id.id), ('voucher_id', '=', data.get('voucher_id'))], limit=1)
-                        if move_id:
-                            if move_id.is_locked_bill:
-                                continue
-                            if move_id.state in ['draft']:
-                                move_id.write(val)
-                        else:
-                            move_id = self.env['account.move'].create([val])
-                        if data.get('Item'):
-                            product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
-                            if product_id:
-                                product_id = product_id
-                        if data.get('unit_name'):
-                            uom_id = uom_id.search([('name', '=', data.get('unit_name'))], limit=1)
-                            if uom_id:
-                                uom_id = uom_id
-                        # if data.get('Tax_Code'):
-                        #     tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
-                        #     if tax_ids:
-                        #         pass
-                        product_uom_qty = data.get('qty')
-                        price_unit = data.get('rate')
-                        # account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
-                        line = {
-                            'voucher_id': data.get('voucher_id'),
-                            'detail_id': data.get('detail_id'),
-                            'product_id': product_id.id,
-                            'name': product_id.name,
-                            'quantity': product_uom_qty,
-                            'price_unit': price_unit,
-                            'batch_no': data.get('batch_no') or data.get('document_udf1'),
-                            # 'account_id': account_id.id,
-                            'product_uom_id': uom_id.id
-                        }
-                        exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
-                        if exist_line:
-                            if exist_line.move_id.state in ['draft']:
-                                exist_line.write(line)
-                        else:
-                            line['move_id'] = move_id.id
-                            self.env['account.move.line'].create([line])
-                    except Exception as e:
-                        print("Erroes", e)
+                                move_id = self.env['account.move'].create([val])
+                            if data.get('Item'):
+                                product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
+                                if product_id:
+                                    product_id = product_id
+                            if data.get('unit_name'):
+                                uom_id = uom_id.search([('name', '=', data.get('unit_name'))], limit=1)
+                                if uom_id:
+                                    uom_id = uom_id
+                            # if data.get('Tax_Code'):
+                            #     tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
+                            #     if tax_ids:
+                            #         pass
+                            product_uom_qty = data.get('qty')
+                            price_unit = data.get('rate')
+                            # account_id = self.env['account.account'].search([('name', '=', 'Local Sales')], limit=1)
+                            line = {
+                                'voucher_id': data.get('voucher_id'),
+                                'detail_id': data.get('detail_id'),
+                                'product_id': product_id.id,
+                                'name': product_id.name,
+                                'quantity': product_uom_qty,
+                                'price_unit': price_unit,
+                                'batch_no': data.get('batch_no') or data.get('document_udf1'),
+                                # 'account_id': account_id.id,
+                                'product_uom_id': uom_id.id
+                            }
+                            exist_line = self._get_exist_line(data.get('voucher_id'), data.get('detail_id'), configration.company_id)
+                            if exist_line:
+                                if exist_line.move_id.state in ['draft']:
+                                    exist_line.write(line)
+                            else:
+                                line['move_id'] = move_id.id
+                                self.env['account.move.line'].create([line])
+                        except Exception as e:
+                            print("Erroes", e)
         self.env.cr.commit()
         self.env['account.move'].action_lock_bill_po_grn()
 

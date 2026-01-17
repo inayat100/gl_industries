@@ -43,73 +43,74 @@ class SaleOrder(models.Model):
                 }
                 response = requests.post(url, json=payload, headers=headers)
                 json_response = response.json()
-                parsed_data = json.loads(json_response['JsonDataTable'])
-                test_json = [parsed_data[0]]
-                product_id = self.env['product.product']
-                uom_id = self.env['uom.uom']
-                tax_ids = self.env['account.tax']
-                print("parsed_data====", len(parsed_data))
-                for data in parsed_data:
-                    try:
-                        val = {
-                            'api_order': True,
-                            'voucher_id': data.get('voucher_id'),
-                            'voucher_number': data.get('Voucher_Number'),
-                            'note': data.get('Narration')
-                        }
-                        if configration.company_id:
-                            val['company_id'] = configration.company_id.id
-                        if data.get('Party'):
-                            partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
-                            val['partner_id'] = partner_id.id
-                            if partner_id:
-                                d_partner_id = self._get_create_delivery_partner(partner_id, data.get('Contact_Person'), data.get('GST_No'))
-                                if d_partner_id:
-                                    val['partner_shipping_id'] = d_partner_id.id
-                        if data.get('Voucher_Date'):
-                            order_date = self.parse_iso_date(data.get('Voucher_Date'))
-                            if order_date:
-                                val['date_order'] = order_date
-                        order_id = self.env['sale.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
-                        if order_id:
-                            if order_id.state in ['draft', 'sent']:
-                                order_id.write(val)
-                        else:
-                            order_id = self.env['sale.order'].create([val])
-                        # line data form here
-                        if data.get('Item'):
-                            product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
-                            if product_id:
-                                product_id = product_id
-                        if data.get('Unit'):
-                            uom_id = uom_id.search([('name', '=', data.get('Unit'))], limit=1)
-                            if uom_id:
-                                uom_id = uom_id
-                        if data.get('Tax_Code'):
-                            tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
-                            if tax_ids:
-                                pass
-                        product_uom_qty = data.get('Qty')
-                        price_unit = data.get('Rate')
-                        line = {
-                            'voucher_id': data.get('voucher_id'),
-                            'detail_id': data.get('item_id'),
-                            'product_id': product_id.id,
-                            'name': product_id.name or 'Not Found Product',
-                            'product_uom_qty': product_uom_qty,
-                            'price_unit': price_unit,
-                            'product_uom':uom_id.id
-                        }
-                        # exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('item_id'), configration.company_id)
-                        exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
-                        if exist_line:
-                            if line.order_id.state in ['draft', 'sent']:
-                                exist_line.write(line)
-                        else:
-                            line['order_id'] = order_id.id
-                            self.env['sale.order.line'].create(line)
-                    except Exception as e:
-                        print("Erroes", e)
+                if json_response.get('JsonDataTable'):
+                    parsed_data = json.loads(json_response['JsonDataTable'])
+                    test_json = [parsed_data[0]]
+                    product_id = self.env['product.product']
+                    uom_id = self.env['uom.uom']
+                    tax_ids = self.env['account.tax']
+                    print("parsed_data====", len(parsed_data))
+                    for data in parsed_data:
+                        try:
+                            val = {
+                                'api_order': True,
+                                'voucher_id': data.get('voucher_id'),
+                                'voucher_number': data.get('Voucher_Number'),
+                                'note': data.get('Narration')
+                            }
+                            if configration.company_id:
+                                val['company_id'] = configration.company_id.id
+                            if data.get('Party'):
+                                partner_id = self._get_create_partner(data.get('Party'), data.get('GST_No'))
+                                val['partner_id'] = partner_id.id
+                                if partner_id:
+                                    d_partner_id = self._get_create_delivery_partner(partner_id, data.get('Contact_Person'), data.get('GST_No'))
+                                    if d_partner_id:
+                                        val['partner_shipping_id'] = d_partner_id.id
+                            if data.get('Voucher_Date'):
+                                order_date = self.parse_iso_date(data.get('Voucher_Date'))
+                                if order_date:
+                                    val['date_order'] = order_date
+                            order_id = self.env['sale.order'].search([('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                            if order_id:
+                                if order_id.state in ['draft', 'sent']:
+                                    order_id.write(val)
+                            else:
+                                order_id = self.env['sale.order'].create([val])
+                            # line data form here
+                            if data.get('Item'):
+                                product_id = product_id.search([('name', '=', data.get('Item'))], limit=1)
+                                if product_id:
+                                    product_id = product_id
+                            if data.get('Unit'):
+                                uom_id = uom_id.search([('name', '=', data.get('Unit'))], limit=1)
+                                if uom_id:
+                                    uom_id = uom_id
+                            if data.get('Tax_Code'):
+                                tax_ids = tax_ids.search([('type_tax_use', '=', 'sale'), ('name', '=', data.get('Tax_Code'))])
+                                if tax_ids:
+                                    pass
+                            product_uom_qty = data.get('Qty')
+                            price_unit = data.get('Rate')
+                            line = {
+                                'voucher_id': data.get('voucher_id'),
+                                'detail_id': data.get('item_id'),
+                                'product_id': product_id.id,
+                                'name': product_id.name or 'Not Found Product',
+                                'product_uom_qty': product_uom_qty,
+                                'price_unit': price_unit,
+                                'product_uom':uom_id.id
+                            }
+                            # exist_line = self._get_order_exist_line(data.get('voucher_id'), data.get('item_id'), configration.company_id)
+                            exist_line = self._get_order_exist_line(data.get('voucher_id'), product_id, product_uom_qty, price_unit)
+                            if exist_line:
+                                if line.order_id.state in ['draft', 'sent']:
+                                    exist_line.write(line)
+                            else:
+                                line['order_id'] = order_id.id
+                                self.env['sale.order.line'].create(line)
+                        except Exception as e:
+                            print("Erroes", e)
 
     def parse_iso_date(self, date_str):
         try:

@@ -254,94 +254,95 @@ class SaleOrderReport(models.Model):
                 response = requests.post(url, json=payload, headers=headers)
                 print("response=-==-", response)
                 json_response = response.json()
-                parsed_data = json.loads(json_response['JsonDataTable'])
-                print("parsed_data=-=-=-", parsed_data)
-                test_json = [parsed_data[0]]
-                error_report = []
-                items_list = []
-                for data in parsed_data:
-                    items_list.append(data.get('item_id'))
-                    val = {
-                        'voucher_id': data.get('voucher_id'),
-                        'vno': data.get('Vno'),
-                        'vdate': data.get('vdate'),
-                        'design_no': data.get('item_code'),
-                        'fit': data.get('item_category_name'),
-                        'style': data.get('item_master_attribute4_name'),
-                        'mrp': data.get('item_master_mrp'),
-                        'color': data.get('item_master_attribute1_name'),
-                        'order_qty': data.get('Qty'),
-                        'stock_qty': data.get('stock_qty'),
-                        'article_no': data.get('item_master_barcode'),
-                        'po_no': data.get('item_master_udf4'),
-                        'stamp_lot_sample': data.get('item_master_udf3'),
-                        'lab_test_no': data.get('item_master_udf1'),
-                        'lab_company': data.get('item_master_udf5'),
-                        'rate': data.get('rate'),
-                        'sale_rate': data.get('sales_rate'),
-                        'season': data.get('rack_box'),
-                        'size': data.get('item_master_attribute2_name'),
-                        'ratio': data.get('item_master_attribute3_name'),
-                        'washer': data.get('salt'),
-                        'washing': data.get('weigh_scale_barcode'),
-                    }
-                    if configration.company_id:
-                        val['company_id'] = configration.company_id.id
-                    if data.get('group_name'):
-                        cat_id = self.env['product.category'].search([('name', '=', data.get('group_name'))])
-                        if cat_id:
-                            val['product_cat_id'] = cat_id.id
-                    if data.get('item_master_udf2'):
-                        val['pps_nd_date'] = data.get('item_master_udf2')
-                    if data.get('item_id'):
-                        product_id = self.env['product.product'].search([('voucher_id', '=', data.get('item_id'))], limit=1)
-                        if product_id:
-                            val['product_id'] = product_id.id
-                            val['product_cat_id'] = product_id.categ_id.id
-                            val['pd_img1'] = product_id.image_1920
-                            val['pd_img2'] = product_id.product_img_1
-                        if not product_id.categ_id and data.get('group_name'):
+                if json_response.get('JsonDataTable'):
+                    parsed_data = json.loads(json_response['JsonDataTable'])
+                    print("parsed_data=-=-=-", parsed_data)
+                    test_json = [parsed_data[0]]
+                    error_report = []
+                    items_list = []
+                    for data in parsed_data:
+                        items_list.append(data.get('item_id'))
+                        val = {
+                            'voucher_id': data.get('voucher_id'),
+                            'vno': data.get('Vno'),
+                            'vdate': data.get('vdate'),
+                            'design_no': data.get('item_code'),
+                            'fit': data.get('item_category_name'),
+                            'style': data.get('item_master_attribute4_name'),
+                            'mrp': data.get('item_master_mrp'),
+                            'color': data.get('item_master_attribute1_name'),
+                            'order_qty': data.get('Qty'),
+                            'stock_qty': data.get('stock_qty'),
+                            'article_no': data.get('item_master_barcode'),
+                            'po_no': data.get('item_master_udf4'),
+                            'stamp_lot_sample': data.get('item_master_udf3'),
+                            'lab_test_no': data.get('item_master_udf1'),
+                            'lab_company': data.get('item_master_udf5'),
+                            'rate': data.get('rate'),
+                            'sale_rate': data.get('sales_rate'),
+                            'season': data.get('rack_box'),
+                            'size': data.get('item_master_attribute2_name'),
+                            'ratio': data.get('item_master_attribute3_name'),
+                            'washer': data.get('salt'),
+                            'washing': data.get('weigh_scale_barcode'),
+                        }
+                        if configration.company_id:
+                            val['company_id'] = configration.company_id.id
+                        if data.get('group_name'):
                             cat_id = self.env['product.category'].search([('name', '=', data.get('group_name'))])
                             if cat_id:
                                 val['product_cat_id'] = cat_id.id
-                    if data.get('Party'):
-                        partner_id = self.env['res.partner'].search([('name', '=', data.get('Party'))], limit=1)
-                        if partner_id:
-                            val['party_id'] = partner_id.id
-                        else:
-                            partner_id = self.env['res.partner'].create([{
-                                'name': data.get('Party')
-                            }])
-                    if data.get('brand_name'):
-                        brand_id = self.env['brand.master'].search([('name', '=', data.get('brand_name'))], limit=1)
-                        if brand_id:
-                            val['brand_id'] = brand_id.id
-                        else:
-                            brand_id = self.env['brand.master'].create([{
-                                'name': data.get('brand_name')
-                            }])
-                            val['brand_id'] = brand_id.id
-                    if data.get('item_master_attribute1_name'):
-                        color_id = self.env['color.master'].search([('name', '=', data.get('item_master_attribute1_name'))], limit=1)
-                        if color_id:
-                            val['color_id'] = color_id.id
-                        else:
-                            color_id = self.env[''].create([{
-                                'name': data.get('item_master_attribute1_name')
-                            }])
-                            val['color_id'] = color_id.id
-                    try:
-                        exist_id = self.env['sale.order.report'].search(['|', ('active', '=', True), ('active', '=', False), ('voucher_id', '=', data.get('voucher_id'))], limit=1)
-                        print("exist_id==", exist_id)
-                        if exist_id:
-                            exist_id.write(val)
-                        else:
-                            report_ids = self.env['sale.order.report'].create(val)
-                            print("report_ids==", report_ids)
-                    except Exception as e:
-                        error_report.append(data.get('name'))
-                        print("===", e)
-                print("items_list==", items_list)
+                        if data.get('item_master_udf2'):
+                            val['pps_nd_date'] = data.get('item_master_udf2')
+                        if data.get('item_id'):
+                            product_id = self.env['product.product'].search([('voucher_id', '=', data.get('item_id'))], limit=1)
+                            if product_id:
+                                val['product_id'] = product_id.id
+                                val['product_cat_id'] = product_id.categ_id.id
+                                val['pd_img1'] = product_id.image_1920
+                                val['pd_img2'] = product_id.product_img_1
+                            if not product_id.categ_id and data.get('group_name'):
+                                cat_id = self.env['product.category'].search([('name', '=', data.get('group_name'))])
+                                if cat_id:
+                                    val['product_cat_id'] = cat_id.id
+                        if data.get('Party'):
+                            partner_id = self.env['res.partner'].search([('name', '=', data.get('Party'))], limit=1)
+                            if partner_id:
+                                val['party_id'] = partner_id.id
+                            else:
+                                partner_id = self.env['res.partner'].create([{
+                                    'name': data.get('Party')
+                                }])
+                        if data.get('brand_name'):
+                            brand_id = self.env['brand.master'].search([('name', '=', data.get('brand_name'))], limit=1)
+                            if brand_id:
+                                val['brand_id'] = brand_id.id
+                            else:
+                                brand_id = self.env['brand.master'].create([{
+                                    'name': data.get('brand_name')
+                                }])
+                                val['brand_id'] = brand_id.id
+                        if data.get('item_master_attribute1_name'):
+                            color_id = self.env['color.master'].search([('name', '=', data.get('item_master_attribute1_name'))], limit=1)
+                            if color_id:
+                                val['color_id'] = color_id.id
+                            else:
+                                color_id = self.env[''].create([{
+                                    'name': data.get('item_master_attribute1_name')
+                                }])
+                                val['color_id'] = color_id.id
+                        try:
+                            exist_id = self.env['sale.order.report'].search(['|', ('active', '=', True), ('active', '=', False), ('voucher_id', '=', data.get('voucher_id'))], limit=1)
+                            print("exist_id==", exist_id)
+                            if exist_id:
+                                exist_id.write(val)
+                            else:
+                                report_ids = self.env['sale.order.report'].create(val)
+                                print("report_ids==", report_ids)
+                        except Exception as e:
+                            error_report.append(data.get('name'))
+                            print("===", e)
+                    print("items_list==", items_list)
 
     def parse_date_safe(self, date_str):
         try:
