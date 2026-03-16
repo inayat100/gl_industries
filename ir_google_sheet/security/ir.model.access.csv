@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_api_report_configuration,access_api_report_configuration,model_api_report_configuration,,1,1,1,1
+access_google_sheet,access_google_sheet,model_google_sheet,,1,1,1,1
+access_google_sheet_line,access_google_sheet_line,model_google_sheet_line,,1,1,1,1
+access_google_sheet_configuration,access_google_sheet_configuration,model_google_sheet_configuration,,1,1,1,1
+access_google_sheet_filter_line_user,google.sheet.filter.line user,model_google_sheet_filter_line,base.group_user,1,1,1,1
+access_google_sheet_filter_value_user,access.google.sheet.filter.value.user,model_google_sheet_filter_value,,1,1,1,1

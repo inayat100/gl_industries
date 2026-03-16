@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================= -->
+    <!-- Google Sheet Configuration Tree -->
+    <!-- ============================= -->
+    <record id="view_google_sheet_configuration_tree" model="ir.ui.view">
+        <field name="name">google.sheet.configuration.tree</field>
+        <field name="model">google.sheet.configuration</field>
+        <field name="arch" type="xml">
+            <list string="Google Sheet Configurations">
+                <field name="name"/>
+                <field name="spreadsheet_id"/>
+                <field name="spreadsheet_state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================= -->
+    <!-- Google Sheet Configuration Form -->
+    <!-- ============================= -->
+    <record id="view_google_sheet_configuration_form" model="ir.ui.view">
+        <field name="name">google.sheet.configuration.form</field>
+        <field name="model">google.sheet.configuration</field>
+        <field name="arch" type="xml">
+            <form string="Google Sheet Configuration">
+                <header>
+                    <button type="object" name="test_spreadsheet_connection" string="Test Sheet Connection"
+                            class="btn btn-primary"/>
+                    <field name="spreadsheet_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="spreadsheet_id" required="1"/>
+                        </group>
+                    </group>
+
+<!--                    <notebook>-->
+<!--                        <page string="Sheets" invisible="state != 'connect'">-->
+<!--                            <field name="sheet_ids">-->
+<!--                                <list>-->
+<!--                                    <field name="name"/>-->
+<!--                                </list>-->
+
+<!--                                <form string="Google Sheet">-->
+<!--                                    <sheet>-->
+<!--                                        <group>-->
+<!--                                            <field name="name"/>-->
+<!--                                        </group>-->
+<!--                                        <notebook>-->
+<!--                                            <page string="Sheets">-->
+<!--                                                <field name="sheet_line_ids">-->
+<!--                                                    <list>-->
+<!--                                                        <field name="field_name"/>-->
+<!--                                                        <field name="field_head"/>-->
+<!--                                                        <field name="col_name"/>-->
+<!--                                                        <field name="add_sheet"/>-->
+<!--                                                    </list>-->
+<!--                                                </field>-->
+<!--                                            </page>-->
+<!--                                        </notebook>-->
+<!--                                    </sheet>-->
+<!--                                </form>-->
+
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                        <page string="JSON Data" invisible="state != 'connect'">-->
+<!--                            <field name="json_data_text" readonly="1" nolabel="1" widget="text"/>-->
+<!--                        </page>-->
+<!--                        <page string="JSON Table Preview">-->
+<!--                            <field name="json_data_html" readonly="1" nolabel="1"/>-->
+<!--                        </page>-->
+
+<!--                    </notebook>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================= -->
+    <!-- Google Sheet Configuration Search -->
+    <!-- ============================= -->
+    <record id="view_google_sheet_configuration_search" model="ir.ui.view">
+        <field name="name">google.sheet.configuration.search</field>
+        <field name="model">google.sheet.configuration</field>
+        <field name="arch" type="xml">
+            <search string="Search Google Sheet Configurations">
+                <field name="name"/>
+                <field name="spreadsheet_state"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- Action: Google Sheet Configuration -->
+    <!-- ============================= -->
+    <record id="action_google_sheet_configuration" model="ir.actions.act_window">
+        <field name="name">Google Sheet Configuration</field>
+        <field name="res_model">google.sheet.configuration</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_google_sheet_configuration_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Google Sheet Configuration
+            </p>
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- Menus -->
+    <!-- ============================= -->
+
+    <menuitem
+            id="menu_google_sheet_configuration"
+            name="Sheet Configuration"
+            parent="ir_google_sheet.menu_api_report_root"
+            action="action_google_sheet_configuration"
+            sequence="15"
+    />
+
+
+</odoo>
