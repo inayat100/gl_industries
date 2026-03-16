@@ -74,27 +74,27 @@
                         <page string="Filters">
                             <field name="filter_line_ids" nolabel="1">
                                 <list>
-                                    <field name="sheet_line_id" options='{"no_create": True}'/>
-                                    <field name="domain_type" readonly="1"/>
-                                    <field name="operator"/>
-                                    <field name="number_operator"/>
-                                    <field name="value_text" invisible="domain_type != 'name'"/>
-                                    <field name="suggested_value_ids" widget="many2many_tags" invisible="domain_type != 'name'"/>
-                                    <field name="value_number" invisible="domain_type != 'number'"/>
+                                    <field name="sheet_line_id" force_save="1" options='{"no_create": True}'/>
+                                    <field name="domain_type" force_save="1" readonly="1"/>
+                                    <field name="operator" force_save="1"/>
+                                    <field name="number_operator" force_save="1"/>
+                                    <field name="value_text" invisible="domain_type != 'name'" force_save="1"/>
+                                    <field name="suggested_value_ids" widget="many2many_tags" force_save="1" invisible="domain_type != 'name'"/>
+                                    <field name="value_number" force_save="1" invisible="domain_type != 'number'"/>
                                     <field name="active"/>
                                 </list>
                                 <form>
                                     <group>
                                         <group>
-                                            <field name="domain_type"/>
-                                            <field name="operator" invisible="domain_type != 'name'"/>
-                                            <field name="number_operator" invisible="domain_type != 'number'"/>
+                                            <field name="domain_type" force_save="1"/>
+                                            <field name="operator" force_save="1" invisible="domain_type != 'name'"/>
+                                            <field name="number_operator" force_save="1" invisible="domain_type != 'number'"/>
                                         </group>
                                         <group>
-                                            <field name="sheet_line_id"/>
-                                            <field name="value_number" invisible="domain_type != 'number'"/>
-                                            <field name="value_text" invisible="domain_type != 'name'"/>
-                                            <field name="suggested_value_ids" invisible="domain_type != 'name'" widget="many2many_tags"/>
+                                            <field name="sheet_line_id" force_save="1"/>
+                                            <field name="value_number" force_save="1" invisible="domain_type != 'number'"/>
+                                            <field name="value_text" force_save="1" invisible="domain_type != 'name'"/>
+                                            <field name="suggested_value_ids" force_save="1" invisible="domain_type != 'name'" widget="many2many_tags"/>
                                         </group>
                                     </group>
                                 </form>
