@@ -453,10 +453,27 @@ class GoogleSheet(models.Model):
         return parsed_data
 
     def _convert_value(self, value):
+        # dict / list → JSON string
         if isinstance(value, (dict, list)):
             return json.dumps(value, ensure_ascii=False)
+
+        # None → empty
         if value is None:
             return ""
+
+        # 🔥 Formula → return as-is
+        if isinstance(value, str) and value.startswith("="):
+            return value
+
+        # 🔥 Numbers → keep as number (IMPORTANT)
+        if isinstance(value, (int, float)):
+            return value
+
+        # 🔥 Boolean
+        if isinstance(value, bool):
+            return value
+
+        # बाकी sab → string
         return str(value)
 
     def _index_to_column_letter(self, index):
@@ -504,125 +521,6 @@ class GoogleSheet(models.Model):
             data_rows.append(row_values)
         return data_rows
 
-    def _replace_sheet_data_new(self, worksheet, parsed_data, selected_lines):
-        self.ensure_one()
-
-        selected_lines = selected_lines.sorted(
-            key=lambda l: self._column_letter_to_index(l.col_name)
-        )
-
-        existing_values = worksheet.get_all_values()
-        existing_row_count = len(existing_values) if existing_values else 0
-
-        # header ko existing sheet ke base par preserve karo
-        existing_header = list(existing_values[0]) if existing_values else []
-
-        max_col_index = max(self._column_letter_to_index(l.col_name) for l in selected_lines)
-
-        if len(existing_header) < max_col_index:
-            existing_header += [""] * (max_col_index - len(existing_header))
-
-        # selected columns ke headers hi update hon
-        for line in selected_lines:
-            col_index = self._column_letter_to_index(line.col_name) - 1
-            existing_header[col_index] = line.field_head or line.field_name
-
-        final_values = [existing_header]
-
-        # existing data rows preserve structure
-        for idx, record in enumerate(parsed_data, start=1):
-            if idx < len(existing_values):
-                row_data = list(existing_values[idx])
-            else:
-                row_data = []
-
-            if len(row_data) < len(existing_header):
-                row_data += [""] * (len(existing_header) - len(row_data))
-
-            for line in selected_lines:
-                col_index = self._column_letter_to_index(line.col_name) - 1
-                if line.is_formula and line.formula:
-                    value = line.formula
-                else:
-                    value = record.get(line.field_name, "")
-                row_data[col_index] = self._convert_value(value)
-
-            final_values.append(row_data)
-
-        # first update selected data with preserved other columns
-        end_col = self._index_to_column_letter(len(existing_header))
-        new_row_count = len(final_values)
-        worksheet.update(f"A1:{end_col}{new_row_count}", final_values)
-
-        # extra old rows me sirf selected columns clear karo
-        if existing_row_count > new_row_count:
-            clear_requests = []
-            for line in selected_lines:
-                col_name = (line.col_name or '').strip().upper()
-                clear_requests.append(
-                    f"{col_name}{new_row_count + 1}:{col_name}{existing_row_count}"
-                )
-            if clear_requests:
-                worksheet.batch_clear(clear_requests)
-
-    def _replace_sheet_data_old2(self, worksheet, parsed_data, selected_lines):
-        self.ensure_one()
-
-        selected_lines = selected_lines.sorted(
-            key=lambda l: self._column_letter_to_index(l.col_name)
-        )
-
-        # 1) Read all existing values once
-        existing_values = worksheet.get_all_values()
-        if not existing_values:
-            existing_values = [[""]]
-
-        header = existing_values[0]
-
-        # 2) Find max column index from configured lines
-        max_col_index = max(self._column_letter_to_index(l.col_name) for l in selected_lines)
-
-        # Ensure header length
-        if len(header) < max_col_index:
-            header += [""] * (max_col_index - len(header))
-
-        # 3) Update only selected headers
-        for line in selected_lines:
-            col_index = self._column_letter_to_index(line.col_name) - 1
-            header[col_index] = line.field_head or line.field_name
-
-        # 4) Build full final data in memory
-        final_values = [header]
-
-        for idx, record in enumerate(parsed_data, start=1):
-            if idx < len(existing_values):
-                row_data = list(existing_values[idx])
-            else:
-                row_data = []
-
-            if len(row_data) < len(header):
-                row_data += [""] * (len(header) - len(row_data))
-
-            for line in selected_lines:
-                col_index = self._column_letter_to_index(line.col_name) - 1
-                if line.is_formula and line.formula:
-                    value = line.formula
-                else:
-                    value = record.get(line.field_name, "")
-                row_data[col_index] = self._convert_value(value)
-
-            final_values.append(row_data)
-
-        # 5) Old extra rows preserve karne hain ya nahi?
-        # Agar preserve karna hai to remaining rows append kar do
-        if len(existing_values) > len(final_values):
-            final_values.extend(existing_values[len(final_values):])
-
-        # 6) Single bulk update
-        end_col = self._index_to_column_letter(max(len(r) for r in final_values))
-        end_row = len(final_values)
-        worksheet.update(f"A1:{end_col}{end_row}", final_values)
-
     def _replace_sheet_data(self, worksheet, parsed_data, selected_lines):
         selected_lines = selected_lines.sorted(
             key=lambda l: self._column_letter_to_index(l.col_name)
@@ -655,15 +553,55 @@ class GoogleSheet(models.Model):
                     value = record.get(line.field_name, "")
                 row_data[col_index] = self._convert_value(value)
             final_values.append(row_data)
+        # ===== FORMULA BASED SUM =====
 
+        sum_columns = []
+        for line in selected_lines:
+            if line.is_sum:
+                col_index = self._column_letter_to_index(line.col_name) - 1
+                sum_columns.append((col_index, line))
+
+        if sum_columns and final_values:
+            sum_row = [""] * len(final_values[0])
+
+            total_rows = len(final_values)  # header included
+
+            for col_index, line in sum_columns:
+                col_letter = line.col_name.upper()
+
+                # Formula: SUM from row 2 to last data row
+                # sum_row[col_index] = f"=SUM({col_letter}2:{col_letter}{total_rows})"
+                data_start_row = 3
+                last_row = len(final_values) + 1
+
+                if last_row >= data_start_row:
+                    sum_row[col_index] = f"=SUM({col_letter}{data_start_row}:{col_letter}{last_row})"
+
+            sum_row[0] = "Total"
+
+            final_values.append(sum_row)
+
+        # ===== END =====
         worksheet.clear()
         end_col = self._index_to_column_letter(max_col_index)
         end_row = len(final_values)
-        worksheet.update(f'A1:{end_col}{end_row}', final_values)
+        # worksheet.update(f'A1:{end_col}{end_row}', final_values)
+        start_row = 2
+        end_row = len(final_values) + 1
+
+        worksheet.update(
+            f"A{start_row}:{end_col}{end_row}",
+            final_values,
+            value_input_option="USER_ENTERED"
+        )
+        worksheet.set_basic_filter(f"A2:{end_col}{end_row}")
+        worksheet.freeze(rows=2)
 
     def _ensure_headers_by_col_name(self, worksheet, selected_lines):
         all_values = worksheet.get_all_values()
-        existing_header = all_values[0] if all_values else []
+        # existing_header = all_values[0] if all_values else []
+
+        existing_header = all_values[1] if len(all_values) > 1 else []
 
         max_col_index = 0
         for line in selected_lines:
@@ -679,7 +617,12 @@ class GoogleSheet(models.Model):
             existing_header[col_index] = line.field_head or line.field_name
 
         end_col = self._index_to_column_letter(len(existing_header))
-        worksheet.update(f'A1:{end_col}1', [existing_header])
+        # worksheet.update(f'A1:{end_col}1', [existing_header])
+        worksheet.update(
+            f'A2:{end_col}2',
+            [existing_header],
+            value_input_option="USER_ENTERED"
+        )
 
         return existing_header
 
@@ -717,7 +660,8 @@ class GoogleSheet(models.Model):
         existing_row_count = len(existing_values) if existing_values else 0
 
         # header ko existing sheet ke base par preserve karo
-        existing_header = list(existing_values[0]) if existing_values else []
+        # existing_header = list(existing_values[0]) if existing_values else []
+        existing_header = list(existing_values[1]) if len(existing_values) > 1 else []
 
         max_col_index = max(self._column_letter_to_index(l.col_name) for l in selected_lines)
 
@@ -734,7 +678,8 @@ class GoogleSheet(models.Model):
         # existing data rows preserve structure
         for idx, record in enumerate(parsed_data, start=1):
             if idx < len(existing_values):
-                row_data = list(existing_values[idx])
+                # row_data = list(existing_values[idx])
+                row_data = list(existing_values[idx + 1]) if len(existing_values) > idx + 1 else []
             else:
                 row_data = []
 
@@ -751,11 +696,49 @@ class GoogleSheet(models.Model):
 
             final_values.append(row_data)
 
+        # ===== FORMULA BASED SUM =====
+
+        sum_columns = []
+        for line in selected_lines:
+            if line.is_sum:
+                col_index = self._column_letter_to_index(line.col_name) - 1
+                sum_columns.append((col_index, line))
+
+        if sum_columns and final_values:
+            sum_row = [""] * len(final_values[0])
+
+            total_rows = len(final_values)  # header included
+
+            for col_index, line in sum_columns:
+                col_letter = line.col_name.upper()
+
+                # Formula: SUM from row 2 to last data row
+                data_start_row = 3
+                last_row = len(final_values) + 1
+
+                sum_row[col_index] = f"=SUM({col_letter}{data_start_row}:{col_letter}{last_row})"
+                # sum_row[col_index] = f"=SUM({col_letter}2:{col_letter}{total_rows})"
+
+            sum_row[0] = "Total"
+
+            final_values.append(sum_row)
+
+        # ===== END =====
+
         # first update selected data with preserved other columns
         end_col = self._index_to_column_letter(len(existing_header))
         new_row_count = len(final_values)
-        worksheet.update(f"A1:{end_col}{new_row_count}", final_values)
+        # worksheet.update(f"A1:{end_col}{new_row_count}", final_values)
+        start_row = 2
+        end_row = len(final_values) + 1
 
+        worksheet.update(
+            f"A{start_row}:{end_col}{end_row}",
+            final_values,
+            value_input_option="USER_ENTERED"
+        )
+        worksheet.set_basic_filter(f"A2:{end_col}{end_row}")
+        worksheet.freeze(rows=2)
         # extra old rows me sirf selected columns clear karo
         if existing_row_count > new_row_count:
             clear_requests = []
@@ -766,203 +749,6 @@ class GoogleSheet(models.Model):
                 )
             if clear_requests:
                 worksheet.batch_clear(clear_requests)
-
-    def _update_sheet_data_old2(self, worksheet, selected_lines, parsed_data):
-        self.ensure_one()
-
-        match_line = self.match_field
-        if not match_line:
-            raise UserError(_("Match Field is required for Update mode."))
-
-        if match_line.google_sheet_id != self:
-            raise UserError(_("Selected Match Field does not belong to this Google Sheet."))
-
-        if not match_line.add_sheet:
-            raise UserError(_("Selected Match Field must have Add enabled."))
-
-        if not match_line.field_name:
-            raise UserError(_("Selected Match Field must have Field Name."))
-
-        if not match_line.col_name:
-            raise UserError(_("Selected Match Field must have Column Name."))
-
-        # sort once
-        selected_lines = selected_lines.sorted(
-            key=lambda l: self._column_letter_to_index(l.col_name)
-        )
-
-        # precompute selected line column indexes
-        line_col_map = []
-        max_col_index = 0
-        for line in selected_lines:
-            col_index = self._column_letter_to_index(line.col_name) - 1
-            line_col_map.append((line, col_index))
-            if col_index + 1 > max_col_index:
-                max_col_index = col_index + 1
-
-        match_col_index = self._column_letter_to_index(match_line.col_name) - 1
-        if match_col_index + 1 > max_col_index:
-            max_col_index = match_col_index + 1
-
-        # read full sheet once
-        all_values = worksheet.get_all_values()
-        if not all_values:
-            all_values = [[]]
-
-        header = list(all_values[0]) if all_values else []
-
-        # ensure header length
-        required_len = max(len(header), max_col_index)
-        if len(header) < required_len:
-            header += [""] * (required_len - len(header))
-
-        # update selected headers only
-        for line, col_index in line_col_map:
-            header[col_index] = line.field_head or line.field_name
-
-        # existing rows in memory
-        existing_rows = [list(row) for row in all_values[1:]]
-
-        # ensure all existing rows have required length
-        for row in existing_rows:
-            if len(row) < required_len:
-                row += [""] * (required_len - len(row))
-
-        # build existing map: match value -> row position in existing_rows
-        # row position is 0-based for existing_rows, actual sheet row = pos + 2
-        existing_map = {}
-        for pos, row_data in enumerate(existing_rows):
-            key_val = row_data[match_col_index] if len(row_data) > match_col_index else ""
-            if key_val:
-                existing_map[str(key_val)] = pos
-
-        # track which existing rows changed
-        updated_row_positions = set()
-        rows_to_append = []
-
-        for record in parsed_data:
-            if not isinstance(record, dict):
-                continue
-
-            match_value = self._convert_value(record.get(match_line.field_name, ""))
-            row_updates = {}
-
-            for line, col_index in line_col_map:
-                if line.is_formula and line.formula:
-                    value = line.formula
-                else:
-                    value = record.get(line.field_name, "")
-                row_updates[col_index] = self._convert_value(value)
-
-            if match_value and match_value in existing_map:
-                pos = existing_map[match_value]
-                target_row = existing_rows[pos]
-
-                for col_index, value in row_updates.items():
-                    target_row[col_index] = value
-
-                updated_row_positions.add(pos)
-            else:
-                new_row = [""] * required_len
-                for col_index, value in row_updates.items():
-                    new_row[col_index] = value
-                rows_to_append.append(new_row)
-
-        # update header once
-        end_col_header = self._index_to_column_letter(len(header))
-        worksheet.update(f"A1:{end_col_header}1", [header])
-
-        # batch update changed existing rows in contiguous chunks
-        if updated_row_positions:
-            sorted_positions = sorted(updated_row_positions)
-            start = sorted_positions[0]
-            prev = sorted_positions[0]
-
-            for current in sorted_positions[1:] + [None]:
-                if current is not None and current == prev + 1:
-                    prev = current
-                    continue
-
-                chunk_start = start
-                chunk_end = prev
-
-                chunk_rows = existing_rows[chunk_start:chunk_end + 1]
-                end_col_chunk = self._index_to_column_letter(
-                    max(len(r) for r in chunk_rows) if chunk_rows else required_len
-                )
-
-                # +2 because sheet row 1 = header, existing_rows[0] = sheet row 2
-                sheet_start_row = chunk_start + 2
-                sheet_end_row = chunk_end + 2
-
-                worksheet.update(
-                    f"A{sheet_start_row}:{end_col_chunk}{sheet_end_row}",
-                    chunk_rows
-                )
-
-                start = current
-                prev = current
-
-        # append new rows once
-        if rows_to_append:
-            worksheet.append_rows(rows_to_append, value_input_option='USER_ENTERED')
-
-    def _update_sheet_data_old(self, worksheet, selected_lines, parsed_data):
-        match_line = self.match_field
-        if not match_line:
-            raise UserError(_("Match Field is required for Update mode."))
-
-        if match_line.google_sheet_id != self:
-            raise UserError(_("Selected Match Field does not belong to this Google Sheet."))
-
-        if not match_line.add_sheet:
-            raise UserError(_("Selected Match Field must have Add enabled."))
-
-        if not match_line.field_name:
-            raise UserError(_("Selected Match Field must have Field Name."))
-
-        if not match_line.col_name:
-            raise UserError(_("Selected Match Field must have Column Name."))
-
-        existing_header = self._ensure_headers_by_col_name(worksheet, selected_lines)
-
-        match_col_index = self._column_letter_to_index(match_line.col_name) - 1
-        required_len = len(existing_header)
-
-        all_values = worksheet.get_all_values()
-        existing_rows = all_values[1:] if all_values else []
-
-        existing_map = {}
-        for row_no, row_data in enumerate(existing_rows, start=2):
-            key_val = row_data[match_col_index] if len(row_data) > match_col_index else ""
-            if key_val:
-                existing_map[str(key_val)] = row_no
-
-        rows_to_append = []
-
-        for record in parsed_data:
-            if not isinstance(record, dict):
-                continue
-
-            match_value = self._convert_value(record.get(match_line.field_name, ""))
-            row_updates = self._build_row_updates_by_col_name(record, selected_lines)
-
-            if match_value and match_value in existing_map:
-                target_row_no = existing_map[match_value]
-                self._update_row_preserve_columns(
-                    worksheet=worksheet,
-                    row_no=target_row_no,
-                    row_updates=row_updates,
-                    required_len=required_len,
-                )
-            else:
-                new_row = [""] * required_len
-                for col_index, value in row_updates.items():
-                    new_row[col_index] = value
-                rows_to_append.append(new_row)
-
-        if rows_to_append:
-            worksheet.append_rows(rows_to_append, value_input_option='USER_ENTERED')
 
     def _get_next_sync_time(self, from_time=None):
         self.ensure_one()
@@ -1179,8 +965,20 @@ class GoogleSheet(models.Model):
             for flt in filter_lines:
                 field_name = flt.sheet_line_id.field_name
                 row_value = row.get(field_name)
-
                 if flt.domain_type == 'name':
+                    # ✅ ADD THIS BLOCK HERE
+                    if flt.operator == 'is_set':
+                        if row_value in (None, '', False):
+                            matched = False
+                            break
+                        continue
+
+                    if flt.operator == 'is_not_set':
+                        if row_value not in (None, '', False):
+                            matched = False
+                            break
+                        continue
+
                     row_text = "" if row_value is None else str(row_value).strip()
                     selected_values = flt.suggested_value_ids.mapped('name')
 
@@ -1211,7 +1009,6 @@ class GoogleSheet(models.Model):
                         if any(val.lower() in row_text.lower() for val in selected_values):
                             matched = False
                             break
-
                 elif flt.domain_type == 'number':
                     try:
                         if row_value in (None, ''):

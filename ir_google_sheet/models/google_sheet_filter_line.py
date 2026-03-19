@@ -31,6 +31,8 @@ class GoogleSheetFilterLine(models.Model):
         ('!=', 'Not Equals'),
         ('contains', 'Contains'),
         ('not_contains', 'Does Not Contain'),
+        ('is_not_set', 'Not Set'),
+        ('is_set', 'Is Set'),
     ], string="Text Operator")
 
     number_operator = fields.Selection([

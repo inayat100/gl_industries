@@ -13,8 +13,8 @@ class ApiReportConfiguration(models.Model):
     enterprise_id = fields.Char(string="Enterprise Id", default="ae465013-0e51-44e6-b9f9-8e6c0eba5ebd", required=1)
     user_id = fields.Char(string="User Id", default="4ba51619-3efc-4302-84a3-22e220d1b27e", required=1)
     report_type = fields.Integer("Report Type", required=1)
-    period_from = fields.Char(string="Period From", help="YYYY-MM-DD 00:00:00", default="2024-05-01 00:11:00")
-    period_to = fields.Char(string="Period To", help="YYYY-MM-DD 00:00:00", default="2024-05-01 00:11:00")
+    period_from = fields.Char(string="Period From", help="YYYY-MM-DD 00:00:00", default="2022-04-01 00:00:00")
+    period_to = fields.Char(string="Period To", help="YYYY-MM-DD 00:00:00" )
     active = fields.Boolean(string="Active", default=True)
     location = fields.Char(string="Location", default='')
 
