@@ -11,6 +11,7 @@
         "base", "mail"
     ],
     "data": [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'data/ir_cron.xml',
         'views/api_report_configuration_view.xml',
