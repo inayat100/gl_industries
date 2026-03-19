@@ -124,6 +124,7 @@
     <menuitem
         id="menu_api_report_root"
         name="Google Sheet"
+        groups="ir_google_sheet.group_google_sheet_access_right"
         sequence="10"
     />
 
