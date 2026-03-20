@@ -410,12 +410,22 @@ class GoogleSheet(models.Model):
         self.ensure_one()
         worksheet = None
 
+        # 1. Try by ID (existing logic)
         if self.google_sheet_id:
             try:
                 worksheet = spreadsheet.get_worksheet_by_id(int(self.google_sheet_id))
             except Exception:
                 worksheet = None
 
+        # 2. 🔥 NEW: Try by NAME (IMPORTANT FIX)
+        if not worksheet and self.name:
+            try:
+                worksheet = spreadsheet.worksheet(self.name)
+                self.google_sheet_id = str(worksheet.id)
+            except Exception:
+                worksheet = None
+
+        # 3. Create only if NOT found
         if not worksheet:
             worksheet = spreadsheet.add_worksheet(
                 title=self.name or "Sheet1",
@@ -424,6 +434,7 @@ class GoogleSheet(models.Model):
             )
             self.google_sheet_id = str(worksheet.id)
             self.active = True
+
         return worksheet
 
     def _prepare_selected_lines(self):
@@ -650,6 +661,100 @@ class GoogleSheet(models.Model):
         worksheet.update(f'A{row_no}:{end_col}{row_no}', [existing_row])
 
     def _update_sheet_data(self, worksheet, parsed_data, selected_lines):
+        self.ensure_one()
+
+        selected_lines = selected_lines.sorted(
+            key=lambda l: self._column_letter_to_index(l.col_name)
+        )
+
+        if not self.match_field:
+            raise UserError(_("Please configure Match Field for update mode."))
+
+        match_field_name = self.match_field.field_name
+
+        # ===== 1. Read sheet =====
+        all_values = worksheet.get_all_values()
+
+        # ✅ FIX 1: Agar sheet bilkul empty hai → direct replace mode chalao
+        if not all_values:
+            # 🔥 first time insert
+            self._replace_sheet_data(worksheet, parsed_data, selected_lines)
+            return
+
+        # ✅ FIX 2: Agar header row (row 2) missing hai → create + replace
+        if len(all_values) < 2:
+            headers = self._build_header_row(selected_lines)
+
+            worksheet.update(
+                f"A2:{self._index_to_column_letter(len(headers))}2",
+                [headers],
+                value_input_option="USER_ENTERED"
+            )
+
+            # 🔥 header ban gaya → ab full replace kar do
+            self._replace_sheet_data(worksheet, parsed_data, selected_lines)
+            return
+
+        # ✅ existing header (row 2)
+        headers = all_values[1]
+
+        max_col_index = max(
+            self._column_letter_to_index(l.col_name)
+            for l in selected_lines
+        )
+
+        if len(headers) < max_col_index:
+            headers += [""] * (max_col_index - len(headers))
+
+        # ===== 2. Find match column index =====
+        try:
+            match_col_index = headers.index(match_field_name)
+        except ValueError:
+            raise UserError(_("Match field column not found in sheet."))
+
+        # ===== 3. Build existing map =====
+        existing_map = {}
+        for i, row in enumerate(all_values[2:], start=3):  # data starts row 3
+            if len(row) > match_col_index:
+                key = row[match_col_index]
+                if key:
+                    existing_map[str(key).strip()] = i  # ✅ strip added (important)
+
+        # ===== 4. Process API data =====
+        for record in parsed_data:
+            if not isinstance(record, dict):
+                continue
+
+            match_value = str(record.get(match_field_name, "")).strip()
+
+            if not match_value:
+                continue
+
+            row_updates = self._build_row_updates_by_col_name(record, selected_lines)
+
+            if match_value in existing_map:
+                # 🔥 UPDATE existing row
+                row_no = existing_map[match_value]
+
+                self._update_row_preserve_columns(
+                    worksheet,
+                    row_no,
+                    row_updates,
+                    len(headers)
+                )
+
+            else:
+                # 🔥 APPEND new row
+                new_row = [""] * len(headers)
+
+                for col_index, value in row_updates.items():
+                    if col_index >= len(new_row):
+                        new_row += [""] * (col_index - len(new_row) + 1)
+                    new_row[col_index] = value
+
+                worksheet.append_row(new_row, value_input_option="USER_ENTERED")
+
+    def _update_sheet_data_old(self, worksheet, parsed_data, selected_lines):
         self.ensure_one()
 
         selected_lines = selected_lines.sorted(
